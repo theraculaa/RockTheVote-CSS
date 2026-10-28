@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.4.0-osnet.2] (test build, not released)
+
+### Diagnostics
+
+* `[RTV.Perf]` log lines: time spent in every RTV chat/console command, a per-stage breakdown of `StartVote` (options, panorama, per-player menu and sound, chat/hint, timers) and any server frame that takes 100 ms or more, together with the last command that ran. Measurement only; behaviour is unchanged. The 2.4.0-osnet.1 time fix is kept.
+
 ## [2.4.0-osnet.1] (2026-10-28)
 
 OyunServerim.NET build based on 2.4.0.

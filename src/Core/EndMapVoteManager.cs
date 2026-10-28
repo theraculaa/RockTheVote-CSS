@@ -878,6 +878,8 @@ namespace cs2_rockthevote
             if (_pluginState.EofVoteHappening)
                 return;
 
+            var perf = new Perf.Stages(isRtv ? "StartVote(rtv)" : "StartVote(eom)");
+
             VotedPlayers.Clear();
             _playerVotes.Clear();
             _revoteMenuOpen.Clear();
@@ -921,6 +923,7 @@ namespace cs2_rockthevote
                 .Where(x => !_mapCooldown.IsMapInCooldown(x));
 
             mapsElected = [.. nominationWinners.Concat(mapsScrambled).Distinct()];
+            perf.Mark("options");
 
             // Create vote list
             List<string> voteOptions = new();
@@ -950,6 +953,7 @@ namespace cs2_rockthevote
             }
             _noVoteOptionsLogged = false;
 
+            perf.Mark("list");
             if (_rtvConfig.EnablePanoramaVote)
             {
                 Server.ExecuteCommand("sv_allow_votes 0");
@@ -980,6 +984,7 @@ namespace cs2_rockthevote
                     _logger.LogWarning("[RTV.EndMapVote] MenuType 'panorama' unavailable; falling back to the default menu display.");
             }
 
+            perf.Mark("panorama");
             var players = ServerManager.ValidPlayers()
                 .Where(p => p != null && p.IsValid)
                 .ToList();
@@ -993,12 +998,16 @@ namespace cs2_rockthevote
                     if (live is null || !live.ReallyValid())
                         continue;
 
+                    long t0 = System.Diagnostics.Stopwatch.GetTimestamp();
                     if (!_activeVoteUsesPanorama)
                         DisplayVoteMenu(live, _currentVoteOptions, voteDuration, isRtv, allowRevote: false);
+                    perf.Add("menu", t0);
 
                     if (_endMapConfig.SoundEnabled)
                     {
+                        long t1 = System.Diagnostics.Stopwatch.GetTimestamp();
                         SoundEventHelper.PlaySound(live, _endMapConfig.SoundPath, _endMapConfig.SoundVolume);
+                        perf.Add("sound", t1);
                     }
                 }
                 catch (Exception ex)
@@ -1007,6 +1016,7 @@ namespace cs2_rockthevote
                 }
             }
 
+            perf.Mark("players");
             if (!ConfigValue.Is(_endMapConfig.MenuType, "ChatMenu"))
                 Server.PrintToChatAll(_localizer.LocalizeWithPrefix("emv.vote-started"));
 
@@ -1030,8 +1040,11 @@ namespace cs2_rockthevote
                 }
             }
 
+            perf.Mark("chat+hint");
             StartChatMapChoiceReminder();
             ChatCountdown(voteDuration);
+            perf.Mark("timers");
+            perf.Finish($"players={players.Count} options={_currentVoteOptions.Count} menuType={_endMapConfig.MenuType} hint={_endMapConfig.EnableHint} sound={_endMapConfig.SoundEnabled}");
 
             float voteDeadline = Server.CurrentTime + voteDuration;
             Timer = _plugin?.AddTimer(1.0F, () =>

@@ -45,7 +45,7 @@ namespace cs2_rockthevote
         ILogger<Plugin> logger) : BasePlugin, IPluginConfig<Config>
     {
         public override string ModuleName => "RockTheVote";
-        public override string ModuleVersion => "2.4.0-osnet.1";
+        public override string ModuleVersion => "2.4.0-osnet.2";
         public override string ModuleAuthor => "abnerfs, Marchand";
 
         private readonly DependencyManager<Plugin, Config> _dependencyManager = dependencyManager;
@@ -78,6 +78,7 @@ namespace cs2_rockthevote
         {
             _dependencyManager.OnPluginLoad(this, hotReload);
             RegisterListener<OnMapStart>(_dependencyManager.OnMapStart);
+            Perf.Init(this);
 
             RegisterPluginCommandsAndEvents();
 
@@ -110,6 +111,7 @@ namespace cs2_rockthevote
         {
             _pluginState.Unloaded = true;
             RemoveListener<OnMapStart>(_dependencyManager.OnMapStart);
+            Perf.Shutdown(this);
             _dependencyManager.OnPluginUnload(this);
         }
 
@@ -187,7 +189,7 @@ namespace cs2_rockthevote
 
         private void RegisterStartupCommand(string name, string description, CommandInfo.CommandCallback callback)
         {
-            AddCommand(name, description, callback);
+            AddCommand(name, description, Perf.Wrap(name, callback));
         }
 
         private void RegisterStartupEvent<T>(GameEventHandler<T> handler, HookMode hookMode = HookMode.Post) where T : GameEvent
