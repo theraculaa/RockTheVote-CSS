@@ -392,7 +392,7 @@ namespace cs2_rockthevote
 
             _nextVoteTimer = _plugin?.AddTimer(1.0F, () =>
             {
-                if (_timeLimitManager.UnlimitedTime)
+                if (_timeLimitManager.UnlimitedTime || !_timeLimitManager.ClockReady)
                     return;
 
                 float triggerSeconds = DeferMapChangeUntilVoteEnds() ? 0 : _endMapConfig.TriggerSecondsBeforeEnd;

@@ -77,6 +77,10 @@ namespace cs2_rockthevote
                 if (_gameRules is null || _gameRules.WarmupRunning || _pluginState.DisableCommands)
                     return;
 
+                // Deathmatch round clock not readable yet (map start): wait, never treat it as "time over".
+                if (!_timeLimit.ClockReady)
+                    return;
+
                 if (DeferMapChangeUntilVoteEnds())
                 {
                     if (!_timeLimit.UnlimitedTime && _timeLimit.TimeRemaining <= 0

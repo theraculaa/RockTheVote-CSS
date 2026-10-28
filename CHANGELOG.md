@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.4.0-osnet.1] (2026-10-28)
+
+OyunServerim.NET build based on 2.4.0.
+
+### Bug Fixes
+
+* **timelimit:** in Valve Deathmatch (game_type 1 / game_mode 2) `GameStartTime` stays 0, so `!timeleft` always showed the full `mp_timelimit` and the end-of-map vote never started. Only in that case the shared `TimeLimitManager` now uses the round clock: `RoundTime - (Server.CurrentTime - RoundStartTime)`. Other modes keep the old calculation. `!timeleft`, the end-of-map vote, vote extend / `!extend` and the map change read the same value, and reloading the plugin does not restart the clock.
+* **timelimit:** while the round clock cannot be read yet (map start), the remaining time is the full length instead of 0, and the vote triggers wait (`ClockReady`), so no early vote.
+
+### Features
+
+* `css_rtv_timedebug` (server console or `@css/root`): prints game mode, warmup, `GameStartTime`, `RoundStartTime`, `RoundTime`, `mp_timelimit`, the clock in use and the remaining time.
+
 ## [2.4.0](https://github.com/M-archand/cs2-rockthevote/compare/v2.3.1...v2.4.0) (2026-09-08)
 
 
