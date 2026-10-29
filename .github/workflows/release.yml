@@ -3,7 +3,7 @@ name: Build and Release
 on:
   workflow_dispatch:
   push:
-    tags: ["v*-osnet.*"]
+    branches: ["osnet-release"]
 
 jobs:
   build-and-release:
