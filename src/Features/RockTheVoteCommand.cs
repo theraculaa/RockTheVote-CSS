@@ -16,8 +16,22 @@ namespace cs2_rockthevote
         {
             if (player == null)
                 return;
-            
-            _rtvManager.CommandHandler(player);
+
+            // osnet: the !rtv work (chat to everyone, starting the vote) runs on the next server frame, not inside
+            // the player's chat command. In tests the first chat-to-all after a server start took ~300 ms inside
+            // the command; CS2 disconnects a client whose single command takes ~500 ms (NETWORK_DISCONNECT_OVERFLOW).
+            int slot = player.Slot;
+            int? userId = player.UserId;
+            long requested = System.Diagnostics.Stopwatch.GetTimestamp();
+            Server.NextFrame(() =>
+            {
+                var live = Utilities.GetPlayerFromSlot(slot);
+                if (live == null || !live.IsValid || live.UserId != userId)
+                    return;
+                long start = System.Diagnostics.Stopwatch.GetTimestamp();
+                _rtvManager.CommandHandler(live);
+                Perf.Log($"rtv handler on next frame: waited {System.Diagnostics.Stopwatch.GetElapsedTime(requested, start).TotalMilliseconds:F1}ms, ran {System.Diagnostics.Stopwatch.GetElapsedTime(start).TotalMilliseconds:F1}ms");
+            });
         }
     }
 
@@ -166,7 +180,7 @@ namespace cs2_rockthevote
                 if (!_voteManager!.VotesAlreadyReached)
                 {
                     _rtvToast.Hide();
-                    Server.PrintToChatAll(_localizer.LocalizeWithPrefix("rtv.time-up"));
+                    Perf.ChatAll(_localizer.LocalizeWithPrefix("rtv.time-up"));
                     ActivateCooldown();
                 }
 
@@ -325,8 +339,8 @@ namespace cs2_rockthevote
                                 StartRtvTimer();
                             else if (alwaysActive)
                                 StartReminderTimer();
-                            Server.PrintToChatAll($"{_localizer.LocalizeWithPrefix("rtv.rocked-the-vote", player.PlayerName)} {_localizer.Localize("general.votes-needed", result.VoteCount, requiredYesVotes)}");
-                            Server.PrintToChatAll($"{_localizer.LocalizeWithPrefix("rtv.instructions", $"{ChatColors.Lime}!rtv{ChatColors.Default}")}");
+                            Perf.ChatAll($"{_localizer.LocalizeWithPrefix("rtv.rocked-the-vote", player.PlayerName)} {_localizer.Localize("general.votes-needed", result.VoteCount, requiredYesVotes)}");
+                            Perf.ChatAll($"{_localizer.LocalizeWithPrefix("rtv.instructions", $"{ChatColors.Lime}!rtv{ChatColors.Default}")}");
                             // Early pass if threshold met
                             if (result.VoteCount >= requiredYesVotes)
                             {
@@ -335,7 +349,7 @@ namespace cs2_rockthevote
                                 StopReminderTimer();
                                 _rtvToast.Hide();
                                 _endmapVoteManager.StartVote(isRtv: true);
-                                Server.PrintToChatAll(_localizer.LocalizeWithPrefix("rtv.votes-reached"));
+                                Perf.ChatAll(_localizer.LocalizeWithPrefix("rtv.votes-reached"));
                             }
                             else
                                 _rtvToast.ShowOrUpdate(Math.Max(requiredYesVotes - result.VoteCount, 0), CurrentRemainingVotes);
@@ -352,7 +366,7 @@ namespace cs2_rockthevote
                                 StopReminderTimer();
                                 _rtvToast.Hide();
                                 _endmapVoteManager.StartVote(isRtv: true);
-                                Server.PrintToChatAll(_localizer.LocalizeWithPrefix("rtv.votes-reached"));
+                                Perf.ChatAll(_localizer.LocalizeWithPrefix("rtv.votes-reached"));
                             }
                             else
                                 _rtvToast.ShowOrUpdate(Math.Max(requiredYesVotes - result.VoteCount, 0), CurrentRemainingVotes);
@@ -371,8 +385,8 @@ namespace cs2_rockthevote
                             StopReminderTimer();
                             _rtvToast.Hide();
                             _endmapVoteManager.StartVote(isRtv: true);
-                            Server.PrintToChatAll($"{_localizer.LocalizeWithPrefix("rtv.rocked-the-vote", player.PlayerName)} {_localizer.Localize("general.votes-needed", result.VoteCount, requiredYesVotes)}");
-                            Server.PrintToChatAll(_localizer.LocalizeWithPrefix("rtv.votes-reached"));
+                            Perf.ChatAll($"{_localizer.LocalizeWithPrefix("rtv.rocked-the-vote", player.PlayerName)} {_localizer.Localize("general.votes-needed", result.VoteCount, requiredYesVotes)}");
+                            Perf.ChatAll(_localizer.LocalizeWithPrefix("rtv.votes-reached"));
                             break;
                     }
                 }
@@ -394,7 +408,7 @@ namespace cs2_rockthevote
 
             if (info.yes_votes >= requiredYesVotes)
             {
-                Server.PrintToChatAll($"{_localizer.LocalizeWithPrefix("rtv.votes-reached")}");
+                Perf.ChatAll($"{_localizer.LocalizeWithPrefix("rtv.votes-reached")}");
                 _endmapVoteManager.StartVote(isRtv: true);
 
                 return true;
@@ -417,7 +431,7 @@ namespace cs2_rockthevote
                 case YesNoVoteAction.VoteAction_Start:
                     _rtvEndTime = DateTime.UtcNow.AddSeconds(_config.RtvVoteDuration);
                     _pluginState.RtvVoteHappening = true;
-                    Server.PrintToChatAll($"{_localizer.LocalizeWithPrefix("rtv.rocked-the-vote", _initiatingPlayerName)}");
+                    Perf.ChatAll($"{_localizer.LocalizeWithPrefix("rtv.rocked-the-vote", _initiatingPlayerName)}");
                     break;
 
                 case YesNoVoteAction.VoteAction_Vote:
@@ -484,11 +498,11 @@ namespace cs2_rockthevote
                     _pluginState.RtvVoteHappening = false;
                     if ((YesNoVoteEndReason)param1 == YesNoVoteEndReason.VoteEnd_Cancelled)
                     {
-                        Server.PrintToChatAll($"{_localizer.LocalizeWithPrefix("rtv.failed")}");
+                        Perf.ChatAll($"{_localizer.LocalizeWithPrefix("rtv.failed")}");
                     }
                     else if ((YesNoVoteEndReason)param1 == YesNoVoteEndReason.VoteEnd_TimeUp)
                     {
-                        Server.PrintToChatAll($"{_localizer.LocalizeWithPrefix("rtv.time-up")}");
+                        Perf.ChatAll($"{_localizer.LocalizeWithPrefix("rtv.time-up")}");
                     }
                     break;
             }
@@ -577,7 +591,7 @@ namespace cs2_rockthevote
             StopReminderTimer();
             _rtvToast.Hide();
             _endmapVoteManager.StartVote(isRtv: true);
-            Server.PrintToChatAll(_localizer.LocalizeWithPrefix("rtv.votes-reached"));
+            Perf.ChatAll(_localizer.LocalizeWithPrefix("rtv.votes-reached"));
         }
 
         private void SendReminder()
@@ -613,7 +627,7 @@ namespace cs2_rockthevote
             }
 
             _rtvToast.UpdateRemaining(remaining);
-            Server.PrintToChatAll(_localizer.LocalizeWithPrefix("rtv.in-progress", remaining));
+            Perf.ChatAll(_localizer.LocalizeWithPrefix("rtv.in-progress", remaining));
         }
 
         private void StopReminderTimer()

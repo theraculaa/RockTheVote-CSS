@@ -72,6 +72,25 @@ namespace cs2_rockthevote
             }
         }
 
+        /// <summary>osnet: Server.PrintToChatAll with timing; slow calls are logged with JIT/GC time.</summary>
+        internal static void ChatAll(string message)
+        {
+            long start = Stopwatch.GetTimestamp();
+            TimeSpan jit0 = System.Runtime.JitInfo.GetCompilationTime();
+            TimeSpan gc0 = GC.GetTotalPauseDuration();
+            CounterStrikeSharp.API.Server.PrintToChatAll(message);
+            double ms = Stopwatch.GetElapsedTime(start).TotalMilliseconds;
+            _chatAllCount++;
+            if (ms >= CommandLogMs)
+            {
+                string preview = System.Text.RegularExpressions.Regex.Replace(message, @"[\x00-\x1f]", "");
+                if (preview.Length > 40) preview = preview[..40];
+                Log($"slow PrintToChatAll #{_chatAllCount}: {ms:F1}ms (jit {(System.Runtime.JitInfo.GetCompilationTime() - jit0).TotalMilliseconds:F1} gc {(GC.GetTotalPauseDuration() - gc0).TotalMilliseconds:F1}) \"{preview}\"");
+            }
+        }
+
+        private static int _chatAllCount;
+
         /// <summary>Wraps a command callback with a timer.</summary>
         internal static CommandInfo.CommandCallback Wrap(string name, CommandInfo.CommandCallback callback)
         {

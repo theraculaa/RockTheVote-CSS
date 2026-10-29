@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.4.0-osnet.4] (test build, not released)
+
+### Bug Fixes
+
+* **rtv:** the `!rtv` work (chat to everyone, starting the vote) runs on the next server frame instead of inside the player's chat command. In osnet.3 the vote start was already deferred, but `!rtv` still took ~335 ms on the first vote after a server start; the remaining time was spent after the vote was queued, where only the chat-to-all message remained.
+
+### Diagnostics
+
+* `[RTV.Perf] slow PrintToChatAll #n`: every chat-to-all in the RTV and end-of-map vote code is timed; slow calls are logged with JIT/GC time and the start of the message.
+
 ## [2.4.0-osnet.3] (test build, not released)
 
 ### Bug Fixes

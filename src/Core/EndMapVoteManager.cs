@@ -320,7 +320,7 @@ namespace cs2_rockthevote
                 if (target != null)
                     target.PrintToChat(text);
                 else
-                    Server.PrintToChatAll(text);
+                    Perf.ChatAll(text);
             }
 
             Print(_localizer.Localize("emv.hud.menu-title"));
@@ -1043,7 +1043,7 @@ namespace cs2_rockthevote
             {
                 string startedText = _localizer.LocalizeWithPrefix("emv.vote-started");
                 perf.Mark("chat-text");
-                Server.PrintToChatAll(startedText);
+                Perf.ChatAll(startedText);
                 perf.Mark("chat-send");
             }
 
@@ -1178,7 +1178,7 @@ namespace cs2_rockthevote
                 Server.MapName
             );
 
-            Server.PrintToChatAll(_localizer.LocalizeWithPrefix("emv.vote-ended", winner.Key, percent, totalVotes));
+            Perf.ChatAll(_localizer.LocalizeWithPrefix("emv.vote-ended", winner.Key, percent, totalVotes));
 
             if (showPanoramaWinner)
             {
@@ -1204,13 +1204,13 @@ namespace cs2_rockthevote
                             _generalConfig.RoundTimeExtension,
                             _pluginState.MapExtensionCount + 1
                         );
-                        Server.PrintToChatAll(_localizer.LocalizeWithPrefix("extendtime.vote-ended.passed", _generalConfig.RoundTimeExtension, percent, totalVotes));
+                        Perf.ChatAll(_localizer.LocalizeWithPrefix("extendtime.vote-ended.passed", _generalConfig.RoundTimeExtension, percent, totalVotes));
                         _pluginState.MapExtensionCount++;
                     }
                     else
                     {
                         _logger.LogWarning("[RTV.EndMapVote] Extend won but apply failed. minutes={Minutes}", _generalConfig.RoundTimeExtension);
-                        Server.PrintToChatAll(_localizer.LocalizeWithPrefix("extendtime.vote-ended.failed", percent, totalVotes));
+                        Perf.ChatAll(_localizer.LocalizeWithPrefix("extendtime.vote-ended.failed", percent, totalVotes));
                     }
                 }
 
@@ -1278,7 +1278,7 @@ namespace cs2_rockthevote
                     }
                     else
                     {
-                        Server.PrintToChatAll(_localizer.LocalizeWithPrefix("general.changing-map-next-round", winner.Key));
+                        Perf.ChatAll(_localizer.LocalizeWithPrefix("general.changing-map-next-round", winner.Key));
                     }
                 }
             }
