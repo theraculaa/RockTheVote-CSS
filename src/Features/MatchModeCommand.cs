@@ -8,7 +8,7 @@ namespace cs2_rockthevote
     //   css_rtv_matchmode 1  -> RockTheVote stays loaded but starts no vote and changes no map; running votes are dropped.
     //   css_rtv_matchmode 0  -> normal RockTheVote again.
     //   css_rtv_matchmode    -> prints one status line (readable over RCON):
-    //     [RTV] matchmode=1 since=2026-10-29T16:24:00Z vote=0 scheduled=0 version=2.4.0-osnet.5
+    //     [RTV] matchmode=1 since=2026-10-29T16:24:00Z vote=0 scheduled=0 version=2.4.0-osnet.6
     // The command is cheap (no plugin unload, no file I/O) and idempotent; send "1" again at every map start of a match.
     public partial class Plugin
     {

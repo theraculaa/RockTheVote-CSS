@@ -33,7 +33,7 @@ namespace cs2_rockthevote
     public class EndOfMapConfig
     {
         public bool Enabled { get; set; } = true;
-        public bool EnableRevote {get; set; } = false;
+        public bool EnableRevote {get; set; } = true;   // OyunServerim: kapatılan oylama menüsü !revote ile geri açılır
         public int MapsToShow { get; set; } = 6;
         public string MenuType { get; set; } = "WasdMenu";
         public bool ChangeMapImmediately { get; set; } = false;
@@ -63,7 +63,7 @@ namespace cs2_rockthevote
         public bool EnabledInWarmup { get; set; } = false;
         public int MinPlayers { get; set; } = 0;
         public int MinRounds { get; set; } = 0;
-        public string Permission { get; set; } = "@css/vip, @css/votemap";
+        public string Permission { get; set; } = "";   // OyunServerim: herkes
 
         [JsonIgnore]
         public string[] Permissions => PermissionUtility.Parse(Permission);
@@ -79,7 +79,7 @@ namespace cs2_rockthevote
         public bool EnableCountdown { get; set; } = true;
         public string CountdownType { get; set; } = "chat";
         public int ChatCountdownInterval { get; set; } = 15;
-        public string Permission { get; set; } = "@css/vip,@css/votextend";
+        public string Permission { get; set; } = "";   // OyunServerim: herkes
 
         [JsonIgnore]
         public string[] Permissions => PermissionUtility.Parse(Permission);
@@ -91,7 +91,7 @@ namespace cs2_rockthevote
         public bool EnabledInWarmup { get; set; } = true;
         public string MenuType { get; set; } = "WasdMenu";
         public int NominateLimit { get; set; } = 1;
-        public string Permission { get; set; } = "@css/vip,@css/nominate";
+        public string Permission { get; set; } = "";   // OyunServerim: herkes
 
         [JsonIgnore]
         public string[] Permissions => PermissionUtility.Parse(Permission);
