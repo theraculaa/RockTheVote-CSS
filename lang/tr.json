@@ -1,6 +1,7 @@
 {
   // Turkish
   "rtv.prefix": "{red}[RTV]{default}",
+  "general.matchmode": "Maç sürüyor: harita oylaması ve harita değişikliği kapalı.",
   "votemap.prefix": "{red}[VoteMap]{default}",
   "extendtime.prefix": "{red}[VoteExtend]{default}",
 

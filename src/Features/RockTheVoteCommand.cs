@@ -105,6 +105,13 @@ namespace cs2_rockthevote
             }
         }
 
+        // OyunServerim match mode: clear !rtv votes, timers and the toast.
+        public void CancelForMatch()
+        {
+            OnMapStart(Server.MapName);
+            try { _rtvToast.Hide(); } catch (Exception ex) { _logger.LogError(ex, "[RTV.MatchMode] toast cleanup failed"); }
+        }
+
         public void OnMapStart(string map)
         {
             _voteManager?.OnMapStart(map);

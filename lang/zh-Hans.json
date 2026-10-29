@@ -1,6 +1,7 @@
 {
   // Chinese (Simplified)
   "rtv.prefix": "{red}[RTV]{default}",
+  "general.matchmode": "A match is running: map votes and map changes are disabled.",
   "votemap.prefix": "{red}[VoteMap]{default}",
   "extendtime.prefix": "{red}[VoteExtend]{default}",
 

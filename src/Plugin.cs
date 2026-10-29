@@ -45,7 +45,7 @@ namespace cs2_rockthevote
         ILogger<Plugin> logger) : BasePlugin, IPluginConfig<Config>
     {
         public override string ModuleName => "RockTheVote";
-        public override string ModuleVersion => "2.4.0-osnet.4";
+        public override string ModuleVersion => "2.4.0-osnet.5";
         public override string ModuleAuthor => "abnerfs, Marchand";
 
         private readonly DependencyManager<Plugin, Config> _dependencyManager = dependencyManager;
@@ -181,15 +181,29 @@ namespace cs2_rockthevote
             RegisterStartupCommand("css_maplist", "Displays the available maps in console", OnMaplistCommand);
             RegisterStartupCommand("css_extend", "Extends time for the current map", OnExtendRoundTimeCommand);
             RegisterStartupCommand("css_votemap", "Vote to change to a map", OnVotemap);
+            AddCommand("css_rtv_matchmode", "OyunServerim: css_rtv_matchmode [0|1] — match mode on/off; no argument prints the state (server console or @css/root).", OnMatchModeCommand);
 
             RegisterStartupEvent<EventPlayerDisconnect>(OnPlayerDisconnect, HookMode.Pre);
             RegisterStartupEvent<EventPlayerSpawn>(EventPlayerSpawn, HookMode.Pre);
             RegisterStartupEvent<EventRoundStart>(OnRoundStartMapChanger, HookMode.Post);
         }
 
+        // Read-only commands stay available to players in match mode.
+        private static readonly HashSet<string> MatchModeAllowed = new(StringComparer.OrdinalIgnoreCase)
+            { "css_reloadrtv", "css_timeleft", "css_maps", "css_maplist", "css_reloadmaps" };
+
         private void RegisterStartupCommand(string name, string description, CommandInfo.CommandCallback callback)
         {
-            AddCommand(name, description, Perf.Wrap(name, callback));
+            CommandInfo.CommandCallback guarded = MatchModeAllowed.Contains(name) ? callback : (player, info) =>
+            {
+                if (_pluginState.MatchMode && player != null)
+                {
+                    info.ReplyToCommand(_localizer.LocalizeWithPrefix("general.matchmode"));
+                    return;
+                }
+                callback(player, info);
+            };
+            AddCommand(name, description, Perf.Wrap(name, guarded));
         }
 
         private void RegisterStartupEvent<T>(GameEventHandler<T> handler, HookMode hookMode = HookMode.Post) where T : GameEvent

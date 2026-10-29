@@ -9,7 +9,12 @@
         public bool RtvVoteHappening { get; set; }
         public int MapExtensionCount { get; set; } = 0;
 
-        public bool DisableCommands => MapChangeScheduled || EofVoteHappening || ExtendTimeVoteHappening || RtvVoteHappening;
+        // OyunServerim: match mode (css_rtv_matchmode). While on, RockTheVote never starts a vote and never changes the map.
+        // Survives map changes on purpose (a match may change maps); a plugin reload or server restart turns it off.
+        public bool MatchMode { get; set; }
+        public DateTime? MatchModeSinceUtc { get; set; }
+
+        public bool DisableCommands => MatchMode || MapChangeScheduled || EofVoteHappening || ExtendTimeVoteHappening || RtvVoteHappening;
 
         public void OnMapStart(string map)
         {

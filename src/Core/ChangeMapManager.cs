@@ -63,6 +63,11 @@ namespace cs2_rockthevote
 
         public void ScheduleMapChange(string map, MapChangeTrigger trigger = MapChangeTrigger.RoundStart, string prefix = DEFAULT_PREFIX)
         {
+            if (_pluginState.MatchMode)
+            {
+                _logger.LogInformation("[RTV.MatchMode] Map change to {Map} ignored (match mode).", map);
+                return;
+            }
             NextMap = map;
             _prefix = prefix;
             _pluginState.MapChangeScheduled = true;
@@ -90,6 +95,25 @@ namespace cs2_rockthevote
             _winPanelDelayTimer = null;
             _mapChangeVerifyTimer?.Kill();
             _mapChangeVerifyTimer = null;
+        }
+
+        // OyunServerim match mode: forget a scheduled change (an earlier vote's winner) and stop pending timers.
+        public bool CancelForMatch()
+        {
+            bool had = _pluginState.MapChangeScheduled || _pendingMapChangeTimer is not null;
+            if (_mapChangeVerifyTimer != null)
+                RestorePreChangeTimeLimit();
+            _pendingMapChangeTimer?.Kill();
+            _pendingMapChangeTimer = null;
+            _winPanelDelayTimer?.Kill();
+            _winPanelDelayTimer = null;
+            _mapChangeVerifyTimer?.Kill();
+            _mapChangeVerifyTimer = null;
+            NextMap = null;
+            _prefix = DEFAULT_PREFIX;
+            _changeTrigger = MapChangeTrigger.RoundStart;
+            _pluginState.MapChangeScheduled = false;
+            return had;
         }
 
         public void Unload(Plugin plugin)
@@ -128,6 +152,12 @@ namespace cs2_rockthevote
         {
             if (!_pluginState.MapChangeScheduled)
                 return false;
+
+            if (_pluginState.MatchMode)
+            {
+                CancelForMatch();
+                return false;
+            }
 
             if (_pendingMapChangeTimer is not null)
             {

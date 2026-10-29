@@ -1,0 +1,19 @@
+name: Build check (osnet)
+
+on:
+  push:
+    branches: ["osnet-*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+      - run: dotnet build RockTheVote.csproj -c Release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RockTheVote-${{ github.sha }}
+          path: bin/Release/net10.0/RockTheVote.*

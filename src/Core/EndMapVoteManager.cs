@@ -879,7 +879,7 @@ namespace cs2_rockthevote
         // (CS2 disconnects a client whose single command takes ~500 ms: NETWORK_DISCONNECT_OVERFLOW).
         public void StartVote(bool isRtv)
         {
-            if (_startPending || _pluginState.EofVoteHappening)
+            if (_startPending || _pluginState.EofVoteHappening || _pluginState.MatchMode)
                 return;
 
             _startPending = true;
@@ -887,7 +887,7 @@ namespace cs2_rockthevote
             Server.NextFrame(() =>
             {
                 _startPending = false;
-                if (_pluginState.Unloaded)
+                if (_pluginState.Unloaded || _pluginState.MatchMode)
                     return;
                 Perf.Log($"StartVote deferred {System.Diagnostics.Stopwatch.GetElapsedTime(requested).TotalMilliseconds:F1}ms to the next frame");
                 StartVoteNow(isRtv);
@@ -1108,6 +1108,26 @@ namespace cs2_rockthevote
                     _logger.LogError(ex, "[RTV.EndMapVote] CloseActiveMenu failed. slot={Slot}", slot);
                 }
             }
+        }
+
+        // OyunServerim match mode: drop any running/pending map vote without a result.
+        public bool CancelForMatch()
+        {
+            bool active = _pluginState.EofVoteHappening || _startPending || Timer is not null || _currentVoteOptions.Count > 0;
+            CloseAllActiveMenus();
+            try { _customHud.Destroy(); } catch (Exception ex) { _logger.LogError(ex, "[RTV.MatchMode] HUD cleanup failed"); }
+            _activeVoteUsesPanorama = false;
+            KillTimer();
+            KillNextVoteTimer();
+            KillIgnoreWinConditionsPollTimer();
+            Votes.Clear();
+            _playerVotes.Clear();
+            _revoteMenuOpen.Clear();
+            _currentVoteOptions.Clear();
+            _sortedTopVotes = new();
+            mapsElected.Clear();
+            _pluginState.EofVoteHappening = false;
+            return active;
         }
 
         public void EndVote(bool isRtv)
