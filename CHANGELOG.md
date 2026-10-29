@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.4.0-osnet.3] (test build, not released)
+
+### Bug Fixes
+
+* **vote:** the map vote now starts on the next server frame instead of inside the chat command that triggered it. In a test the first vote after a server start stalled ~380 ms inside `!rtv`; CS2 disconnects a client whose single command takes ~500 ms (`NETWORK_DISCONNECT_OVERFLOW`).
+
+### Diagnostics
+
+* `[RTV.Perf]`: the chat stage is split into text/send, and slow stages, slow commands and frame gaps show JIT compile time and GC pause time.
+
 ## [2.4.0-osnet.2] (test build, not released)
 
 ### Diagnostics

@@ -44,12 +44,19 @@ namespace cs2_rockthevote
             }
         }
 
+        private static TimeSpan _tickJit;
+        private static TimeSpan _tickGc;
+
         private static void OnTick()
         {
             double ms = FrameClock.Elapsed.TotalMilliseconds;
             FrameClock.Restart();
+            TimeSpan jit = System.Runtime.JitInfo.GetCompilationTime();
+            TimeSpan gc = GC.GetTotalPauseDuration();
             if (ms >= FrameGapLogMs)
-                Log($"frame gap {ms:F0}ms (last command: {_lastCommand} {_lastCommandMs:F1}ms)");
+                Log($"frame gap {ms:F0}ms (jit {(jit - _tickJit).TotalMilliseconds:F1} gc {(gc - _tickGc).TotalMilliseconds:F1}; last command: {_lastCommand} {_lastCommandMs:F1}ms)");
+            _tickJit = jit;
+            _tickGc = gc;
         }
 
         internal static void Log(string message)
@@ -71,6 +78,8 @@ namespace cs2_rockthevote
             return (player, info) =>
             {
                 long start = Stopwatch.GetTimestamp();
+                TimeSpan jit0 = System.Runtime.JitInfo.GetCompilationTime();
+                TimeSpan gc0 = GC.GetTotalPauseDuration();
                 try
                 {
                     callback(player, info);
@@ -82,7 +91,7 @@ namespace cs2_rockthevote
                     _lastCommand = $"{name}({who})";
                     _lastCommandMs = ms;
                     if (ms >= CommandLogMs || name == "css_rtv")
-                        Log($"command {name} by {who}: {ms:F1}ms");
+                        Log($"command {name} by {who}: {ms:F1}ms (jit {(System.Runtime.JitInfo.GetCompilationTime() - jit0).TotalMilliseconds:F1} gc {(GC.GetTotalPauseDuration() - gc0).TotalMilliseconds:F1})");
                 }
             };
         }
@@ -99,7 +108,10 @@ namespace cs2_rockthevote
             private readonly string _name;
             private readonly long _start = Stopwatch.GetTimestamp();
             private long _mark;
-            private readonly List<(string Stage, double Ms)> _stages = new();
+            private TimeSpan _jitMark = System.Runtime.JitInfo.GetCompilationTime();
+            private TimeSpan _gcMark = GC.GetTotalPauseDuration();
+            private int _gen2Mark = GC.CollectionCount(2);
+            private readonly List<(string Stage, double Ms, double Jit, double Gc, int Gen2)> _stages = new();
             private readonly Dictionary<string, (double Ms, int Count, double Max)> _sums = new();
 
             internal Stages(string name)
@@ -112,8 +124,15 @@ namespace cs2_rockthevote
             internal void Mark(string stage)
             {
                 long now = Stopwatch.GetTimestamp();
-                _stages.Add((stage, Stopwatch.GetElapsedTime(_mark, now).TotalMilliseconds));
+                TimeSpan jit = System.Runtime.JitInfo.GetCompilationTime();
+                TimeSpan gc = GC.GetTotalPauseDuration();
+                int gen2 = GC.CollectionCount(2);
+                _stages.Add((stage, Stopwatch.GetElapsedTime(_mark, now).TotalMilliseconds,
+                    (jit - _jitMark).TotalMilliseconds, (gc - _gcMark).TotalMilliseconds, gen2 - _gen2Mark));
                 _mark = now;
+                _jitMark = jit;
+                _gcMark = gc;
+                _gen2Mark = gen2;
             }
 
             /// <summary>Adds a repeated sub-step (for example one per player).</summary>
@@ -129,8 +148,14 @@ namespace cs2_rockthevote
                 double total = Stopwatch.GetElapsedTime(_start).TotalMilliseconds;
                 var sb = new StringBuilder();
                 sb.Append(_name).Append(" total=").Append(total.ToString("F1")).Append("ms");
-                foreach (var (stage, ms) in _stages)
+                foreach (var (stage, ms, jit, gc, gen2) in _stages)
+                {
                     sb.Append(' ').Append(stage).Append('=').Append(ms.ToString("F1"));
+                    // osnet: show where the time went when a stage is slow (JIT compile time / GC pause / full GC count)
+                    if (ms >= 20)
+                        sb.Append("(jit ").Append(jit.ToString("F1")).Append(" gc ").Append(gc.ToString("F1"))
+                          .Append(gen2 > 0 ? " gen2 x" + gen2 : "").Append(')');
+                }
                 foreach (var kv in _sums)
                     sb.Append(" [").Append(kv.Key).Append(" n=").Append(kv.Value.Count)
                       .Append(" sum=").Append(kv.Value.Ms.ToString("F1"))

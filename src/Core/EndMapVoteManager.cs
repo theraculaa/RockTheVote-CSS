@@ -872,7 +872,29 @@ namespace cs2_rockthevote
             }
         }
 
+        private bool _startPending;
+
+        // osnet: the vote is started on the next server frame, not inside the chat command that triggered it.
+        // A slow first vote then stalls one frame instead of eating the player's command budget
+        // (CS2 disconnects a client whose single command takes ~500 ms: NETWORK_DISCONNECT_OVERFLOW).
         public void StartVote(bool isRtv)
+        {
+            if (_startPending || _pluginState.EofVoteHappening)
+                return;
+
+            _startPending = true;
+            long requested = System.Diagnostics.Stopwatch.GetTimestamp();
+            Server.NextFrame(() =>
+            {
+                _startPending = false;
+                if (_pluginState.Unloaded)
+                    return;
+                Perf.Log($"StartVote deferred {System.Diagnostics.Stopwatch.GetElapsedTime(requested).TotalMilliseconds:F1}ms to the next frame");
+                StartVoteNow(isRtv);
+            });
+        }
+
+        private void StartVoteNow(bool isRtv)
         {
             KillNextVoteTimer();
             if (_pluginState.EofVoteHappening)
@@ -1018,7 +1040,12 @@ namespace cs2_rockthevote
 
             perf.Mark("players");
             if (!ConfigValue.Is(_endMapConfig.MenuType, "ChatMenu"))
-                Server.PrintToChatAll(_localizer.LocalizeWithPrefix("emv.vote-started"));
+            {
+                string startedText = _localizer.LocalizeWithPrefix("emv.vote-started");
+                perf.Mark("chat-text");
+                Server.PrintToChatAll(startedText);
+                perf.Mark("chat-send");
+            }
 
             // Chat instructions only when the panorama vote fell back to chat-number input
             if (PanoramaChatFallbackActive())
@@ -1040,7 +1067,7 @@ namespace cs2_rockthevote
                 }
             }
 
-            perf.Mark("chat+hint");
+            perf.Mark("hint");
             StartChatMapChoiceReminder();
             ChatCountdown(voteDuration);
             perf.Mark("timers");
