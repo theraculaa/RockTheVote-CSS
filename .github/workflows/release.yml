@@ -2,6 +2,8 @@ name: Build and Release
 
 on:
   workflow_dispatch:
+  push:
+    tags: ["v*-osnet.*"]
 
 jobs:
   build-and-release:
