@@ -13,7 +13,7 @@ namespace cs2_rockthevote
         {
             if (player != null && !PermissionUtility.HasAny(player, Config.General.ExtendPermissions))
             {
-                commandInfo.ReplyToCommand($"[RTV] {ChatColors.Red}You do not have the correct permission to execute this command.");
+                commandInfo.ReplyToCommand(_localizer.LocalizeWithPrefix("general.incorrect.permission"));
                 return;
             }
 
@@ -27,7 +27,7 @@ namespace cs2_rockthevote
             }
             else
             {
-                commandInfo.ReplyToCommand("You entered an incorrect integer for the roundtime. Try a number between 1 and 60.");
+                commandInfo.ReplyToCommand(_localizer.LocalizeWithPrefix("extendtime.invalid-number"));
             }
         }
     }
@@ -53,7 +53,7 @@ namespace cs2_rockthevote
                 {
                     _extendRoundTimeManager.ExtendRoundTime(timeToExtend, _timeLimitManager, _gameRules);
 
-                    commandInfo.ReplyToCommand($"Increased round time by {timeToExtend} minute(s)");
+                    commandInfo.ReplyToCommand(_localizer.LocalizeWithPrefix("extendtime.extended", timeToExtend));
 
                     return true;
                 }

@@ -45,7 +45,7 @@ namespace cs2_rockthevote
         ILogger<Plugin> logger) : BasePlugin, IPluginConfig<Config>
     {
         public override string ModuleName => "RockTheVote";
-        public override string ModuleVersion => "2.4.0-osnet.6";
+        public override string ModuleVersion => "2.4.0-osnet.7";
         public override string ModuleAuthor => "abnerfs, Marchand";
 
         private readonly DependencyManager<Plugin, Config> _dependencyManager = dependencyManager;
@@ -131,18 +131,18 @@ namespace cs2_rockthevote
         {
             if (player != null && !PermissionUtility.HasAny(player, Config.General.AdminPermissions))
             {
-                command?.ReplyToCommand($"[RTV] {ChatColors.Red}You do not have the correct permission to execute this command.");
+                command?.ReplyToCommand(_localizer.LocalizeWithPrefix("general.incorrect.permission"));
                 return;
             }
             
             try
             {
                 Config.Reload();
-                command.ReplyToCommand($"[RTV] {ChatColors.Lime}Configuration reloaded successfully!");
+                command.ReplyToCommand(_localizer.LocalizeWithPrefix("admin.config-reloaded"));
             }
             catch (Exception ex)
             {
-                command.ReplyToCommand($"Failed to reload configuration: {ex.Message}");
+                command.ReplyToCommand(_localizer.LocalizeWithPrefix("admin.config-reload-failed", ex.Message));
             }
         }
 

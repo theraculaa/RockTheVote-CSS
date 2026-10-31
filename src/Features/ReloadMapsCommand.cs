@@ -18,11 +18,13 @@ namespace cs2_rockthevote
     {
         private readonly MapLister _mapLister;
         private readonly ILogger<ReloadMapsCommand> _logger;
+        private readonly StringLocalizer _localizer;
         private GeneralConfig _generalConfig = new();
 
-        public ReloadMapsCommand(MapLister mapLister, ILogger<ReloadMapsCommand> logger)
+        public ReloadMapsCommand(MapLister mapLister, StringLocalizer localizer, ILogger<ReloadMapsCommand> logger)
         {
             _mapLister = mapLister;
+            _localizer = localizer;
             _logger = logger;
         }
 
@@ -35,7 +37,7 @@ namespace cs2_rockthevote
         {
             if (player != null && !PermissionUtility.HasAny(player, _generalConfig.AdminPermissions))
             {
-                command.ReplyToCommand($"[RTV] {ChatColors.Red}You do not have the correct permission to execute this command.");
+                command.ReplyToCommand(_localizer.LocalizeWithPrefix("general.incorrect.permission"));
                 return;
             }
 
@@ -44,21 +46,21 @@ namespace cs2_rockthevote
                 _mapLister.LoadMaps();
                 if (!_mapLister.MapsLoaded)
                 {
-                    command.ReplyToCommand($"[RTV] {ChatColors.Red}Map list reload failed. Check server console/logs for the expected maplist path.");
+                    command.ReplyToCommand(_localizer.LocalizeWithPrefix("admin.maplist-reload-failed"));
                     return;
                 }
 
-                command.ReplyToCommand($"[RTV] {ChatColors.Lime}Map list reloaded successfully.");
+                command.ReplyToCommand(_localizer.LocalizeWithPrefix("admin.maplist-reloaded"));
             }
             catch (FileNotFoundException ex)
             {
                 _logger.LogError(ex, "[RTV.ReloadMaps] maplist.txt not found while running css_reloadmaps.");
-                command.ReplyToCommand($"[RTV] {ChatColors.Red}maplist.txt not found.");
+                command.ReplyToCommand(_localizer.LocalizeWithPrefix("admin.maplist-not-found"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "[RTV.ReloadMaps] Failed to reload map list via css_reloadmaps.");
-                command.ReplyToCommand($"[RTV] {ChatColors.Red}Failed to reload map list. Check server logs for details.");
+                command.ReplyToCommand(_localizer.LocalizeWithPrefix("admin.maplist-reload-error"));
             }
         }
     }

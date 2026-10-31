@@ -44,19 +44,19 @@ namespace cs2_rockthevote
                 }
                 else
                 {
-                    text = "Time over.";
+                    text = _localizer.Localize("general.time-over");
                 }
             }
             else if (!_maxRoundsManager.UnlimitedRounds)
             {
                 if (_maxRoundsManager.RemainingRounds > 1)
-                    text = $"Remaining Rounds: {_maxRoundsManager.RemainingRounds}";
+                    text = _localizer.Localize("general.remaining-rounds", _maxRoundsManager.RemainingRounds);
                 else
-                    text = "Last round.";
+                    text = _localizer.Localize("general.last-round");
             }
             else
             {
-                text = "No time limit.";
+                text = _localizer.Localize("general.no-time-limit");
             }
 
             if (player != null)

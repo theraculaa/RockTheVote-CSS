@@ -83,5 +83,23 @@
 
   "cooldown.check-console": "冷却中的地图已输出到你的控制台。",
   "cooldown.none": "当前没有处于冷却中的地图。",
-  "cooldown.most-recent": "（最近游玩）"
+  "cooldown.most-recent": "（最近游玩）",
+  "general.time-over": "Time over.",
+  "general.remaining-rounds": "Remaining rounds: {lime}{0}",
+  "general.last-round": "Last round.",
+  "general.no-time-limit": "No time limit.",
+  "general.total-maps": "Total maps: {0}",
+  "maplist.prefix": "{lightred}[MapList]{default}",
+  "maplist.empty": "The map list is empty!",
+  "maplist.check-console": "Maps have been printed to the console.",
+  "maplist.console-title": "Server Map List",
+  "cooldown.console-title": "Maps on Cooldown",
+  "extendtime.invalid-number": "You entered an incorrect number. Try a number between 1 and 60.",
+  "extendtime.extended": "Increased round time by {green}{0}{default} minute(s).",
+  "admin.config-reloaded": "{lime}Configuration reloaded successfully!",
+  "admin.config-reload-failed": "{lightred}Failed to reload configuration: {0}",
+  "admin.maplist-reloaded": "{lime}Map list reloaded successfully.",
+  "admin.maplist-reload-failed": "{lightred}Map list reload failed. Check server console/logs for the expected maplist path.",
+  "admin.maplist-not-found": "{lightred}maplist.txt not found.",
+  "admin.maplist-reload-error": "{lightred}Failed to reload map list. Check server logs for details."
 }

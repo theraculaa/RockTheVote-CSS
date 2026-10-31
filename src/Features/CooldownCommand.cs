@@ -98,8 +98,8 @@ namespace cs2_rockthevote
                 player.PrintToChat(_localizer.LocalizeWithPrefix("cooldown.check-console"));
 
                 player.PrintToConsole("====================================");
-                player.PrintToConsole("          Maps on Cooldown");
-                player.PrintToConsole($"          Total Maps: {maps.Length}");
+                player.PrintToConsole("          " + _localizer.Localize("cooldown.console-title"));
+                player.PrintToConsole("          " + _localizer.Localize("general.total-maps", maps.Length));
                 player.PrintToConsole("====================================");
 
                 for (int i = 0; i < maps.Length; i++)
