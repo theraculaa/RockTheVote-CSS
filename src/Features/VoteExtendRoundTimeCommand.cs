@@ -17,7 +17,7 @@ namespace cs2_rockthevote
             if (player == null || command == null)
                 return;
 
-            bool hasPerm = PermissionUtility.HasAny(player, Config.VoteExtend.Permissions);
+            bool hasPerm = PermissionUtility.Allowed(player, "voteextend", Config.VoteExtend.Permissions);
 
             if (!hasPerm)
             {

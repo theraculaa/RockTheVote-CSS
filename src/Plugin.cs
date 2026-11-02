@@ -45,7 +45,7 @@ namespace cs2_rockthevote
         ILogger<Plugin> logger) : BasePlugin, IPluginConfig<Config>
     {
         public override string ModuleName => "RockTheVote";
-        public override string ModuleVersion => "2.4.0-osnet.7";
+        public override string ModuleVersion => "2.4.0-osnet.8";
         public override string ModuleAuthor => "abnerfs, Marchand";
 
         private readonly DependencyManager<Plugin, Config> _dependencyManager = dependencyManager;
@@ -118,6 +118,7 @@ namespace cs2_rockthevote
         public void OnConfigParsed(Config config)
         {
             Config = config;
+            PermissionUtility.Configure(config.CommandPermissions);
             _dependencyManager.OnConfigParsed(config);
 
             if (config.Version != Config.CurrentVersion)
@@ -129,7 +130,7 @@ namespace cs2_rockthevote
         [CommandHelper(whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
         public void ReloadCommand(CCSPlayerController? player, CommandInfo command)
         {
-            if (player != null && !PermissionUtility.HasAny(player, Config.General.AdminPermissions))
+            if (player != null && !PermissionUtility.Allowed(player, "reloadrtv", Config.General.AdminPermissions))
             {
                 command?.ReplyToCommand(_localizer.LocalizeWithPrefix("general.incorrect.permission"));
                 return;
@@ -203,7 +204,10 @@ namespace cs2_rockthevote
                 }
                 callback(player, info);
             };
-            AddCommand(name, description, Perf.Wrap(name, guarded));
+            AddCommand(name, description, Perf.Wrap(name, (player, info) => {
+                if (player != null && !PermissionUtility.Allowed(player, name.Replace("css_", ""))) { info.ReplyToCommand("Bu komut için rütbeniz yeterli değil."); return; }
+                guarded(player, info);
+            }));
         }
 
         private void RegisterStartupEvent<T>(GameEventHandler<T> handler, HookMode hookMode = HookMode.Post) where T : GameEvent

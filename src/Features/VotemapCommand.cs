@@ -1,4 +1,4 @@
-﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Commands;
@@ -18,7 +18,7 @@ namespace cs2_rockthevote
             if (player == null || command == null)
                 return;
 
-            bool hasPerm = PermissionUtility.HasAny(player, Config.Votemap.Permissions);
+            bool hasPerm = PermissionUtility.Allowed(player, "votemap", Config.Votemap.Permissions);
 
             if (!hasPerm)
             {

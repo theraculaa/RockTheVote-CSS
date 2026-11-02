@@ -1,4 +1,4 @@
-﻿using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Core;
 using System.Text.Json.Serialization;
 
 namespace cs2_rockthevote
@@ -162,10 +162,11 @@ namespace cs2_rockthevote
 
     public class Config : BasePluginConfig, IBasePluginConfig
     {
-        public const int CurrentVersion = 26;
+        public const int CurrentVersion = 27;
 
         [JsonPropertyName("ConfigVersion")]
         public override int Version { get; set; } = CurrentVersion;
+        public Dictionary<string, List<string>> CommandPermissions { get; set; } = new();
         public RtvConfig Rtv { get; set; } = new();
         public EndOfMapConfig EndOfMapVote { get; set; } = new();
         public NominateConfig Nominate { get; set; } = new();

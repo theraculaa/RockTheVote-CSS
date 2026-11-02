@@ -1,0 +1,38 @@
+name: Publish RTV osnet.8
+on:
+  push:
+    branches: [osnet]
+    paths: [src/**, RockTheVote.csproj, .github/workflows/osnet8-release.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: osnet-rtv-release
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet build RockTheVote.csproj -c Release --nologo
+      - name: Package and pin source commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p stage/addons/counterstrikesharp/plugins/RockTheVote
+          cp bin/Release/net10.0/RockTheVote.dll bin/Release/net10.0/RockTheVote.deps.json stage/addons/counterstrikesharp/plugins/RockTheVote/
+          cp -r bin/Release/net10.0/lang stage/addons/counterstrikesharp/plugins/RockTheVote/
+          (cd stage && zip -qr ../RockTheVote-v2.4.0-osnet.8.zip addons)
+          sha256sum RockTheVote-v2.4.0-osnet.8.zip > SHA256SUMS
+          printf '%s\n' "$GITHUB_SHA" > SOURCE-COMMIT.txt
+      - name: Publish exact tag at built commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh release view v2.4.0-osnet.8 >/dev/null 2>&1; then echo 'Release already exists; not replacing'; exit 1; fi
+          gh release create v2.4.0-osnet.8 --target "$GITHUB_SHA" --title 'RTV 2.4.0-osnet.8' --prerelease --notes 'Additive per-command rank permissions; legacy administrator access and osnet.7 game behavior preserved. Source commit is attached.' RockTheVote-v2.4.0-osnet.8.zip SHA256SUMS SOURCE-COMMIT.txt

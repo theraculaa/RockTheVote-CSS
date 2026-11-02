@@ -489,6 +489,7 @@ namespace cs2_rockthevote
 
         private void OnRevoteCommand(CCSPlayerController? player, CommandInfo _)
         {
+            if (player != null && !PermissionUtility.Allowed(player, "revote")) return;
             if (player == null || !player.IsValid)
                 return;
 

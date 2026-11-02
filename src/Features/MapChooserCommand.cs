@@ -59,7 +59,7 @@ namespace cs2_rockthevote
 
             if (_permissions.Length > 0)
             {
-                bool allowed = PermissionUtility.HasAny(player, _permissions);
+                bool allowed = PermissionUtility.Allowed(player, "mapmenu", _permissions);
                 if (!allowed)
                 {
                     player.PrintToChat(_localizer.LocalizeWithPrefix("general.incorrect.permission"));
@@ -81,6 +81,7 @@ namespace cs2_rockthevote
                     if (p == null || !p.IsValid)
                         return;
 
+                    if (!PermissionUtility.Allowed(p, "mapmenu", _permissions)) return;
                     MenuManager.CloseActiveMenu(p);
 
                     if (!string.IsNullOrEmpty(map.Id) && ulong.TryParse(map.Id, out var mapId))

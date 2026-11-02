@@ -1,4 +1,4 @@
-﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
@@ -17,7 +17,7 @@ namespace cs2_rockthevote
             if (player == null)
                 return;
             
-            bool hasPerm = PermissionUtility.HasAny(player, Config.Nominate.Permissions);
+            bool hasPerm = PermissionUtility.Allowed(player, "nominate", Config.Nominate.Permissions);
 
             if (!hasPerm)
             {
@@ -134,6 +134,7 @@ namespace cs2_rockthevote
 
         public void Nominate(CCSPlayerController player, string map)
         {
+            if (!PermissionUtility.Allowed(player, "nominate", _nomConfig.Permissions)) return;
             if (player == null || !player.IsValid)
                 return;
 

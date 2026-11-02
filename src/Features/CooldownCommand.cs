@@ -69,6 +69,7 @@ namespace cs2_rockthevote
 
         private void ExecuteCommand(CCSPlayerController? player, CommandInfo info)
         {
+            if (player != null && !PermissionUtility.Allowed(player, "cooldown")) { info.ReplyToCommand("Bu komut için rütbeniz yeterli değil."); return; }
             if (player == null || !player.IsValid)
                 return;
 

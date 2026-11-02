@@ -35,7 +35,7 @@ namespace cs2_rockthevote
 
         public void CommandHandler(CCSPlayerController? player, CommandInfo command)
         {
-            if (player != null && !PermissionUtility.HasAny(player, _generalConfig.AdminPermissions))
+            if (player != null && !PermissionUtility.Allowed(player, "reloadmaps", _generalConfig.AdminPermissions))
             {
                 command.ReplyToCommand(_localizer.LocalizeWithPrefix("general.incorrect.permission"));
                 return;

@@ -1,4 +1,4 @@
-﻿using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Core;
 
 namespace cs2_rockthevote.Features
 {
@@ -22,6 +22,7 @@ namespace cs2_rockthevote.Features
         {
             plugin.AddCommand("nextmap", "Shows nextmap when defined", (player, info) =>
             {
+                if (player != null && !PermissionUtility.Allowed(player, "nextmap")) { info.ReplyToCommand("Bu komut için rütbeniz yeterli değil."); return; }
                 CommandHandler(player);
             });
         }

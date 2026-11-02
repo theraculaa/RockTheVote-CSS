@@ -11,7 +11,7 @@ namespace cs2_rockthevote
         [CommandHelper(minArgs: 1, usage: "<number of minutes to extend the map time e.g. 15>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
         public void OnExtendRoundTimeCommand(CCSPlayerController? player, CommandInfo commandInfo)
         {
-            if (player != null && !PermissionUtility.HasAny(player, Config.General.ExtendPermissions))
+            if (player != null && !PermissionUtility.Allowed(player, "extend", Config.General.ExtendPermissions))
             {
                 commandInfo.ReplyToCommand(_localizer.LocalizeWithPrefix("general.incorrect.permission"));
                 return;
