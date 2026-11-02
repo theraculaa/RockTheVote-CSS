@@ -1,0 +1,27 @@
+name: Publish OsnetVip binary
+on:
+  push:
+    branches: [osnet-vip-binaries]
+    paths: [.osnet-release/**, .github/workflows/osnet-vip-binaries.yml]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify private Actions build
+        shell: bash
+        run: |
+          set -euo pipefail
+          base64 -d .osnet-release/OsnetVip-v0.1.1.zip.base64 > OsnetVip-v0.1.1.zip
+          echo 'b9de5b8d13e5b056928e797f36754fe5a5f58cb9116a832d4e0235d0a64385b5  OsnetVip-v0.1.1.zip' > SHA256SUMS
+          sha256sum --check SHA256SUMS
+          printf '%s\n' '77bbed7091a771c8760bc9fd4ed13a82bd7ac8a0' > SOURCE-COMMIT.txt
+      - name: Publish binary without private source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release create osnet-vip-v0.1.1 --target "$GITHUB_SHA" --title 'OyunServerim VIP 0.1.1' --prerelease --notes 'Binary distribution of OsnetVip 0.1.1 built by GitHub Actions in the private theraculaa/cs2vip repository. SHA256 and private source commit are attached. No source repository visibility change. No reservation/kick logic or global command gate.' OsnetVip-v0.1.1.zip SHA256SUMS SOURCE-COMMIT.txt
