@@ -48,7 +48,7 @@ for name,refs in [('OsnetSkinMenuApi',[]),('OsnetSkinMenuCore',['OsnetSkinMenuAp
     refsXml=''.join('<ProjectReference Include="../'+r+'/'+r+'.csproj"><Private>false</Private></ProjectReference>'for r in refs)
     extra='<Compile Remove="Compat/**"/>'if name=='OsnetSkinMenuCore'else''
     content=''
-    if name=='OsnetSkins':content='<None Update="Data/**" CopyToOutputDirectory="PreserveNewest"/><None Update="Lang/**" CopyToOutputDirectory="PreserveNewest" TargetPath="lang/%(RecursiveDir)%(Filename)%(Extension)"/>'
+    if name=='OsnetSkins':content='<None Update="Data/**" CopyToOutputDirectory="PreserveNewest"/><None Update="Lang/**" CopyToOutputDirectory="PreserveNewest" TargetPath="lang/%(Filename)%(Extension)"/>'
     if name=='OsnetSkinMenuCore':content='<None Update="lang/**" CopyToOutputDirectory="PreserveNewest"/>'
     if name=='OsnetSkinMenu':content='<None Update="ws_items.json" CopyToOutputDirectory="PreserveNewest"/>'
     p.write_text('<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><AllowUnsafeBlocks>true</AllowUnsafeBlocks><CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies><AssemblyName>'+name+'</AssemblyName><Version>0.1.0</Version></PropertyGroup><ItemGroup>'+packages+refsXml+extra+content+'</ItemGroup></Project>')
@@ -138,7 +138,7 @@ public sealed partial class OsnetSkins {
  private void RegisterOsnetStatus() {
   AddCommand("osnet_skins_status","Hosting readiness probe",(caller,info)=>{
    if(caller is not null)return;
-   info.ReplyToCommand("OSNET_SKINS_STATUS:"+JsonSerializer.Serialize(new{version="0.1.0",ready=Initialized&&!Stopping&&Config.Osnet.Enabled,catalog=Catalog.Loaded,menu_ready=NativeMenuProvider.Find(3,Logger) is not null,enabled=Config.Osnet.Enabled}));
+   info.ReplyToCommand("OSNET_SKINS_STATUS:"+JsonSerializer.Serialize(new{version="0.1.0",ready=Initialized&&!Stopping&&Config.Osnet.Enabled,catalog=Catalog.Loaded,native=EconAttributes.Available,menu_ready=NativeMenuProvider.Find(3,Logger) is not null,enabled=Config.Osnet.Enabled}));
   });
  }
 }

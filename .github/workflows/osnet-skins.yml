@@ -30,4 +30,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create osnet-skins-v0.1.0 --target "$GITHUB_SHA" --title 'OyunServerim Skin Menu 0.1.0' --prerelease --notes 'Separate skin core/API; same server database; disabled until customer GSLT activation. Includes complete corresponding GPL source. Requires client Workshop addon 3821029634. Live game validation runs on installation.' skins/OsnetSkins-v0.1.0.zip skins/OsnetSkins-v0.1.0-source.zip skins/SHA256SUMS
+          gh release create osnet-skins-v0.1.0-r1 --target "$GITHUB_SHA" --title 'OyunServerim Skin Menu 0.1.0 r1' --prerelease --notes 'Separate skin core/API; same server database; disabled until customer GSLT activation. Includes complete corresponding GPL source. Requires client Workshop addon 3821029634. Live game validation runs on installation.' skins/OsnetSkins-v0.1.0.zip skins/OsnetSkins-v0.1.0-source.zip skins/SHA256SUMS
