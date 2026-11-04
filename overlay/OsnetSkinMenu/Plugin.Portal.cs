@@ -72,7 +72,13 @@ public partial class Plugin
   RegisterListener<OnClientDisconnect>(slot=>_portalClients.Remove(slot));
   RegisterListener<OnTick>(PortalTick);
   AddTimer(1,PortalPoll,TimerFlags.REPEAT);
-  foreach(var p in Utilities.GetPlayers().Where(p=>p.IsValid&&!p.IsBot&&p.SteamID>0))PortalClientFor(p,hotReload);
+  // Load runs before the engine global variables exist on a cold server start.
+  // Cold-start players are discovered by PortalPoll after the world starts ticking.
+  // Only hot reload needs existing clients seeded, and it also waits for the world.
+  if(hotReload)Server.NextWorldUpdate(()=>{
+   if(_portalDisposed)return;
+   foreach(var p in Utilities.GetPlayers().Where(p=>p.IsValid&&!p.IsBot&&p.SteamID>0&&p.Slot is >=0 and <64))PortalClientFor(p,true);
+  });
   InitPortalDb();
  }
  private void InitPortalDb(){

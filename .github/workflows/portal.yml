@@ -27,4 +27,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create osnet-skins-v0.2.0-r1 --target "$GITHUB_SHA" --title 'OyunServerim Portal 0.2.0' --prerelease --notes 'Server menu extension for existing Skin integration; Workshop 3833701930. Includes complete corresponding GPL sources and reproducible rebuild.py. The target deployment remains gated by host preparation, token activation and mode preferences. Native compilation does not replace live CS2 validation.' OsnetSkins-v0.2.0.zip OsnetSkins-v0.2.0-source.zip SHA256SUMS
+          gh release create osnet-skins-v0.2.0-r2 --target "$GITHUB_SHA" --title 'OyunServerim Portal 0.2.0 — startup fix' --prerelease --notes 'Server menu extension for existing Skin integration; Workshop 3833701930. Includes complete corresponding GPL sources and reproducible rebuild.py. The target deployment remains gated by host preparation, token activation and mode preferences. Native compilation does not replace live CS2 validation.' OsnetSkins-v0.2.0.zip OsnetSkins-v0.2.0-source.zip SHA256SUMS
