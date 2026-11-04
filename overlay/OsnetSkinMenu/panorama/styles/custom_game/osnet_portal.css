@@ -1,0 +1,85 @@
+/* OyunServerim.NET portal layout draft 1.0. Requires Source 2 compilation.
+   Root views are controlled server-side; no client scripts or console inputs. */
+.op-screen { width:100%; height:100%; }
+.op-window { width:91%; height:87%; horizontal-align:center; vertical-align:middle; background-color:#17191dfc; border:1px solid #41444b; border-radius:8px; flow-children:down; box-shadow:#000000a0 0px 12px 45px 0px; }
+.op-hidden { visibility:collapse; }
+.op-header { width:100%; height:82px; padding:16px 24px; flow-children:right; border-bottom:1px solid #30333a; }
+.op-brand { flow-children:right; vertical-align:middle; }
+.op-brand Label { font-family:Arial; font-size:25px; font-weight:bold; color:#f5f5f5; }
+.op-brand .op-orange { color:#ff762e; }
+.op-server { color:#999fa9; font-family:Arial; font-size:17px; margin-left:28px; vertical-align:middle; width:fill-parent-flow(1); text-overflow:ellipsis; }
+.op-profile { flow-children:down; vertical-align:middle; margin-right:24px; }
+.op-label { color:#f5f5f5; font-family:Arial; font-size:18px; vertical-align:middle; }
+.op-muted { color:#a0a5b0; font-family:Arial; font-size:15px; }
+.op-close { width:40px; height:40px; border:1px solid #454851; border-radius:5px; vertical-align:middle; }
+.op-close Label { horizontal-align:center; vertical-align:middle; font-size:24px; color:#b7bbc4; }
+.op-close:hover { background-color:#30333a; }
+.op-nav { width:100%; height:65px; flow-children:right; padding:0px 24px; border-bottom:1px solid #30333a; }
+.op-tab { width:fill-parent-flow(1); height:100%; border-bottom:3px solid #00000000; }
+.op-tab Label { horizontal-align:center; vertical-align:middle; color:#a9afb9; font-size:19px; font-family:Arial; }
+.op-tab.is-active { background-color:#ff762e10; border-bottom-color:#ff762e; }
+.op-tab.is-active Label { color:#ffffff; }
+.op-tab:hover Label { color:#ffffff; }
+.op-tab-arrow { width:32px; height:100%; }
+.op-tab-arrow Label { horizontal-align:center; vertical-align:middle; font-size:22px; color:#ff762e; }
+.op-body { width:100%; height:fill-parent-flow(1); padding:27px 32px; overflow:squish scroll; }
+.op-view { width:100%; flow-children:down; visibility:collapse; }
+.view-intro .only-intro,.view-skins .only-skins,.view-ranking .only-ranking,.view-vip .only-vip,.view-rules .only-rules,.view-commands .only-commands,.view-settings .only-settings,.view-custom .only-custom { visibility:visible; }
+.op-title { font-family:Arial; font-size:30px; font-weight:bold; color:#f5f5f5; margin-bottom:8px; }
+.op-kicker { font-family:Arial; font-size:15px; letter-spacing:2px; color:#ff984f; margin-top:4px; margin-bottom:15px; }
+.op-hero-title { font-family:Arial; font-size:46px; font-weight:bold; color:#f5f5f5; margin-bottom:16px; }
+.op-hero-body { font-family:Arial; font-size:21px; line-height:29px; color:#b7bbc4; width:85%; white-space:normal; }
+.op-quick { width:100%; flow-children:right; margin-top:24px; margin-bottom:24px; }
+.op-quick-button { width:fill-parent-flow(1); height:72px; background-color:#24272d; margin-right:14px; border:1px solid #383c45; border-radius:6px; padding:18px; }
+.op-quick-button:hover { border-color:#ff762e; }
+.op-section-title { font-family:Arial; font-size:19px; font-weight:bold; color:#f5f5f5; margin-top:12px; margin-bottom:10px; }
+.op-content-card { width:100%; flow-children:down; background-color:#202329; border:1px solid #30343d; border-radius:5px; padding:16px 20px; margin-top:12px; }
+.op-card-title { font-family:Arial; font-size:21px; color:#f5f5f5; font-weight:bold; margin-bottom:7px; }
+.op-copy { color:#b2b8c2; font-family:Arial; font-size:18px; line-height:25px; width:100%; white-space:normal; }
+.op-link { color:#ff9b62; font-family:Arial; font-size:16px; margin-top:7px; }
+.op-skin-grid { width:100%; flow-children:right-wrap; margin-top:24px; }
+.op-skin-card { width:30%; height:120px; margin-right:2%; margin-bottom:18px; padding:22px; background-color:#252830; border:1px solid #3c424c; border-radius:7px; flow-children:down; }
+.op-skin-card:hover { border-color:#ff762e; background-color:#2e3038; }
+.op-skin-card .op-label { font-weight:bold; font-size:23px; }
+.op-skin-card .op-muted { margin-top:10px; width:100%; white-space:normal; }
+.op-self { width:100%; flow-children:right; background-color:#ff762e0d; border:1px solid #ff762e50; padding:16px; margin-top:18px; margin-bottom:18px; }
+.op-stat { width:fill-parent-flow(1); color:#ff9b62; font-size:20px; font-family:Arial; }
+.op-ranking-head,.op-ranking-row { width:100%; flow-children:right; padding:9px 14px; border-bottom:1px solid #30333a; }
+.op-ranking-head Label { color:#939ba8; font-size:15px; font-family:Arial; }
+.op-ranking-row Label { color:#e2e5e9; font-size:18px; font-family:Arial; }
+.op-ranking-row.is-self { background-color:#ff762e15; }
+.op-col-place { width:7%; }
+.op-col-name { width:43%; text-overflow:ellipsis; }
+.op-col-points { width:17%; }
+.op-col-kills,.op-col-deaths,.op-col-kd { width:11%; }
+.op-empty { font-family:Arial; font-size:18px; color:#a0a5b0; margin-top:20px; margin-bottom:16px; width:100%; white-space:normal; }
+.op-vip-grid { width:100%; flow-children:right; margin-top:28px; }
+.op-vip-card { width:fill-parent-flow(1); margin-right:18px; padding:25px; flow-children:down; background-color:#22252b; border:1px solid #393f49; border-top:3px solid #6a9bff; border-radius:6px; }
+.op-vip-name { color:#86b0ff; font-family:Arial; font-size:30px; font-weight:bold; margin-bottom:18px; }
+.op-silver { border-top-color:#c3cbd7; }
+.op-silver .op-vip-name { color:#dce2eb; }
+.op-golden { border-top-color:#e6b64e; }
+.op-golden .op-vip-name { color:#efc66a; }
+.op-benefit { width:100%; white-space:normal; color:#d5dae2; font-family:Arial; font-size:18px; margin-top:20px; }
+.op-vip-card .op-muted { margin-top:24px; width:100%; white-space:normal; }
+.op-command-row { width:100%; padding:12px 16px; margin-top:10px; background-color:#23262c; border:1px solid #353943; border-radius:5px; flow-children:down; }
+.op-command-row .op-label { color:#ff9c63; font-weight:bold; }
+.op-command-example { color:#969faa; font-family:Arial; font-size:15px; margin-top:6px; }
+.op-command-row:hover { border-color:#ff762e; }
+.op-setting-row { width:100%; flow-children:right; padding:24px 0px; border-bottom:1px solid #30333a; }
+.op-setting-text { width:fill-parent-flow(1); flow-children:down; padding-right:24px; }
+.op-toggle { vertical-align:middle; width:106px; height:37px; background-color:#353943; border:1px solid #555c69; border-radius:5px; }
+.op-toggle.is-on { background-color:#713d22; border-color:#ff762e; }
+.op-toggle Label { horizontal-align:center; vertical-align:middle; }
+.op-stepper { vertical-align:middle; flow-children:right; }
+.op-step-value { width:80px; color:#f5f5f5; font-family:Arial; font-size:20px; text-align:center; vertical-align:middle; }
+.op-button { padding:7px 14px; border:1px solid #494e59; border-radius:4px; }
+.op-button:hover { background-color:#343841; }
+.op-footer { width:100%; height:50px; flow-children:right; padding:10px 25px; border-top:1px solid #30333a; }
+.op-footer .op-muted { vertical-align:middle; }
+.op-pager { flow-children:right; horizontal-align:center; }
+.op-pager .op-muted { margin-left:15px; margin-right:15px; }
+.op-footer-brand { font-family:Arial; font-size:15px; color:#808895; text-align:right; width:fill-parent-flow(1); vertical-align:middle; }
+.op-hint { horizontal-align:right; vertical-align:middle; margin-right:22px; background-color:#17191de8; border:1px solid #ff762e70; border-radius:6px; padding:12px 18px; flow-children:right; }
+.op-key { font-family:Arial; font-weight:bold; font-size:24px; color:#ffffff; padding:5px 10px; border:1px solid #ff762e; border-radius:4px; margin-right:12px; }
+.op-stack { flow-children:down; vertical-align:middle; }

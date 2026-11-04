@@ -1,0 +1,11 @@
+{
+  "version": "0.2.0",
+  "upstreams": {
+    "skin": "Staaar0/WeaponSkins@1425290ae3d29493171c70e9ed55f74e688c366e",
+    "core": "RRimmer/PanoramaMenuManagerCS2@279d2bbfac084ed3f2b8e286932a5d9b707b1fb0",
+    "menu": "Staaar0/PMM_WeaponSkins@8db43e369814ba48f2bb653ccf8ae9920f06fa92"
+  },
+  "parent_source_sha256": "dc96166bff24731da7c863cfa379e3e56f75370d0a8f58d8fd2f7294c3badf31",
+  "workshop_id": "3833701930",
+  "portal_protocol": 1
+}

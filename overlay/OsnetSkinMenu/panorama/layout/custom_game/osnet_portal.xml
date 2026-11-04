@@ -1,0 +1,481 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <styles>
+    <include src="s2r://panorama/styles/csgostyles.vcss_c" />
+    <include src="s2r://panorama/styles/custom_game/osnet_portal.vcss_c" />
+  </styles>
+  <Panel class="op-screen" hittest="false">
+    <Panel id="op-hint" class="op-hint op-hidden" hittest="false">
+      <Label class="op-key" text="E" />
+      <Panel class="op-stack">
+        <Label class="op-label" text="{s:hint_title}" />
+        <Label class="op-muted" text="{s:hint_subtitle}" />
+      </Panel>
+    </Panel>
+    <Panel id="op-root" class="op-window op-hidden view-intro">
+      <Panel class="op-header">
+        <Panel class="op-brand">
+          <Label text="OyunServerim" />
+          <Label class="op-orange" text=".NET" />
+        </Panel>
+        <Label class="op-server" text="{s:server_name}" />
+        <Panel class="op-profile">
+          <Label class="op-label" text="{s:player_name}" />
+          <Label class="op-muted" text="{s:player_rank}" />
+        </Panel>
+        <Button id="op-close" class="op-close">
+          <Label class="op-label" text="{s:close}" />
+        </Button>
+      </Panel>
+      <Panel class="op-nav">
+        <Button id="op-tabs-prev" class="op-tab-arrow">
+          <Label class="op-label" text="{s:tabs_prev}" />
+        </Button>
+        <Button id="op-tab-0" class="op-tab">
+          <Label class="op-label" text="{s:tab_0}" />
+        </Button>
+        <Button id="op-tab-1" class="op-tab">
+          <Label class="op-label" text="{s:tab_1}" />
+        </Button>
+        <Button id="op-tab-2" class="op-tab">
+          <Label class="op-label" text="{s:tab_2}" />
+        </Button>
+        <Button id="op-tab-3" class="op-tab">
+          <Label class="op-label" text="{s:tab_3}" />
+        </Button>
+        <Button id="op-tab-4" class="op-tab">
+          <Label class="op-label" text="{s:tab_4}" />
+        </Button>
+        <Button id="op-tab-5" class="op-tab">
+          <Label class="op-label" text="{s:tab_5}" />
+        </Button>
+        <Button id="op-tab-6" class="op-tab">
+          <Label class="op-label" text="{s:tab_6}" />
+        </Button>
+        <Button id="op-tabs-next" class="op-tab-arrow">
+          <Label class="op-label" text="{s:tabs_next}" />
+        </Button>
+      </Panel>
+      <Panel class="op-body">
+        <Panel id="op-intro" class="op-view op-intro only-intro">
+          <Label class="op-kicker" text="{s:intro_kicker}" />
+          <Label class="op-hero-title" text="{s:intro_title}" />
+          <Label class="op-hero-body" text="{s:intro_body}" />
+          <Panel class="op-quick">
+            <Button id="op-open-skins" class="op-quick-button">
+              <Label class="op-label" text="{s:quick_skins}" />
+            </Button>
+            <Button id="op-open-ranking" class="op-quick-button">
+              <Label class="op-label" text="{s:quick_ranking}" />
+            </Button>
+            <Button id="op-open-rules" class="op-quick-button">
+              <Label class="op-label" text="{s:quick_rules}" />
+            </Button>
+          </Panel>
+          <Label class="op-section-title" text="{s:announcements_title}" />
+          <Panel id="op-announcement-0" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:announcement_0_title}" />
+            <Label class="op-copy" text="{s:announcement_0_body}" />
+            <Label class="op-link" text="{s:announcement_0_link}" />
+          </Panel>
+          <Panel id="op-announcement-1" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:announcement_1_title}" />
+            <Label class="op-copy" text="{s:announcement_1_body}" />
+            <Label class="op-link" text="{s:announcement_1_link}" />
+          </Panel>
+          <Panel id="op-announcement-2" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:announcement_2_title}" />
+            <Label class="op-copy" text="{s:announcement_2_body}" />
+            <Label class="op-link" text="{s:announcement_2_link}" />
+          </Panel>
+        </Panel>
+        <Panel id="op-skins" class="op-view only-skins">
+          <Label class="op-title" text="{s:skins_title}" />
+          <Label class="op-copy" text="{s:skins_subtitle}" />
+          <Panel class="op-skin-grid">
+            <Button id="op-skin-weapons" class="op-skin-card">
+              <Label class="op-label" text="{s:skin_weapons}" />
+              <Label class="op-muted" text="{s:skin_weapons_description}" />
+            </Button>
+            <Button id="op-skin-knife" class="op-skin-card">
+              <Label class="op-label" text="{s:skin_knife}" />
+              <Label class="op-muted" text="{s:skin_knife_description}" />
+            </Button>
+            <Button id="op-skin-gloves" class="op-skin-card">
+              <Label class="op-label" text="{s:skin_gloves}" />
+              <Label class="op-muted" text="{s:skin_gloves_description}" />
+            </Button>
+            <Button id="op-skin-agents" class="op-skin-card">
+              <Label class="op-label" text="{s:skin_agents}" />
+              <Label class="op-muted" text="{s:skin_agents_description}" />
+            </Button>
+            <Button id="op-skin-music" class="op-skin-card">
+              <Label class="op-label" text="{s:skin_music}" />
+              <Label class="op-muted" text="{s:skin_music_description}" />
+            </Button>
+            <Button id="op-skin-pins" class="op-skin-card">
+              <Label class="op-label" text="{s:skin_pins}" />
+              <Label class="op-muted" text="{s:skin_pins_description}" />
+            </Button>
+            <Button id="op-skin-stickers" class="op-skin-card">
+              <Label class="op-label" text="{s:skin_stickers}" />
+              <Label class="op-muted" text="{s:skin_stickers_description}" />
+            </Button>
+          </Panel>
+        </Panel>
+        <Panel id="op-ranking" class="op-view only-ranking">
+          <Label class="op-title" text="{s:ranking_title}" />
+          <Label class="op-copy" text="{s:ranking_subtitle}" />
+          <Label class="op-empty" text="{s:ranking_empty}" />
+          <Panel id="op-self" class="op-self op-hidden">
+            <Label class="op-stat" text="{s:self_place}" />
+            <Label class="op-stat" text="{s:self_points}" />
+            <Label class="op-stat" text="{s:self_kills}" />
+            <Label class="op-stat" text="{s:self_deaths}" />
+            <Label class="op-stat" text="{s:self_kd}" />
+            <Label class="op-stat" text="{s:self_playtime}" />
+          </Panel>
+          <Panel class="op-ranking-head">
+            <Label class="op-col-place" text="{s:ranking_col_place}" />
+            <Label class="op-col-name" text="{s:ranking_col_name}" />
+            <Label class="op-col-points" text="{s:ranking_col_points}" />
+            <Label class="op-col-kills" text="{s:ranking_col_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_col_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_col_kd}" />
+          </Panel>
+          <Panel id="op-rank-0" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_0_place}" />
+            <Label class="op-col-name" text="{s:ranking_0_name}" />
+            <Label class="op-col-points" text="{s:ranking_0_points}" />
+            <Label class="op-col-kills" text="{s:ranking_0_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_0_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_0_kd}" />
+          </Panel>
+          <Panel id="op-rank-1" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_1_place}" />
+            <Label class="op-col-name" text="{s:ranking_1_name}" />
+            <Label class="op-col-points" text="{s:ranking_1_points}" />
+            <Label class="op-col-kills" text="{s:ranking_1_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_1_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_1_kd}" />
+          </Panel>
+          <Panel id="op-rank-2" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_2_place}" />
+            <Label class="op-col-name" text="{s:ranking_2_name}" />
+            <Label class="op-col-points" text="{s:ranking_2_points}" />
+            <Label class="op-col-kills" text="{s:ranking_2_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_2_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_2_kd}" />
+          </Panel>
+          <Panel id="op-rank-3" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_3_place}" />
+            <Label class="op-col-name" text="{s:ranking_3_name}" />
+            <Label class="op-col-points" text="{s:ranking_3_points}" />
+            <Label class="op-col-kills" text="{s:ranking_3_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_3_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_3_kd}" />
+          </Panel>
+          <Panel id="op-rank-4" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_4_place}" />
+            <Label class="op-col-name" text="{s:ranking_4_name}" />
+            <Label class="op-col-points" text="{s:ranking_4_points}" />
+            <Label class="op-col-kills" text="{s:ranking_4_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_4_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_4_kd}" />
+          </Panel>
+          <Panel id="op-rank-5" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_5_place}" />
+            <Label class="op-col-name" text="{s:ranking_5_name}" />
+            <Label class="op-col-points" text="{s:ranking_5_points}" />
+            <Label class="op-col-kills" text="{s:ranking_5_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_5_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_5_kd}" />
+          </Panel>
+          <Panel id="op-rank-6" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_6_place}" />
+            <Label class="op-col-name" text="{s:ranking_6_name}" />
+            <Label class="op-col-points" text="{s:ranking_6_points}" />
+            <Label class="op-col-kills" text="{s:ranking_6_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_6_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_6_kd}" />
+          </Panel>
+          <Panel id="op-rank-7" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_7_place}" />
+            <Label class="op-col-name" text="{s:ranking_7_name}" />
+            <Label class="op-col-points" text="{s:ranking_7_points}" />
+            <Label class="op-col-kills" text="{s:ranking_7_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_7_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_7_kd}" />
+          </Panel>
+          <Panel id="op-rank-8" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_8_place}" />
+            <Label class="op-col-name" text="{s:ranking_8_name}" />
+            <Label class="op-col-points" text="{s:ranking_8_points}" />
+            <Label class="op-col-kills" text="{s:ranking_8_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_8_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_8_kd}" />
+          </Panel>
+          <Panel id="op-rank-9" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_9_place}" />
+            <Label class="op-col-name" text="{s:ranking_9_name}" />
+            <Label class="op-col-points" text="{s:ranking_9_points}" />
+            <Label class="op-col-kills" text="{s:ranking_9_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_9_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_9_kd}" />
+          </Panel>
+          <Panel id="op-rank-10" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_10_place}" />
+            <Label class="op-col-name" text="{s:ranking_10_name}" />
+            <Label class="op-col-points" text="{s:ranking_10_points}" />
+            <Label class="op-col-kills" text="{s:ranking_10_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_10_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_10_kd}" />
+          </Panel>
+          <Panel id="op-rank-11" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_11_place}" />
+            <Label class="op-col-name" text="{s:ranking_11_name}" />
+            <Label class="op-col-points" text="{s:ranking_11_points}" />
+            <Label class="op-col-kills" text="{s:ranking_11_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_11_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_11_kd}" />
+          </Panel>
+          <Panel id="op-rank-12" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_12_place}" />
+            <Label class="op-col-name" text="{s:ranking_12_name}" />
+            <Label class="op-col-points" text="{s:ranking_12_points}" />
+            <Label class="op-col-kills" text="{s:ranking_12_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_12_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_12_kd}" />
+          </Panel>
+          <Panel id="op-rank-13" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_13_place}" />
+            <Label class="op-col-name" text="{s:ranking_13_name}" />
+            <Label class="op-col-points" text="{s:ranking_13_points}" />
+            <Label class="op-col-kills" text="{s:ranking_13_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_13_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_13_kd}" />
+          </Panel>
+          <Panel id="op-rank-14" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_14_place}" />
+            <Label class="op-col-name" text="{s:ranking_14_name}" />
+            <Label class="op-col-points" text="{s:ranking_14_points}" />
+            <Label class="op-col-kills" text="{s:ranking_14_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_14_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_14_kd}" />
+          </Panel>
+        </Panel>
+        <Panel id="op-vip" class="op-view only-vip">
+          <Label class="op-title" text="{s:vip_title}" />
+          <Label class="op-copy" text="{s:vip_subtitle}" />
+          <Panel class="op-vip-grid">
+            <Panel id="op-vip-vip" class="op-vip-card op-vip">
+              <Label class="op-vip-name" text="{s:vip_vip_name}" />
+              <Label class="op-copy" text="{s:vip_vip_description}" />
+              <Label class="op-benefit" text="{s:vip_vip_benefit_0}" />
+              <Label class="op-benefit" text="{s:vip_vip_benefit_1}" />
+              <Label class="op-benefit" text="{s:vip_vip_benefit_2}" />
+              <Label class="op-benefit" text="{s:vip_vip_benefit_3}" />
+              <Label class="op-benefit" text="{s:vip_vip_benefit_4}" />
+              <Label class="op-benefit" text="{s:vip_vip_benefit_5}" />
+              <Label class="op-muted" text="{s:vip_vip_status}" />
+            </Panel>
+            <Panel id="op-vip-silver" class="op-vip-card op-silver">
+              <Label class="op-vip-name" text="{s:vip_silver_name}" />
+              <Label class="op-copy" text="{s:vip_silver_description}" />
+              <Label class="op-benefit" text="{s:vip_silver_benefit_0}" />
+              <Label class="op-benefit" text="{s:vip_silver_benefit_1}" />
+              <Label class="op-benefit" text="{s:vip_silver_benefit_2}" />
+              <Label class="op-benefit" text="{s:vip_silver_benefit_3}" />
+              <Label class="op-benefit" text="{s:vip_silver_benefit_4}" />
+              <Label class="op-benefit" text="{s:vip_silver_benefit_5}" />
+              <Label class="op-muted" text="{s:vip_silver_status}" />
+            </Panel>
+            <Panel id="op-vip-golden" class="op-vip-card op-golden">
+              <Label class="op-vip-name" text="{s:vip_golden_name}" />
+              <Label class="op-copy" text="{s:vip_golden_description}" />
+              <Label class="op-benefit" text="{s:vip_golden_benefit_0}" />
+              <Label class="op-benefit" text="{s:vip_golden_benefit_1}" />
+              <Label class="op-benefit" text="{s:vip_golden_benefit_2}" />
+              <Label class="op-benefit" text="{s:vip_golden_benefit_3}" />
+              <Label class="op-benefit" text="{s:vip_golden_benefit_4}" />
+              <Label class="op-benefit" text="{s:vip_golden_benefit_5}" />
+              <Label class="op-muted" text="{s:vip_golden_status}" />
+            </Panel>
+          </Panel>
+        </Panel>
+        <Panel id="op-rules" class="op-view only-rules">
+          <Label class="op-title" text="{s:rules_title}" />
+          <Label class="op-copy" text="{s:rules_subtitle}" />
+          <Panel id="op-rule-0" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:rule_0_title}" />
+            <Label class="op-copy" text="{s:rule_0_body}" />
+            <Label class="op-link" text="{s:rule_0_link}" />
+          </Panel>
+          <Panel id="op-rule-1" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:rule_1_title}" />
+            <Label class="op-copy" text="{s:rule_1_body}" />
+            <Label class="op-link" text="{s:rule_1_link}" />
+          </Panel>
+          <Panel id="op-rule-2" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:rule_2_title}" />
+            <Label class="op-copy" text="{s:rule_2_body}" />
+            <Label class="op-link" text="{s:rule_2_link}" />
+          </Panel>
+          <Panel id="op-rule-3" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:rule_3_title}" />
+            <Label class="op-copy" text="{s:rule_3_body}" />
+            <Label class="op-link" text="{s:rule_3_link}" />
+          </Panel>
+          <Panel id="op-rule-4" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:rule_4_title}" />
+            <Label class="op-copy" text="{s:rule_4_body}" />
+            <Label class="op-link" text="{s:rule_4_link}" />
+          </Panel>
+          <Panel id="op-rule-5" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:rule_5_title}" />
+            <Label class="op-copy" text="{s:rule_5_body}" />
+            <Label class="op-link" text="{s:rule_5_link}" />
+          </Panel>
+        </Panel>
+        <Panel id="op-custom" class="op-view only-custom">
+          <Label class="op-title" text="{s:custom_title}" />
+          <Label class="op-copy" text="{s:custom_subtitle}" />
+          <Panel id="op-custom_block-0" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:custom_block_0_title}" />
+            <Label class="op-copy" text="{s:custom_block_0_body}" />
+            <Label class="op-link" text="{s:custom_block_0_link}" />
+          </Panel>
+          <Panel id="op-custom_block-1" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:custom_block_1_title}" />
+            <Label class="op-copy" text="{s:custom_block_1_body}" />
+            <Label class="op-link" text="{s:custom_block_1_link}" />
+          </Panel>
+          <Panel id="op-custom_block-2" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:custom_block_2_title}" />
+            <Label class="op-copy" text="{s:custom_block_2_body}" />
+            <Label class="op-link" text="{s:custom_block_2_link}" />
+          </Panel>
+          <Panel id="op-custom_block-3" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:custom_block_3_title}" />
+            <Label class="op-copy" text="{s:custom_block_3_body}" />
+            <Label class="op-link" text="{s:custom_block_3_link}" />
+          </Panel>
+          <Panel id="op-custom_block-4" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:custom_block_4_title}" />
+            <Label class="op-copy" text="{s:custom_block_4_body}" />
+            <Label class="op-link" text="{s:custom_block_4_link}" />
+          </Panel>
+          <Panel id="op-custom_block-5" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:custom_block_5_title}" />
+            <Label class="op-copy" text="{s:custom_block_5_body}" />
+            <Label class="op-link" text="{s:custom_block_5_link}" />
+          </Panel>
+        </Panel>
+        <Panel id="op-commands" class="op-view only-commands">
+          <Label class="op-title" text="{s:commands_title}" />
+          <Label class="op-copy" text="{s:commands_subtitle}" />
+          <Button id="op-command-0" class="op-command-row op-hidden">
+            <Label class="op-label" text="{s:command_0_name}" />
+            <Label class="op-copy" text="{s:command_0_description}" />
+            <Label class="op-command-example" text="{s:command_0_example}" />
+          </Button>
+          <Button id="op-command-1" class="op-command-row op-hidden">
+            <Label class="op-label" text="{s:command_1_name}" />
+            <Label class="op-copy" text="{s:command_1_description}" />
+            <Label class="op-command-example" text="{s:command_1_example}" />
+          </Button>
+          <Button id="op-command-2" class="op-command-row op-hidden">
+            <Label class="op-label" text="{s:command_2_name}" />
+            <Label class="op-copy" text="{s:command_2_description}" />
+            <Label class="op-command-example" text="{s:command_2_example}" />
+          </Button>
+          <Button id="op-command-3" class="op-command-row op-hidden">
+            <Label class="op-label" text="{s:command_3_name}" />
+            <Label class="op-copy" text="{s:command_3_description}" />
+            <Label class="op-command-example" text="{s:command_3_example}" />
+          </Button>
+          <Button id="op-command-4" class="op-command-row op-hidden">
+            <Label class="op-label" text="{s:command_4_name}" />
+            <Label class="op-copy" text="{s:command_4_description}" />
+            <Label class="op-command-example" text="{s:command_4_example}" />
+          </Button>
+          <Button id="op-command-5" class="op-command-row op-hidden">
+            <Label class="op-label" text="{s:command_5_name}" />
+            <Label class="op-copy" text="{s:command_5_description}" />
+            <Label class="op-command-example" text="{s:command_5_example}" />
+          </Button>
+          <Button id="op-command-6" class="op-command-row op-hidden">
+            <Label class="op-label" text="{s:command_6_name}" />
+            <Label class="op-copy" text="{s:command_6_description}" />
+            <Label class="op-command-example" text="{s:command_6_example}" />
+          </Button>
+          <Button id="op-command-7" class="op-command-row op-hidden">
+            <Label class="op-label" text="{s:command_7_name}" />
+            <Label class="op-copy" text="{s:command_7_description}" />
+            <Label class="op-command-example" text="{s:command_7_example}" />
+          </Button>
+        </Panel>
+        <Panel id="op-settings" class="op-view only-settings">
+          <Label class="op-title" text="{s:settings_title}" />
+          <Label class="op-copy" text="{s:settings_subtitle}" />
+          <Panel class="op-setting-row">
+            <Panel class="op-setting-text">
+              <Label class="op-card-title" text="{s:setting_hint_title}" />
+              <Label class="op-copy" text="{s:setting_hint_description}" />
+            </Panel>
+            <Button id="op-setting-hint" class="op-toggle">
+              <Label class="op-label" text="{s:setting_hint_value}" />
+            </Button>
+          </Panel>
+          <Panel class="op-setting-row">
+            <Panel class="op-setting-text">
+              <Label class="op-card-title" text="{s:setting_hold_title}" />
+              <Label class="op-copy" text="{s:setting_hold_description}" />
+            </Panel>
+            <Button id="op-setting-hold" class="op-toggle">
+              <Label class="op-label" text="{s:setting_hold_value}" />
+            </Button>
+          </Panel>
+          <Panel class="op-setting-row">
+            <Panel class="op-setting-text">
+              <Label class="op-card-title" text="{s:setting_join_title}" />
+              <Label class="op-copy" text="{s:setting_join_description}" />
+            </Panel>
+            <Button id="op-setting-join" class="op-toggle">
+              <Label class="op-label" text="{s:setting_join_value}" />
+            </Button>
+          </Panel>
+          <Panel class="op-setting-row">
+            <Panel class="op-setting-text">
+              <Label class="op-card-title" text="{s:setting_delay_title}" />
+              <Label class="op-copy" text="{s:setting_delay_description}" />
+            </Panel>
+            <Panel class="op-stepper">
+              <Button id="op-delay-minus" class="op-button">
+                <Label class="op-label" text="{s:minus}" />
+              </Button>
+              <Label class="op-step-value" text="{s:setting_delay_value}" />
+              <Button id="op-delay-plus" class="op-button">
+                <Label class="op-label" text="{s:plus}" />
+              </Button>
+            </Panel>
+          </Panel>
+          <Label class="op-muted" text="{s:settings_saved}" />
+        </Panel>
+      </Panel>
+      <Panel class="op-footer">
+        <Label class="op-muted" text="{s:footer_hint}" />
+        <Panel id="op-pager" class="op-pager op-hidden">
+          <Button id="op-prev" class="op-button">
+            <Label class="op-label" text="{s:prev}" />
+          </Button>
+          <Label class="op-muted" text="{s:page_label}" />
+          <Button id="op-next" class="op-button">
+            <Label class="op-label" text="{s:next}" />
+          </Button>
+        </Panel>
+        <Label class="op-footer-brand" text="{s:footer_brand}" />
+      </Panel>
+    </Panel>
+  </Panel>
+</root>

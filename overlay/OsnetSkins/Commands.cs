@@ -1,0 +1,692 @@
+using System.Globalization;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Admin;
+using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging;
+
+namespace OsnetSkins;
+
+public sealed class Commands
+{
+	private readonly OsnetSkins plugin;
+	private readonly HashSet<string> vipCommands = new(StringComparer.OrdinalIgnoreCase);
+	private bool handlersPrepared;
+
+	public Commands(OsnetSkins plugin)
+	{
+		this.plugin = plugin;
+	}
+
+	// Warm up command and menu code in the background without using game APIs.
+	internal void PrepareHandlers(CancellationToken cancellationToken)
+	{
+		if (handlersPrepared)
+			return;
+
+		Type[] roots =
+		[
+			typeof(Commands), typeof(SkinMenus), typeof(MenuRenderer),
+			typeof(EconItemPreview), typeof(CosmeticRules), typeof(WeaponApplier),
+			typeof(GloveService), typeof(ProfileService)
+		];
+		var pending = new Stack<Type>(roots);
+		while (pending.Count > 0)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			var type = pending.Pop();
+			foreach (var nested in type.GetNestedTypes(BindingFlags.Public | BindingFlags.NonPublic))
+				pending.Push(nested);
+
+			foreach (var method in type.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Static |
+				BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+			{
+				if (method.IsAbstract || method.ContainsGenericParameters)
+					continue;
+				try { RuntimeHelpers.PrepareMethod(method.MethodHandle); }
+				catch (Exception) { /* Warmup errors must not stop startup. */ }
+			}
+		}
+
+		handlersPrepared = true;
+	}
+
+	public void Register()
+	{
+		vipCommands.Clear();
+		foreach (var command in plugin.Config.VipCommands.Commands)
+		{
+			var normalized = NormalizeCommand(command);
+			if (normalized.Length > 0)
+				vipCommands.Add(normalized);
+		}
+
+		var commands = plugin.Config.Commands;
+		Add(commands.Skins, "Opens the weapon skins menu", OnSkins);
+		Add(commands.Knife, "Opens the knife menu", OnKnife);
+		Add(commands.Gloves, "Opens the gloves menu", OnGloves);
+		Add(commands.Agents, "Opens the agents menu", OnAgents);
+		Add(commands.Music, "Opens the music kit menu", OnMusic);
+		Add(commands.Pins, "Opens the pin menu", OnPins);
+		Add(commands.Stickers, "Opens the sticker menu for the held weapon", OnStickers);
+		Add(commands.NameTag, "Sets a name tag on the held weapon", OnNameTag);
+		Add(commands.StatTrak, "Toggles StatTrak on the held weapon", OnStatTrak);
+		Add(commands.Wear, "Sets the wear of the held weapon", OnWear);
+		Add(commands.Seed, "Sets the pattern seed of the held weapon", OnSeed);
+		Add(commands.Gen, "Applies an inspect code to your loadout", OnGen);
+		Add(commands.Copy, "Copies the held skin of the player you are spectating", OnCopy);
+		Add(commands.Reload, "Reloads the item data", OnReload);
+	}
+
+	public void RegisterLink()
+	{
+        // Discord integration is not part of the hosting skin menu.
+        return;
+
+		if (plugin.Links.UsesDiscordUtilities)
+			return;
+
+		plugin.AddCommandListener(null, OnLinkExclusive, HookMode.Pre);
+		if (plugin.Links.CanIssueCodes)
+			plugin.AddCommand("css_link", "Gives you a code to link your Steam account in Discord", OnLink);
+	}
+
+	private void Add(List<string> aliases, string description, CommandInfo.CommandCallback handler)
+	{
+		var names = aliases
+			.Where(alias => alias.Length > 0)
+			.Distinct(StringComparer.OrdinalIgnoreCase)
+			.ToList();
+
+		if (names.Count == 0)
+			return;
+
+		var vipOnly = names.Any(alias => vipCommands.Contains(NormalizeCommand(alias)));
+		var callback = vipOnly ? VipGate(handler) : handler;
+		foreach (var alias in names)
+			plugin.AddCommand($"css_{alias}", description, callback);
+	}
+
+	private bool CanUseCommand(CCSPlayerController? caller)
+	{
+		if (caller == null || !caller.IsValid || caller.IsBot)
+			return true;
+
+		if (!string.IsNullOrWhiteSpace(plugin.Config.VipCommands.VipFlag) &&
+			AdminManager.PlayerHasPermissions(caller, plugin.Config.VipCommands.VipFlag))
+			return true;
+
+		plugin.Reply(caller, "command_vip_only");
+		return false;
+	}
+
+	private CommandInfo.CommandCallback VipGate(CommandInfo.CommandCallback handler)
+	{
+		return (caller, info) =>
+		{
+			if (CanUseCommand(caller))
+				handler(caller, info);
+		};
+	}
+
+	private static string NormalizeCommand(string command)
+	{
+		var normalized = command.Trim();
+		while (normalized.StartsWith('!') || normalized.StartsWith('/'))
+			normalized = normalized[1..];
+		if (normalized.StartsWith("css_", StringComparison.OrdinalIgnoreCase))
+			normalized = normalized[4..];
+		return normalized;
+	}
+
+	private CCSPlayerController? Ready(CCSPlayerController? player)
+	{
+		if (player == null || !player.IsValid || player.IsBot)
+			return null;
+
+		if (!plugin.CanUseSkins(player))
+		{
+			plugin.Reply(player, "link_required");
+			return null;
+		}
+
+		if (!plugin.Catalog.Loaded)
+		{
+			plugin.Reply(player, "data_not_loaded");
+			return null;
+		}
+
+		if (plugin.Cache.Get(player) == null)
+		{
+			plugin.Reply(player, "loadout_not_ready");
+			return null;
+		}
+
+		return player;
+	}
+
+	private HookResult OnLinkExclusive(CCSPlayerController? caller, CommandInfo info)
+	{
+		var command = info.GetArg(0);
+		if (IsUnlinkCommand(command))
+			return caller != null && caller.IsValid && !caller.IsBot ? HookResult.Stop : HookResult.Continue;
+
+		if (!plugin.Links.CanIssueCodes)
+			return HookResult.Continue;
+
+		if (!string.Equals(command, "css_link", StringComparison.OrdinalIgnoreCase) &&
+			!string.Equals(command, "link", StringComparison.OrdinalIgnoreCase) &&
+			!string.Equals(command, "!link", StringComparison.OrdinalIgnoreCase) &&
+			!string.Equals(command, "/link", StringComparison.OrdinalIgnoreCase))
+			return HookResult.Continue;
+
+		OnLink(caller, info);
+		return HookResult.Stop;
+	}
+
+	private static bool IsUnlinkCommand(string command)
+	{
+		return string.Equals(command, "css_unlink", StringComparison.OrdinalIgnoreCase) ||
+			string.Equals(command, "unlink", StringComparison.OrdinalIgnoreCase) ||
+			string.Equals(command, "!unlink", StringComparison.OrdinalIgnoreCase) ||
+			string.Equals(command, "/unlink", StringComparison.OrdinalIgnoreCase);
+	}
+
+	private void OnLink(CCSPlayerController? caller, CommandInfo info)
+	{
+		if (caller == null || !caller.IsValid || caller.IsBot)
+			return;
+
+		if (!plugin.Initialized)
+		{
+			plugin.Reply(caller, "data_not_loaded");
+			return;
+		}
+
+		plugin.Links.RequestCode(caller);
+	}
+
+ public void OpenSkinsFromPortal(CCSPlayerController caller) {
+  var aliases=plugin.Config.Commands.Skins;
+  if(aliases.Count==0)return;
+  if(aliases.Any(a=>vipCommands.Contains(NormalizeCommand(a)))&&!CanUseCommand(caller))return;
+  string alias="css_"+NormalizeCommand(aliases[0]);
+  if(AdminManager.CommandIsOverriden(alias)&&!AdminManager.GetPlayerCommandOverrideState(caller,alias))return;
+  if(Ready(caller)is {} player)plugin.Menus.OpenSkins(player);
+ }
+
+	private void OnSkins(CCSPlayerController? caller, CommandInfo info)
+	{
+		if (Ready(caller) is { } player)
+			plugin.Menus.OpenSkins(player);
+	}
+
+	private void OnKnife(CCSPlayerController? caller, CommandInfo info)
+	{
+		if (Ready(caller) is { } player)
+			plugin.Menus.OpenKnife(player);
+	}
+
+	private void OnGloves(CCSPlayerController? caller, CommandInfo info)
+	{
+		if (Ready(caller) is { } player)
+			plugin.Menus.OpenGloves(player);
+	}
+
+	private void OnAgents(CCSPlayerController? caller, CommandInfo info)
+	{
+		if (Ready(caller) is { } player)
+			plugin.Menus.OpenAgents(player);
+	}
+
+	private void OnMusic(CCSPlayerController? caller, CommandInfo info)
+	{
+		if (Ready(caller) is { } player)
+			plugin.Menus.OpenMusic(player);
+	}
+
+	private void OnPins(CCSPlayerController? caller, CommandInfo info)
+	{
+		if (Ready(caller) is { } player)
+			plugin.Menus.OpenPins(player);
+	}
+
+	private void OnStickers(CCSPlayerController? caller, CommandInfo info)
+	{
+        if(caller is not null && !plugin.Allowed(caller,"stickers"))return;
+		if (Ready(caller) is not { } player)
+			return;
+
+		if (!plugin.Config.Stickers.Enabled)
+		{
+			plugin.Reply(player, "stickers_disabled");
+			return;
+		}
+
+		if (!plugin.StickersAllowed(player))
+		{
+			plugin.Reply(player, "vip_only");
+			return;
+		}
+
+		var def = HeldWeapon(player, false);
+		if (def == 0)
+			return;
+
+		if (!plugin.Menus.IsSkinned(player, def))
+		{
+			plugin.Reply(player, "skin_required");
+			return;
+		}
+
+		plugin.Menus.OpenStickers(player, def, info.ArgString.Trim().Trim('"'));
+	}
+
+	private void OnNameTag(CCSPlayerController? caller, CommandInfo info)
+	{
+        if(caller is not null && !plugin.Allowed(caller,"nametag"))return;
+		if (Ready(caller) is not { } player)
+			return;
+
+		var def = HeldWeapon(player, true);
+		if (def == 0)
+			return;
+
+		if (!plugin.AllowCosmeticAction(player))
+			return;
+
+		var text = info.ArgString.Trim().Trim('"');
+		var tag = text.Length == 0 || text == "-" ? null : text.Length > 64 ? text[..64] : text;
+		plugin.Menus.SetNameTag(player, def, tag);
+	}
+
+	private void OnStatTrak(CCSPlayerController? caller, CommandInfo info)
+	{
+        if(caller is not null && !plugin.Allowed(caller,"stattrak"))return;
+		if (Ready(caller) is not { } player)
+			return;
+
+		var def = HeldWeapon(player, true);
+		if (def == 0)
+			return;
+
+		if (!plugin.AllowCosmeticAction(player))
+			return;
+
+		plugin.Menus.ToggleStatTrak(player, def);
+	}
+
+	private void OnWear(CCSPlayerController? caller, CommandInfo info)
+	{
+        if(caller is not null && !plugin.Allowed(caller,"wear"))return;
+		if (Ready(caller) is not { } player)
+			return;
+
+		float? wear = null;
+		if (info.ArgCount >= 2)
+		{
+			if (!float.TryParse(info.GetArg(1), NumberStyles.Float, CultureInfo.InvariantCulture, out var value) || !CosmeticRules.IsValidWear(value))
+			{
+				plugin.Reply(player, "wear_invalid");
+				return;
+			}
+
+			wear = value;
+		}
+
+		var def = HeldWeapon(player, true);
+		if (def == 0)
+			return;
+
+		if (wear.HasValue && !plugin.AllowCosmeticAction(player))
+			return;
+
+		plugin.Menus.OpenWear(player, def, wear);
+	}
+
+	private void OnSeed(CCSPlayerController? caller, CommandInfo info)
+	{
+        if(caller is not null && !plugin.Allowed(caller,"seed"))return;
+		if (Ready(caller) is not { } player)
+			return;
+
+		int? seed = null;
+		if (info.ArgCount >= 2)
+		{
+			if (!int.TryParse(info.GetArg(1), out var value) || value is < 0 or > 1000)
+			{
+				plugin.Reply(player, "seed_invalid");
+				return;
+			}
+
+			seed = value;
+		}
+
+		var def = HeldWeapon(player, true);
+		if (def == 0)
+			return;
+
+		if (seed.HasValue && !plugin.AllowCosmeticAction(player))
+			return;
+
+		plugin.Menus.OpenSeed(player, def, seed);
+	}
+
+	private void OnGen(CCSPlayerController? caller, CommandInfo info)
+	{
+        if(caller is not null && !plugin.Allowed(caller,"gen"))return;
+		if (Ready(caller) is not { } player)
+			return;
+
+		if (!plugin.GenAllowed(player))
+		{
+			plugin.Reply(player, "gen_vip_only");
+			return;
+		}
+
+		if (!plugin.AllowGenAction(player))
+			return;
+
+		if (!EconItemPreview.TryParse(info.ArgString, out var item))
+		{
+			var key = info.CallingContext == CommandCallingContext.Chat && info.ArgString.Length >= 120
+				? "gen_too_long"
+				: "gen_invalid";
+			plugin.Reply(player, key);
+			return;
+		}
+
+		var loadout = plugin.Cache.Get(player);
+		if (loadout == null)
+			return;
+
+		if (KnifeService.IsKnifeDef(item.DefIndex))
+			ApplyGenKnife(player, loadout, item);
+		else if (plugin.Catalog.Gloves.Any(g => g.DefIndex == item.DefIndex))
+			ApplyGenGloves(player, loadout, item);
+		else if (plugin.Catalog.Paints.ContainsKey(item.DefIndex))
+			ApplyGenWeapon(player, loadout, item);
+		else
+			plugin.Reply(player, "gen_unknown_item");
+	}
+
+	private void ApplyGenKnife(CCSPlayerController player, PlayerLoadout loadout, EconItemPreview item)
+	{
+		foreach (var team in PlayerCache.TargetTeams(player))
+		{
+			var side = loadout.For(team);
+			side.Knife = item.DefIndex;
+
+			var entry = side.Equip(item.DefIndex, item.PaintIndex);
+			FillEntry(entry, item);
+			entry.Wear = Math.Max(entry.Wear, KnifeService.MinimumWear);
+			entry.Stickers.Clear();
+			entry.Charm = null;
+			plugin.Save(plugin.Store.SaveGeneratedKnife(player.SteamID, team, item.DefIndex, entry));
+		}
+
+		plugin.Applier.RefreshOwned(player, item.DefIndex);
+		plugin.Reply(player, "gen_applied", GenName(item));
+	}
+
+	private void ApplyGenGloves(CCSPlayerController player, PlayerLoadout loadout, EconItemPreview item)
+	{
+		foreach (var team in PlayerCache.TargetTeams(player))
+		{
+			var side = loadout.For(team);
+			side.GloveDef = item.DefIndex;
+			side.GlovePaint = item.PaintIndex;
+			side.Gloves.Wear = item.PaintWear > 0f ? item.PaintWear : 0.000001f;
+			side.Gloves.Seed = item.PaintSeed;
+			plugin.Save(plugin.Store.SaveGloves(player.SteamID, team, side));
+		}
+
+		plugin.GloveApply.Apply(player, true);
+		plugin.Reply(player, "gen_applied", GenName(item));
+	}
+
+	private void ApplyGenWeapon(CCSPlayerController player, PlayerLoadout loadout, EconItemPreview item)
+	{
+		var allowed = plugin.StickersAllowed(player);
+		var stripped = !allowed && (item.Stickers.Count > 0 || item.Keychains.Count > 0);
+		var stickers = allowed ? MapStickers(item.Stickers) : [];
+		var charm = allowed ? MapCharm(item.Keychains) : null;
+
+		foreach (var team in PlayerCache.TargetTeams(player))
+		{
+			var entry = loadout.For(team).Equip(item.DefIndex, item.PaintIndex);
+			FillEntry(entry, item);
+			entry.Stickers = stickers.Select(Clone).ToList();
+			entry.Charm = charm == null ? null : Clone(charm);
+			plugin.Save(plugin.Store.SaveGeneratedWeapon(player.SteamID, team, item.DefIndex, entry));
+		}
+
+		plugin.Applier.RefreshOwned(player, item.DefIndex);
+		plugin.Reply(player, "gen_applied", GenName(item));
+		if (stripped)
+			plugin.Reply(player, "gen_stickers_stripped");
+	}
+
+	private void OnCopy(CCSPlayerController? caller, CommandInfo info)
+	{
+        if(caller is not null && !plugin.Allowed(caller,"copy"))return;
+		if (Ready(caller) is not { } player)
+			return;
+
+		if (player.PawnIsAlive)
+		{
+			plugin.Reply(player, "copy_spectate_first");
+			return;
+		}
+
+		if (!plugin.AllowGenAction(player))
+			return;
+
+		var target = SpectatedPlayer(player);
+		if (target == null)
+		{
+			plugin.Reply(player, "copy_spectate_first");
+			return;
+		}
+
+		var sourceLoadout = plugin.Cache.Get(target);
+		if (sourceLoadout == null)
+		{
+			plugin.Reply(player, "copy_target_not_ready");
+			return;
+		}
+
+		var weapon = target.PlayerPawn.Value?.WeaponServices?.ActiveWeapon.Value;
+		if (weapon == null || !weapon.IsValid)
+		{
+			plugin.Reply(player, "copy_no_weapon");
+			return;
+		}
+
+		var defIndex = (int)weapon.AttributeManager.Item.ItemDefinitionIndex;
+		var isKnife = KnifeService.IsKnifeClass(weapon.DesignerName);
+		if (!isKnife && !plugin.Catalog.Paints.ContainsKey(defIndex))
+		{
+			plugin.Reply(player, "copy_no_weapon");
+			return;
+		}
+
+		var sourceSide = sourceLoadout.For(target.Team);
+		if (!sourceSide.Weapons.TryGetValue(defIndex, out var sourceEntry) || (!isKnife && sourceEntry.Paint <= 0))
+		{
+			plugin.Reply(player, "copy_no_skin");
+			return;
+		}
+
+		var loadout = plugin.Cache.Get(player);
+		if (loadout == null)
+			return;
+
+		var copyDecorations = plugin.StickersAllowed(player);
+		var stripped = !copyDecorations && (sourceEntry.Stickers.Count > 0 || sourceEntry.Charm != null);
+		foreach (var team in PlayerCache.TargetTeams(player))
+		{
+			var side = loadout.For(team);
+			if (isKnife)
+				side.Knife = defIndex;
+
+			var entry = side.Equip(defIndex, sourceEntry.Paint);
+			CopyEntry(entry, sourceEntry, copyDecorations);
+			if (isKnife)
+				entry.Wear = Math.Max(entry.Wear, KnifeService.MinimumWear);
+			plugin.Save(isKnife
+				? plugin.Store.SaveGeneratedKnife(player.SteamID, team, defIndex, entry)
+				: plugin.Store.SaveGeneratedWeapon(player.SteamID, team, defIndex, entry));
+		}
+
+		plugin.Reply(player, "copy_applied", GenName(defIndex, sourceEntry.Paint), target.PlayerName);
+		if (stripped)
+			plugin.Reply(player, "copy_stickers_stripped");
+	}
+
+	private static CCSPlayerController? SpectatedPlayer(CCSPlayerController player)
+	{
+		var observed = player.ObserverPawn.Value?.ObserverServices?.ObserverTarget.Value;
+		if (observed == null || !observed.IsValid)
+			observed = player.PlayerPawn.Value?.ObserverServices?.ObserverTarget.Value;
+		if (observed == null || !observed.IsValid || observed.DesignerName != "player")
+			return null;
+
+		var pawn = new CCSPlayerPawn(observed.Handle);
+		if (!pawn.IsValid || pawn.Controller.Value is not { IsValid: true } controller)
+			return null;
+
+		var target = new CCSPlayerController(controller.Handle);
+		if (!target.IsValid || target.IsBot || !target.PawnIsAlive ||
+			(target.Team != CsTeam.Terrorist && target.Team != CsTeam.CounterTerrorist) ||
+			target.SteamID == 0 || target.SteamID == player.SteamID)
+			return null;
+
+		return target;
+	}
+
+	private static void CopyEntry(WeaponEntry target, WeaponEntry source, bool copyDecorations)
+	{
+		target.Paint = source.Paint;
+		target.Wear = source.Wear;
+		target.Seed = source.Seed;
+		target.NameTag = source.NameTag;
+		target.StatTrak = source.StatTrak;
+		target.Stickers = copyDecorations ? source.Stickers.Select(Clone).ToList() : [];
+		target.Charm = copyDecorations && source.Charm != null ? Clone(source.Charm) : null;
+	}
+
+	private static void FillEntry(WeaponEntry entry, EconItemPreview item)
+	{
+		entry.Wear = item.PaintWear > 0f ? item.PaintWear : 0.000001f;
+		entry.Seed = item.PaintSeed;
+		entry.NameTag = item.CustomName is { Length: > 0 } name ? (name.Length > 64 ? name[..64] : name) : null;
+		entry.StatTrak = item.StatTrak ? Math.Max(item.KillEaterValue, 0) : -1;
+	}
+
+	private string GenName(EconItemPreview item)
+	{
+		return GenName(item.DefIndex, item.PaintIndex);
+	}
+
+	private string GenName(int defIndex, int paintIndex) =>
+		plugin.Catalog.FindPaint(defIndex, paintIndex)?.Name ?? plugin.Catalog.WeaponName(defIndex);
+
+	private static List<StickerEntry> MapStickers(List<EconSticker> source) => CosmeticRules.MapStickers(source);
+
+	private static CharmEntry? MapCharm(List<EconSticker> keychains) => CosmeticRules.MapCharm(keychains);
+
+	private static StickerEntry Clone(StickerEntry source) => new()
+	{
+		Slot = source.Slot,
+		Id = source.Id,
+		Wear = source.Wear,
+		Scale = source.Scale,
+		Rotation = source.Rotation,
+		OffsetX = source.OffsetX,
+		OffsetY = source.OffsetY,
+		Schema = source.Schema
+	};
+
+	private static CharmEntry Clone(CharmEntry source) => new()
+	{
+		Id = source.Id,
+		Pattern = source.Pattern,
+		Sticker = source.Sticker,
+		Highlight = source.Highlight,
+		OffsetX = source.OffsetX,
+		OffsetY = source.OffsetY,
+		OffsetZ = source.OffsetZ
+	};
+
+	private void OnReload(CCSPlayerController? caller, CommandInfo info)
+	{
+		if (caller != null)
+		{
+			if (!caller.IsValid || !AdminManager.PlayerHasPermissions(caller, "@css/root"))
+			{
+				if (caller.IsValid)
+					plugin.Reply(caller, "no_access");
+				return;
+			}
+
+			plugin.Reply(caller, "reloading");
+		}
+
+		var slot = caller?.Slot ?? -1;
+		var steamId = caller?.SteamID ?? 0;
+		var cancellationToken = plugin.LifetimeToken;
+		Task.Run(async () =>
+		{
+			var loaded = false;
+			try
+			{
+				await plugin.Catalog.LoadAsync(plugin.Config.Api, plugin.Db.Configured, cancellationToken);
+				loaded = plugin.Catalog.Loaded;
+			}
+			catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+			{
+				return;
+			}
+			catch (Exception ex)
+			{
+				plugin.Logger.LogError("Item data reload failed: {Error}", ex.Message);
+			}
+
+			Server.NextFrame(() =>
+			{
+				if (plugin.Stopping || cancellationToken.IsCancellationRequested)
+					return;
+				var player = slot >= 0 ? Utilities.GetPlayerFromSlot(slot) : null;
+				if (player != null && player.IsValid && player.SteamID == steamId)
+					plugin.Reply(player, loaded ? "reloaded" : "reload_failed");
+				else
+					plugin.Logger.LogInformation(loaded ? "Item data reloaded" : "Item data reload failed");
+			});
+		});
+	}
+
+	private int HeldWeapon(CCSPlayerController player, bool allowKnife)
+	{
+		var def = HeldDef(player, allowKnife);
+		if (def == 0)
+			plugin.Reply(player, "no_weapon");
+		return def;
+	}
+
+	private int HeldDef(CCSPlayerController player, bool allowKnife)
+	{
+		var weapon = player.PlayerPawn.Value?.WeaponServices?.ActiveWeapon.Value;
+		if (weapon == null || !weapon.IsValid)
+			return 0;
+
+		var def = (int)weapon.AttributeManager.Item.ItemDefinitionIndex;
+		if (KnifeService.IsKnifeClass(weapon.DesignerName))
+			return allowKnife ? def : 0;
+
+		return plugin.Catalog.Paints.ContainsKey(def) ? def : 0;
+	}
+}

@@ -1,0 +1,30 @@
+name: Build OyunServerim Portal 0.2.0
+on:
+  push:
+    branches: [osnet-portal]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: osnet-portal-release
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: python3 build_release.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: OsnetSkins-v0.2.0
+          path: |
+            OsnetSkins-v0.2.0.zip
+            OsnetSkins-v0.2.0-source.zip
+            SHA256SUMS
+      - name: Publish immutable source-pinned release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create osnet-skins-v0.2.0-r1 --target "$GITHUB_SHA" --title 'OyunServerim Portal 0.2.0' --prerelease --notes 'Server menu extension for existing Skin integration; Workshop 3833701930. Includes complete corresponding GPL sources and reproducible rebuild.py. The target deployment remains gated by host preparation, token activation and mode preferences. Native compilation does not replace live CS2 validation.' OsnetSkins-v0.2.0.zip OsnetSkins-v0.2.0-source.zip SHA256SUMS
