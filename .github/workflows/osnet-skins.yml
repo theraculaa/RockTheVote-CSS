@@ -1,0 +1,33 @@
+name: Build OyunServerim Skin Menu
+on:
+  push:
+    branches: [osnet-skins]
+    paths: [skins/**, .github/workflows/osnet-skins.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: osnet-skins-release
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Build pinned source and package
+        run: python3 skins/build.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: OsnetSkins-v0.1.0
+          path: |
+            skins/OsnetSkins-v0.1.0.zip
+            skins/OsnetSkins-v0.1.0-source.zip
+            skins/SHA256SUMS
+          if-no-files-found: error
+      - name: Publish versioned runtime and complete GPL source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create osnet-skins-v0.1.0 --target "$GITHUB_SHA" --title 'OyunServerim Skin Menu 0.1.0' --prerelease --notes 'Separate skin core/API; same server database; disabled until customer GSLT activation. Includes complete corresponding GPL source. Requires client Workshop addon 3821029634. Live game validation runs on installation.' skins/OsnetSkins-v0.1.0.zip skins/OsnetSkins-v0.1.0-source.zip skins/SHA256SUMS
