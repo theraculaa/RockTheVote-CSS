@@ -1,0 +1,43 @@
+name: Build OyunServerim K4 Stats
+on:
+  push:
+    branches: [osnet-k4stats]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: osnet-k4stats-release
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet publish K4-System/src/K4-System.csproj -c Release -o out --nologo
+      - name: Package
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p stage/addons/counterstrikesharp/plugins/K4-System stage/addons/counterstrikesharp/shared/K4-SharedApi
+          cp -a out/. stage/addons/counterstrikesharp/plugins/K4-System/
+          cp K4-SharedApi/src/bin/Release/net10.0/K4-SharedApi.dll stage/addons/counterstrikesharp/shared/K4-SharedApi/
+          cp LICENSE.md stage/addons/counterstrikesharp/plugins/K4-System/LICENSE.md
+          printf '%s\n' "$GITHUB_SHA" > stage/addons/counterstrikesharp/plugins/K4-System/SOURCE-COMMIT.txt
+          (cd stage && zip -qr ../K4Stats-v4.4.1-osnet.1.zip addons)
+          sha256sum K4Stats-v4.4.1-osnet.1.zip > SHA256SUMS
+          printf '%s\n' "$GITHUB_SHA" > SOURCE-COMMIT.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: K4Stats-v4.4.1-osnet.1
+          path: |
+            K4Stats-v4.4.1-osnet.1.zip
+            SHA256SUMS
+            SOURCE-COMMIT.txt
+      - name: Publish pinned source tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release create osnet-k4stats-v4.4.1-osnet.1 --target "$GITHUB_SHA" --title 'K4 Stats 4.4.1-osnet.1' --prerelease --notes 'K4-System GPL-3.0 source adaptation for CSS API 1.0.378, Top 15, FFA detection, additive per-command CSS permissions and readiness. Sources are in osnet-k4stats branch; no changes to RTV branch.' K4Stats-v4.4.1-osnet.1.zip SHA256SUMS SOURCE-COMMIT.txt
