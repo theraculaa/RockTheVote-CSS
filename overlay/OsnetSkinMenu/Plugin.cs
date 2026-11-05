@@ -25,7 +25,7 @@ public class PluginConfig : BasePluginConfig
 
 public partial class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPmmMenuPainter
 {
-	private const string LayoutPath = "panorama/layout/custom_game/ws.xml";
+	private const string LayoutPath = "panorama/layout/custom_game/osnet_portal_v3.xml";
 	private const int MaxSlots = 64;
 	private const long ClickCooldownMs = 120;
 	private const long PendingMs = 2000;
@@ -371,12 +371,9 @@ public partial class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPmmMenuP
 		{
 			return false;
 		}
-		if (_portalClients.TryGetValue(player.Slot,out var pc) && pc.Open) ClosePortal(player,pc);
+
         IMenuApi? api = _menus.Get();
-		if (api != null && api.GetSelectedMenu(player) == MenuType.PanoramaWasdMenu)
-		{
-			return false;
-		}
+
 		MenuSnapshot? snapshot = _bridge.Read(player, menu);
 		if (snapshot == null)
 		{
@@ -393,6 +390,12 @@ public partial class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPmmMenuP
 			return false;
 		}
 
+        var portal = PortalClientFor(player);
+        portal.Open = true; portal.Tab = "skins"; portal.AutoDone = true;
+        portal.Hold.SuppressUntilRelease();
+        DrawPortal(player, portal);
+        PC(player, portal, "op-root", "op-hidden", false);
+        PC(player, portal, "op-hint", "op-hidden", true);
 		slot.PaintSeq++;
 		slot.Menu = menu;
 		Note(slot, snapshot);
@@ -426,7 +429,11 @@ public partial class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPmmMenuP
 		{
 			if (player.IsValid && slot.PaintSeq == seq)
 			{
-				Hide(player);
+                Hide(player);
+                if (_portalClients.TryGetValue(player.Slot, out var c) && c.Open && c.Tab == "skins") {
+                    c.Tab = "intro"; DrawPortal(player, c);
+                    _portalLayout?.SetInputCaptureEnabled(player, true);
+                }
 			}
 		});
 	}
@@ -491,8 +498,8 @@ public partial class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPmmMenuP
 		switch (buttonId)
 		{
 			case "ws-close":
-				_bridge.Close(player);
-				Hide(player);
+                if (_portalClients.TryGetValue(player.Slot, out var c)) ClosePortal(player, c);
+                else { _bridge.Close(player); Hide(player); }
 				return;
 			case "ws-back":
 				_bridge.Back(player);
@@ -605,17 +612,12 @@ public partial class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPmmMenuP
 		}
 	}
 
-	private void OpenSection(CCSPlayerController player, string key)
-	{
-		string command = _bridge.Command(key == "weapons" ? "skins" : key);
-		Server.NextFrame(() =>
-		{
-			if (player.IsValid)
-			{
-				player.ExecuteClientCommandFromServer("css_" + command);
-			}
-		});
-	}
+    private void OpenSection(CCSPlayerController player, string key) {
+        if (!Layout.Rail.Contains(key) || !PortalAccess(player) || PortalDefusing(player)) return;
+        string alias = "css_" + _bridge.Command(key == "weapons" ? "skins" : key);
+        if (!PortalPermission(player, alias)) return;
+        _bridge.OpenPortalSection(player, key);
+    }
 
 	private void Turn(CCSPlayerController player, Slot slot, int target)
 	{
@@ -743,31 +745,14 @@ public partial class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPmmMenuP
 		layout.SetInputCaptureEnabled(player, want);
 	}
 
-	private bool EnsureLayout()
-	{
-		CCSCustomHudLayout? layout = _layout;
-		if (layout != null && layout.IsValid)
-		{
-			return true;
-		}
-		CCSCustomHudLayout? created = Utilities.CreateEntityByName<CCSCustomHudLayout>("custom_hud_layout");
-		if (created == null || created.Handle == IntPtr.Zero)
-		{
-			return false;
-		}
-		created.StrLayout = LayoutPath;
-		created.DispatchSpawn();
-		if (!created.IsValid)
-		{
-			return false;
-		}
-		_layout = created;
-		foreach (Slot slot in _slots)
-		{
-			slot.ForgetSent();
-		}
-		return true;
-	}
+    private bool EnsureLayout() {
+        if (!EnsurePortal()) return false;
+        if (_layout != _portalLayout) {
+            _layout = _portalLayout;
+            foreach (Slot slot in _slots) slot.ForgetSent();
+        }
+        return true;
+    }
 
 	private void Later(float seconds, Action callback)
 	{

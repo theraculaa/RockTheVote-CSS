@@ -1,0 +1,1473 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <styles>
+    <include src="s2r://panorama/styles/csgostyles.vcss_c" />
+    <include src="s2r://panorama/styles/custom_game/ws_art.vcss_c" />
+    <include src="s2r://panorama/styles/custom_game/ws_stickers.vcss_c" />
+    <include src="s2r://panorama/styles/custom_game/osnet_portal_v3.vcss_c" />
+  </styles>
+  <Panel class="op-screen" hittest="false">
+    <Panel id="op-hint" class="op-hint op-hidden" hittest="false">
+      <Panel id="op-hold-0" class="op-hold-segment op-segment-0" hittest="false" />
+      <Panel id="op-hold-1" class="op-hold-segment op-segment-1" hittest="false" />
+      <Panel id="op-hold-2" class="op-hold-segment op-segment-2" hittest="false" />
+      <Panel id="op-hold-3" class="op-hold-segment op-segment-3" hittest="false" />
+      <Panel id="op-hold-4" class="op-hold-segment op-segment-4" hittest="false" />
+      <Panel id="op-hold-5" class="op-hold-segment op-segment-5" hittest="false" />
+      <Panel id="op-hold-6" class="op-hold-segment op-segment-6" hittest="false" />
+      <Panel id="op-hold-7" class="op-hold-segment op-segment-7" hittest="false" />
+      <Panel id="op-hold-8" class="op-hold-segment op-segment-8" hittest="false" />
+      <Panel id="op-hold-9" class="op-hold-segment op-segment-9" hittest="false" />
+      <Panel id="op-hold-10" class="op-hold-segment op-segment-10" hittest="false" />
+      <Panel id="op-hold-11" class="op-hold-segment op-segment-11" hittest="false" />
+      <Panel id="op-hold-12" class="op-hold-segment op-segment-12" hittest="false" />
+      <Panel id="op-hold-13" class="op-hold-segment op-segment-13" hittest="false" />
+      <Panel id="op-hold-14" class="op-hold-segment op-segment-14" hittest="false" />
+      <Panel id="op-hold-15" class="op-hold-segment op-segment-15" hittest="false" />
+      <Label class="op-key" text="E" hittest="false" />
+    </Panel>
+    <Panel id="op-root" class="op-window op-hidden view-intro">
+      <Panel class="op-header">
+        <Panel class="op-brand">
+          <Label text="OyunServerim" />
+          <Label class="op-orange" text=".NET" />
+        </Panel>
+        <Label class="op-server" text="{s:server_name}" />
+        <Panel class="op-profile">
+          <Label class="op-label" text="{s:player_name}" />
+          <Label class="op-muted" text="{s:player_rank}" />
+        </Panel>
+        <Button id="op-close" class="op-close">
+          <Label class="op-label" text="{s:close}" />
+        </Button>
+      </Panel>
+      <Panel class="op-nav">
+        <Button id="op-tabs-prev" class="op-tab-arrow">
+          <Label class="op-label" text="{s:tabs_prev}" />
+        </Button>
+        <Button id="op-tab-0" class="op-tab">
+          <Label class="op-label" text="{s:tab_0}" />
+        </Button>
+        <Button id="op-tab-1" class="op-tab">
+          <Label class="op-label" text="{s:tab_1}" />
+        </Button>
+        <Button id="op-tab-2" class="op-tab">
+          <Label class="op-label" text="{s:tab_2}" />
+        </Button>
+        <Button id="op-tab-3" class="op-tab">
+          <Label class="op-label" text="{s:tab_3}" />
+        </Button>
+        <Button id="op-tab-4" class="op-tab">
+          <Label class="op-label" text="{s:tab_4}" />
+        </Button>
+        <Button id="op-tab-5" class="op-tab">
+          <Label class="op-label" text="{s:tab_5}" />
+        </Button>
+        <Button id="op-tab-6" class="op-tab">
+          <Label class="op-label" text="{s:tab_6}" />
+        </Button>
+        <Button id="op-tabs-next" class="op-tab-arrow">
+          <Label class="op-label" text="{s:tabs_next}" />
+        </Button>
+      </Panel>
+      <Panel class="op-body">
+        <Panel id="op-intro" class="op-view op-intro only-intro">
+          <Label class="op-kicker" text="{s:intro_kicker}" />
+          <Label class="op-hero-title" text="{s:intro_title}" />
+          <Label class="op-hero-body" text="{s:intro_body}" />
+          <Panel class="op-quick">
+            <Button id="op-open-skins" class="op-quick-button">
+              <Label class="op-label" text="{s:quick_skins}" />
+            </Button>
+            <Button id="op-open-ranking" class="op-quick-button">
+              <Label class="op-label" text="{s:quick_ranking}" />
+            </Button>
+            <Button id="op-open-rules" class="op-quick-button">
+              <Label class="op-label" text="{s:quick_rules}" />
+            </Button>
+          </Panel>
+          <Label class="op-section-title" text="{s:announcements_title}" />
+          <Panel id="op-announcement-0" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:announcement_0_title}" />
+            <Label class="op-copy" text="{s:announcement_0_body}" />
+            <Label class="op-link" text="{s:announcement_0_link}" />
+          </Panel>
+          <Panel id="op-announcement-1" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:announcement_1_title}" />
+            <Label class="op-copy" text="{s:announcement_1_body}" />
+            <Label class="op-link" text="{s:announcement_1_link}" />
+          </Panel>
+          <Panel id="op-announcement-2" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:announcement_2_title}" />
+            <Label class="op-copy" text="{s:announcement_2_body}" />
+            <Label class="op-link" text="{s:announcement_2_link}" />
+          </Panel>
+        </Panel>
+        <Panel id="op-skins" class="op-view only-skins">
+          <Panel id="ws-root" class="ws-root ws-hidden view-grid cat-weapons team-t single-page">
+            <Panel class="ws-top">
+              <Panel class="ws-heading">
+                <Label class="ws-brand stratum-medium-tf" text="OsnetSkins" />
+                <Label id="ws-title" class="ws-title stratum-bold-tf" text="{s:ws_title}" />
+                <Label id="ws-crumb" class="ws-crumb stratum-medium-tf" text="{s:ws_crumb}" />
+              </Panel>
+              <Panel class="ws-tools">
+                <Button id="ws-back" class="ws-back">
+                  <Label class="stratum-medium-tf" text="{s:t_back}" />
+                </Button>
+              </Panel>
+            </Panel>
+            <Panel class="ws-body">
+              <Panel class="ws-rail">
+                <Panel class="ws-side">
+                  <Button id="ws-cat-weapons" class="ws-cat">
+                    <Panel id="ws-sw-weapons" hittest="false" class="ws-swatch ws-swatch-weapons" />
+                    <Panel class="ws-cat-text" hittest="false">
+                      <Label class="ws-cat-name stratum-bold-tf" text="{s:cat_weapons}" />
+                      <Label class="ws-cat-sub stratum-medium-tf" text="{s:sub_weapons}" />
+                    </Panel>
+                  </Button>
+                  <Button id="ws-cat-knife" class="ws-cat">
+                    <Panel id="ws-sw-knife" hittest="false" class="ws-swatch ws-swatch-knife" />
+                    <Panel class="ws-cat-text" hittest="false">
+                      <Label class="ws-cat-name stratum-bold-tf" text="{s:cat_knife}" />
+                      <Label class="ws-cat-sub stratum-medium-tf" text="{s:sub_knife}" />
+                    </Panel>
+                  </Button>
+                  <Button id="ws-cat-gloves" class="ws-cat">
+                    <Panel id="ws-sw-gloves" hittest="false" class="ws-swatch ws-swatch-gloves" />
+                    <Panel class="ws-cat-text" hittest="false">
+                      <Label class="ws-cat-name stratum-bold-tf" text="{s:cat_gloves}" />
+                      <Label class="ws-cat-sub stratum-medium-tf" text="{s:sub_gloves}" />
+                    </Panel>
+                  </Button>
+                  <Button id="ws-cat-agents" class="ws-cat">
+                    <Panel id="ws-sw-agents" hittest="false" class="ws-swatch ws-swatch-agents" />
+                    <Panel class="ws-cat-text" hittest="false">
+                      <Label class="ws-cat-name stratum-bold-tf" text="{s:cat_agents}" />
+                      <Label class="ws-cat-sub stratum-medium-tf" text="{s:sub_agents}" />
+                    </Panel>
+                  </Button>
+                  <Button id="ws-cat-music" class="ws-cat">
+                    <Panel id="ws-sw-music" hittest="false" class="ws-swatch ws-swatch-music" />
+                    <Panel class="ws-cat-text" hittest="false">
+                      <Label class="ws-cat-name stratum-bold-tf" text="{s:cat_music}" />
+                      <Label class="ws-cat-sub stratum-medium-tf" text="{s:sub_music}" />
+                    </Panel>
+                  </Button>
+                  <Button id="ws-cat-pins" class="ws-cat">
+                    <Panel id="ws-sw-pins" hittest="false" class="ws-swatch ws-swatch-pins" />
+                    <Panel class="ws-cat-text" hittest="false">
+                      <Label class="ws-cat-name stratum-bold-tf" text="{s:cat_pins}" />
+                      <Label class="ws-cat-sub stratum-medium-tf" text="{s:sub_pins}" />
+                    </Panel>
+                  </Button>
+                  <Button id="ws-cat-stickers" class="ws-cat">
+                    <Panel id="ws-sw-stickers" hittest="false" class="ws-swatch ws-swatch-stickers" />
+                    <Panel class="ws-cat-text" hittest="false">
+                      <Label class="ws-cat-name stratum-bold-tf" text="{s:cat_stickers}" />
+                      <Label class="ws-cat-sub stratum-medium-tf" text="{s:sub_stickers}" />
+                    </Panel>
+                  </Button>
+                </Panel>
+              </Panel>
+              <Panel class="ws-main">
+                <Panel id="ws-grid" class="ws-grid only-grid">
+                  <Panel class="ws-cards">
+                    <Button id="ws-card-0" class="ws-card ws-off">
+                      <Panel id="ws-cbase-0" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-0" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn0}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs0}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-1" class="ws-card ws-off">
+                      <Panel id="ws-cbase-1" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-1" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn1}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs1}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-2" class="ws-card ws-off">
+                      <Panel id="ws-cbase-2" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-2" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn2}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs2}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-3" class="ws-card ws-off">
+                      <Panel id="ws-cbase-3" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-3" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn3}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs3}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-4" class="ws-card ws-off">
+                      <Panel id="ws-cbase-4" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-4" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn4}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs4}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                  </Panel>
+                  <Panel class="ws-cards">
+                    <Button id="ws-card-5" class="ws-card ws-off">
+                      <Panel id="ws-cbase-5" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-5" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn5}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs5}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-6" class="ws-card ws-off">
+                      <Panel id="ws-cbase-6" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-6" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn6}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs6}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-7" class="ws-card ws-off">
+                      <Panel id="ws-cbase-7" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-7" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn7}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs7}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-8" class="ws-card ws-off">
+                      <Panel id="ws-cbase-8" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-8" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn8}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs8}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-9" class="ws-card ws-off">
+                      <Panel id="ws-cbase-9" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-9" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn9}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs9}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                  </Panel>
+                  <Panel class="ws-cards">
+                    <Button id="ws-card-10" class="ws-card ws-off">
+                      <Panel id="ws-cbase-10" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-10" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn10}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs10}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-11" class="ws-card ws-off">
+                      <Panel id="ws-cbase-11" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-11" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn11}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs11}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-12" class="ws-card ws-off">
+                      <Panel id="ws-cbase-12" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-12" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn12}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs12}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-13" class="ws-card ws-off">
+                      <Panel id="ws-cbase-13" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-13" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn13}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs13}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-14" class="ws-card ws-off">
+                      <Panel id="ws-cbase-14" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-14" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn14}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs14}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                  </Panel>
+                  <Panel class="ws-cards">
+                    <Button id="ws-card-15" class="ws-card ws-off">
+                      <Panel id="ws-cbase-15" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-15" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn15}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs15}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-16" class="ws-card ws-off">
+                      <Panel id="ws-cbase-16" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-16" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn16}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs16}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-17" class="ws-card ws-off">
+                      <Panel id="ws-cbase-17" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-17" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn17}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs17}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-18" class="ws-card ws-off">
+                      <Panel id="ws-cbase-18" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-18" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn18}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs18}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-19" class="ws-card ws-off">
+                      <Panel id="ws-cbase-19" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-19" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn19}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs19}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                  </Panel>
+                  <Panel class="ws-cards">
+                    <Button id="ws-card-20" class="ws-card ws-off">
+                      <Panel id="ws-cbase-20" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-20" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn20}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs20}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-21" class="ws-card ws-off">
+                      <Panel id="ws-cbase-21" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-21" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn21}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs21}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-22" class="ws-card ws-off">
+                      <Panel id="ws-cbase-22" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-22" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn22}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs22}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-23" class="ws-card ws-off">
+                      <Panel id="ws-cbase-23" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-23" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn23}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs23}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-24" class="ws-card ws-off">
+                      <Panel id="ws-cbase-24" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-24" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn24}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs24}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                  </Panel>
+                  <Panel class="ws-cards">
+                    <Button id="ws-card-25" class="ws-card ws-off">
+                      <Panel id="ws-cbase-25" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-25" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn25}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs25}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-26" class="ws-card ws-off">
+                      <Panel id="ws-cbase-26" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-26" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn26}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs26}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-27" class="ws-card ws-off">
+                      <Panel id="ws-cbase-27" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-27" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn27}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs27}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-28" class="ws-card ws-off">
+                      <Panel id="ws-cbase-28" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-28" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn28}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs28}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-29" class="ws-card ws-off">
+                      <Panel id="ws-cbase-29" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-29" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn29}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs29}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                  </Panel>
+                  <Panel class="ws-cards">
+                    <Button id="ws-card-30" class="ws-card ws-off">
+                      <Panel id="ws-cbase-30" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-30" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn30}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs30}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-31" class="ws-card ws-off">
+                      <Panel id="ws-cbase-31" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-31" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn31}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs31}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-32" class="ws-card ws-off">
+                      <Panel id="ws-cbase-32" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-32" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn32}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs32}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-33" class="ws-card ws-off">
+                      <Panel id="ws-cbase-33" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-33" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn33}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs33}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-34" class="ws-card ws-off">
+                      <Panel id="ws-cbase-34" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-34" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn34}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs34}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                  </Panel>
+                  <Panel class="ws-cards">
+                    <Button id="ws-card-35" class="ws-card ws-off">
+                      <Panel id="ws-cbase-35" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-35" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn35}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs35}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-36" class="ws-card ws-off">
+                      <Panel id="ws-cbase-36" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-36" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn36}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs36}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-37" class="ws-card ws-off">
+                      <Panel id="ws-cbase-37" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-37" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn37}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs37}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-38" class="ws-card ws-off">
+                      <Panel id="ws-cbase-38" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-38" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn38}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs38}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                    <Button id="ws-card-39" class="ws-card ws-off">
+                      <Panel id="ws-cbase-39" hittest="false" class="ws-art">
+                        <Panel id="ws-cart-39" hittest="false" class="ws-art-in" />
+                      </Panel>
+                      <Panel class="ws-bar" hittest="false" />
+                      <Label class="ws-name stratum-bold-tf" text="{s:cn39}" />
+                      <Label class="ws-sub stratum-medium-tf" text="{s:cs39}" />
+                      <Panel class="ws-dots" hittest="false">
+                        <Panel class="ws-dot ws-dot-t">
+                          <Label class="stratum-bold-tf" text="T" />
+                        </Panel>
+                        <Panel class="ws-dot ws-dot-ct">
+                          <Label class="stratum-bold-tf" text="CT" />
+                        </Panel>
+                      </Panel>
+                      <Panel class="ws-badge" hittest="false">
+                        <Label class="stratum-bold-tf" text="{s:t_equipped}" />
+                      </Panel>
+                    </Button>
+                  </Panel>
+                </Panel>
+                <Panel class="ws-board only-board">
+                  <Panel id="ws-pv" class="ws-pv">
+                    <Panel id="ws-pvbase" hittest="false" class="ws-pv-art">
+                      <Panel id="ws-pvart" hittest="false" class="ws-art-in" />
+                    </Panel>
+                    <Panel class="ws-pv-bar" hittest="false" />
+                    <Label class="ws-pv-title stratum-bold-tf" text="{s:pv_title}" />
+                    <Label class="ws-pv-sub stratum-medium-tf" text="{s:pv_sub}" />
+                    <Panel class="ws-pv-lines" hittest="false">
+                      <Label class="ws-pv-line stratum-medium-tf" text="{s:pv_l0}" />
+                      <Label class="ws-pv-line stratum-medium-tf" text="{s:pv_l1}" />
+                      <Label class="ws-pv-line stratum-medium-tf" text="{s:pv_l2}" />
+                      <Label class="ws-pv-line stratum-medium-tf" text="{s:pv_l3}" />
+                    </Panel>
+                    <Panel class="ws-pv-stickers only-stickers">
+                      <Panel class="ws-pv-strow">
+                        <Button id="ws-pvst-0" class="ws-pv-st">
+                          <Label class="ws-pv-stn stratum-bold-tf" hittest="false" text="1" />
+                        </Button>
+                        <Button id="ws-pvst-1" class="ws-pv-st">
+                          <Label class="ws-pv-stn stratum-bold-tf" hittest="false" text="2" />
+                        </Button>
+                      </Panel>
+                      <Panel class="ws-pv-strow">
+                        <Button id="ws-pvst-2" class="ws-pv-st">
+                          <Label class="ws-pv-stn stratum-bold-tf" hittest="false" text="3" />
+                        </Button>
+                        <Button id="ws-pvst-3" class="ws-pv-st">
+                          <Label class="ws-pv-stn stratum-bold-tf" hittest="false" text="4" />
+                        </Button>
+                      </Panel>
+                    </Panel>
+                    <Button id="ws-pv-all" class="ws-pv-all">
+                      <Label class="ws-pv-alltext stratum-bold-tf" hittest="false" text="{s:t_all}" />
+                    </Button>
+                  </Panel>
+                  <Panel class="ws-rows">
+                    <Button id="ws-row-0" class="ws-row ws-off">
+                      <Panel id="ws-rart-0" hittest="false" class="ws-rart" />
+                      <Panel class="ws-rtext" hittest="false">
+                        <Label class="ws-rname stratum-bold-tf" text="{s:rn0}" />
+                        <Label class="ws-rval stratum-medium-tf" text="{s:rv0}" />
+                      </Panel>
+                      <Label class="ws-rarrow stratum-bold-tf" text="›" />
+                    </Button>
+                    <Button id="ws-row-1" class="ws-row ws-off">
+                      <Panel id="ws-rart-1" hittest="false" class="ws-rart" />
+                      <Panel class="ws-rtext" hittest="false">
+                        <Label class="ws-rname stratum-bold-tf" text="{s:rn1}" />
+                        <Label class="ws-rval stratum-medium-tf" text="{s:rv1}" />
+                      </Panel>
+                      <Label class="ws-rarrow stratum-bold-tf" text="›" />
+                    </Button>
+                    <Button id="ws-row-2" class="ws-row ws-off">
+                      <Panel id="ws-rart-2" hittest="false" class="ws-rart" />
+                      <Panel class="ws-rtext" hittest="false">
+                        <Label class="ws-rname stratum-bold-tf" text="{s:rn2}" />
+                        <Label class="ws-rval stratum-medium-tf" text="{s:rv2}" />
+                      </Panel>
+                      <Label class="ws-rarrow stratum-bold-tf" text="›" />
+                    </Button>
+                    <Button id="ws-row-3" class="ws-row ws-off">
+                      <Panel id="ws-rart-3" hittest="false" class="ws-rart" />
+                      <Panel class="ws-rtext" hittest="false">
+                        <Label class="ws-rname stratum-bold-tf" text="{s:rn3}" />
+                        <Label class="ws-rval stratum-medium-tf" text="{s:rv3}" />
+                      </Panel>
+                      <Label class="ws-rarrow stratum-bold-tf" text="›" />
+                    </Button>
+                    <Button id="ws-row-4" class="ws-row ws-off">
+                      <Panel id="ws-rart-4" hittest="false" class="ws-rart" />
+                      <Panel class="ws-rtext" hittest="false">
+                        <Label class="ws-rname stratum-bold-tf" text="{s:rn4}" />
+                        <Label class="ws-rval stratum-medium-tf" text="{s:rv4}" />
+                      </Panel>
+                      <Label class="ws-rarrow stratum-bold-tf" text="›" />
+                    </Button>
+                    <Button id="ws-row-5" class="ws-row ws-off">
+                      <Panel id="ws-rart-5" hittest="false" class="ws-rart" />
+                      <Panel class="ws-rtext" hittest="false">
+                        <Label class="ws-rname stratum-bold-tf" text="{s:rn5}" />
+                        <Label class="ws-rval stratum-medium-tf" text="{s:rv5}" />
+                      </Panel>
+                      <Label class="ws-rarrow stratum-bold-tf" text="›" />
+                    </Button>
+                    <Button id="ws-row-6" class="ws-row ws-off">
+                      <Panel id="ws-rart-6" hittest="false" class="ws-rart" />
+                      <Panel class="ws-rtext" hittest="false">
+                        <Label class="ws-rname stratum-bold-tf" text="{s:rn6}" />
+                        <Label class="ws-rval stratum-medium-tf" text="{s:rv6}" />
+                      </Panel>
+                      <Label class="ws-rarrow stratum-bold-tf" text="›" />
+                    </Button>
+                    <Button id="ws-row-7" class="ws-row ws-off">
+                      <Panel id="ws-rart-7" hittest="false" class="ws-rart" />
+                      <Panel class="ws-rtext" hittest="false">
+                        <Label class="ws-rname stratum-bold-tf" text="{s:rn7}" />
+                        <Label class="ws-rval stratum-medium-tf" text="{s:rv7}" />
+                      </Panel>
+                      <Label class="ws-rarrow stratum-bold-tf" text="›" />
+                    </Button>
+                    <Button id="ws-row-8" class="ws-row ws-off">
+                      <Panel id="ws-rart-8" hittest="false" class="ws-rart" />
+                      <Panel class="ws-rtext" hittest="false">
+                        <Label class="ws-rname stratum-bold-tf" text="{s:rn8}" />
+                        <Label class="ws-rval stratum-medium-tf" text="{s:rv8}" />
+                      </Panel>
+                      <Label class="ws-rarrow stratum-bold-tf" text="›" />
+                    </Button>
+                    <Button id="ws-row-9" class="ws-row ws-off">
+                      <Panel id="ws-rart-9" hittest="false" class="ws-rart" />
+                      <Panel class="ws-rtext" hittest="false">
+                        <Label class="ws-rname stratum-bold-tf" text="{s:rn9}" />
+                        <Label class="ws-rval stratum-medium-tf" text="{s:rv9}" />
+                      </Panel>
+                      <Label class="ws-rarrow stratum-bold-tf" text="›" />
+                    </Button>
+                  </Panel>
+                </Panel>
+                <Panel class="ws-prompt" hittest="false">
+                  <Panel class="ws-prompt-box" hittest="false">
+                    <Label class="ws-prompt-title stratum-bold-tf" text="{s:t_prompt}" />
+                    <Label class="ws-prompt-text stratum-medium-tf" text="{s:prompt_text}" />
+                    <Label class="ws-prompt-hint stratum-medium-tf" text="{s:t_prompt_hint}" />
+                  </Panel>
+                </Panel>
+              </Panel>
+            </Panel>
+            <Panel class="ws-foot">
+              <Label id="ws-hint" class="ws-hint stratum-medium-tf" text="{s:ws_hint}" />
+              <Panel class="ws-foot-pad" hittest="false" />
+              <Panel class="ws-foot-main">
+                <Panel class="ws-pager">
+                  <Button id="ws-prev" class="ws-page">
+                    <Label text="‹" />
+                  </Button>
+                  <Button id="ws-num-0" class="ws-num ws-off">
+                    <Label class="stratum-medium-tf" text="{s:num0}" />
+                  </Button>
+                  <Button id="ws-num-1" class="ws-num ws-off">
+                    <Label class="stratum-medium-tf" text="{s:num1}" />
+                  </Button>
+                  <Button id="ws-num-2" class="ws-num ws-off">
+                    <Label class="stratum-medium-tf" text="{s:num2}" />
+                  </Button>
+                  <Button id="ws-num-3" class="ws-num ws-off">
+                    <Label class="stratum-medium-tf" text="{s:num3}" />
+                  </Button>
+                  <Button id="ws-num-4" class="ws-num ws-off">
+                    <Label class="stratum-medium-tf" text="{s:num4}" />
+                  </Button>
+                  <Button id="ws-num-5" class="ws-num ws-off">
+                    <Label class="stratum-medium-tf" text="{s:num5}" />
+                  </Button>
+                  <Button id="ws-num-6" class="ws-num ws-off">
+                    <Label class="stratum-medium-tf" text="{s:num6}" />
+                  </Button>
+                  <Button id="ws-next" class="ws-page">
+                    <Label text="›" />
+                  </Button>
+                </Panel>
+              </Panel>
+            </Panel>
+          </Panel>
+        </Panel>
+        <Panel id="op-ranking" class="op-view only-ranking">
+          <Label class="op-title" text="{s:ranking_title}" />
+          <Label class="op-copy" text="{s:ranking_subtitle}" />
+          <Label class="op-empty" text="{s:ranking_empty}" />
+          <Panel id="op-self" class="op-self op-hidden">
+            <Label class="op-stat" text="{s:self_place}" />
+            <Label class="op-stat" text="{s:self_points}" />
+            <Label class="op-stat" text="{s:self_kills}" />
+            <Label class="op-stat" text="{s:self_deaths}" />
+            <Label class="op-stat" text="{s:self_kd}" />
+            <Label class="op-stat" text="{s:self_playtime}" />
+          </Panel>
+          <Panel class="op-ranking-head">
+            <Label class="op-col-place" text="{s:ranking_col_place}" />
+            <Label class="op-col-name" text="{s:ranking_col_name}" />
+            <Label class="op-col-points" text="{s:ranking_col_points}" />
+            <Label class="op-col-kills" text="{s:ranking_col_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_col_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_col_kd}" />
+          </Panel>
+          <Panel id="op-rank-0" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_0_place}" />
+            <Label class="op-col-name" text="{s:ranking_0_name}" />
+            <Label class="op-col-points" text="{s:ranking_0_points}" />
+            <Label class="op-col-kills" text="{s:ranking_0_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_0_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_0_kd}" />
+          </Panel>
+          <Panel id="op-rank-1" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_1_place}" />
+            <Label class="op-col-name" text="{s:ranking_1_name}" />
+            <Label class="op-col-points" text="{s:ranking_1_points}" />
+            <Label class="op-col-kills" text="{s:ranking_1_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_1_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_1_kd}" />
+          </Panel>
+          <Panel id="op-rank-2" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_2_place}" />
+            <Label class="op-col-name" text="{s:ranking_2_name}" />
+            <Label class="op-col-points" text="{s:ranking_2_points}" />
+            <Label class="op-col-kills" text="{s:ranking_2_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_2_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_2_kd}" />
+          </Panel>
+          <Panel id="op-rank-3" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_3_place}" />
+            <Label class="op-col-name" text="{s:ranking_3_name}" />
+            <Label class="op-col-points" text="{s:ranking_3_points}" />
+            <Label class="op-col-kills" text="{s:ranking_3_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_3_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_3_kd}" />
+          </Panel>
+          <Panel id="op-rank-4" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_4_place}" />
+            <Label class="op-col-name" text="{s:ranking_4_name}" />
+            <Label class="op-col-points" text="{s:ranking_4_points}" />
+            <Label class="op-col-kills" text="{s:ranking_4_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_4_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_4_kd}" />
+          </Panel>
+          <Panel id="op-rank-5" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_5_place}" />
+            <Label class="op-col-name" text="{s:ranking_5_name}" />
+            <Label class="op-col-points" text="{s:ranking_5_points}" />
+            <Label class="op-col-kills" text="{s:ranking_5_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_5_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_5_kd}" />
+          </Panel>
+          <Panel id="op-rank-6" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_6_place}" />
+            <Label class="op-col-name" text="{s:ranking_6_name}" />
+            <Label class="op-col-points" text="{s:ranking_6_points}" />
+            <Label class="op-col-kills" text="{s:ranking_6_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_6_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_6_kd}" />
+          </Panel>
+          <Panel id="op-rank-7" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_7_place}" />
+            <Label class="op-col-name" text="{s:ranking_7_name}" />
+            <Label class="op-col-points" text="{s:ranking_7_points}" />
+            <Label class="op-col-kills" text="{s:ranking_7_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_7_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_7_kd}" />
+          </Panel>
+          <Panel id="op-rank-8" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_8_place}" />
+            <Label class="op-col-name" text="{s:ranking_8_name}" />
+            <Label class="op-col-points" text="{s:ranking_8_points}" />
+            <Label class="op-col-kills" text="{s:ranking_8_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_8_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_8_kd}" />
+          </Panel>
+          <Panel id="op-rank-9" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_9_place}" />
+            <Label class="op-col-name" text="{s:ranking_9_name}" />
+            <Label class="op-col-points" text="{s:ranking_9_points}" />
+            <Label class="op-col-kills" text="{s:ranking_9_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_9_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_9_kd}" />
+          </Panel>
+          <Panel id="op-rank-10" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_10_place}" />
+            <Label class="op-col-name" text="{s:ranking_10_name}" />
+            <Label class="op-col-points" text="{s:ranking_10_points}" />
+            <Label class="op-col-kills" text="{s:ranking_10_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_10_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_10_kd}" />
+          </Panel>
+          <Panel id="op-rank-11" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_11_place}" />
+            <Label class="op-col-name" text="{s:ranking_11_name}" />
+            <Label class="op-col-points" text="{s:ranking_11_points}" />
+            <Label class="op-col-kills" text="{s:ranking_11_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_11_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_11_kd}" />
+          </Panel>
+          <Panel id="op-rank-12" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_12_place}" />
+            <Label class="op-col-name" text="{s:ranking_12_name}" />
+            <Label class="op-col-points" text="{s:ranking_12_points}" />
+            <Label class="op-col-kills" text="{s:ranking_12_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_12_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_12_kd}" />
+          </Panel>
+          <Panel id="op-rank-13" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_13_place}" />
+            <Label class="op-col-name" text="{s:ranking_13_name}" />
+            <Label class="op-col-points" text="{s:ranking_13_points}" />
+            <Label class="op-col-kills" text="{s:ranking_13_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_13_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_13_kd}" />
+          </Panel>
+          <Panel id="op-rank-14" class="op-ranking-row op-hidden">
+            <Label class="op-col-place" text="{s:ranking_14_place}" />
+            <Label class="op-col-name" text="{s:ranking_14_name}" />
+            <Label class="op-col-points" text="{s:ranking_14_points}" />
+            <Label class="op-col-kills" text="{s:ranking_14_kills}" />
+            <Label class="op-col-deaths" text="{s:ranking_14_deaths}" />
+            <Label class="op-col-kd" text="{s:ranking_14_kd}" />
+          </Panel>
+        </Panel>
+        <Panel id="op-vip" class="op-view only-vip">
+          <Label class="op-title" text="{s:vip_title}" />
+          <Label class="op-copy" text="{s:vip_subtitle}" />
+          <Panel class="op-vip-grid">
+            <Panel id="op-vip-vip" class="op-vip-card op-vip">
+              <Label class="op-vip-name" text="{s:vip_vip_name}" />
+              <Label class="op-copy" text="{s:vip_vip_description}" />
+              <Label class="op-benefit" text="{s:vip_vip_benefit_0}" />
+              <Label class="op-benefit" text="{s:vip_vip_benefit_1}" />
+              <Label class="op-benefit" text="{s:vip_vip_benefit_2}" />
+              <Label class="op-benefit" text="{s:vip_vip_benefit_3}" />
+              <Label class="op-benefit" text="{s:vip_vip_benefit_4}" />
+              <Label class="op-benefit" text="{s:vip_vip_benefit_5}" />
+              <Label class="op-muted" text="{s:vip_vip_status}" />
+            </Panel>
+            <Panel id="op-vip-silver" class="op-vip-card op-silver">
+              <Label class="op-vip-name" text="{s:vip_silver_name}" />
+              <Label class="op-copy" text="{s:vip_silver_description}" />
+              <Label class="op-benefit" text="{s:vip_silver_benefit_0}" />
+              <Label class="op-benefit" text="{s:vip_silver_benefit_1}" />
+              <Label class="op-benefit" text="{s:vip_silver_benefit_2}" />
+              <Label class="op-benefit" text="{s:vip_silver_benefit_3}" />
+              <Label class="op-benefit" text="{s:vip_silver_benefit_4}" />
+              <Label class="op-benefit" text="{s:vip_silver_benefit_5}" />
+              <Label class="op-muted" text="{s:vip_silver_status}" />
+            </Panel>
+            <Panel id="op-vip-golden" class="op-vip-card op-golden">
+              <Label class="op-vip-name" text="{s:vip_golden_name}" />
+              <Label class="op-copy" text="{s:vip_golden_description}" />
+              <Label class="op-benefit" text="{s:vip_golden_benefit_0}" />
+              <Label class="op-benefit" text="{s:vip_golden_benefit_1}" />
+              <Label class="op-benefit" text="{s:vip_golden_benefit_2}" />
+              <Label class="op-benefit" text="{s:vip_golden_benefit_3}" />
+              <Label class="op-benefit" text="{s:vip_golden_benefit_4}" />
+              <Label class="op-benefit" text="{s:vip_golden_benefit_5}" />
+              <Label class="op-muted" text="{s:vip_golden_status}" />
+            </Panel>
+          </Panel>
+        </Panel>
+        <Panel id="op-rules" class="op-view only-rules">
+          <Label class="op-title" text="{s:rules_title}" />
+          <Label class="op-copy" text="{s:rules_subtitle}" />
+          <Panel id="op-rule-0" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:rule_0_title}" />
+            <Label class="op-copy" text="{s:rule_0_body}" />
+            <Label class="op-link" text="{s:rule_0_link}" />
+          </Panel>
+          <Panel id="op-rule-1" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:rule_1_title}" />
+            <Label class="op-copy" text="{s:rule_1_body}" />
+            <Label class="op-link" text="{s:rule_1_link}" />
+          </Panel>
+          <Panel id="op-rule-2" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:rule_2_title}" />
+            <Label class="op-copy" text="{s:rule_2_body}" />
+            <Label class="op-link" text="{s:rule_2_link}" />
+          </Panel>
+          <Panel id="op-rule-3" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:rule_3_title}" />
+            <Label class="op-copy" text="{s:rule_3_body}" />
+            <Label class="op-link" text="{s:rule_3_link}" />
+          </Panel>
+          <Panel id="op-rule-4" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:rule_4_title}" />
+            <Label class="op-copy" text="{s:rule_4_body}" />
+            <Label class="op-link" text="{s:rule_4_link}" />
+          </Panel>
+          <Panel id="op-rule-5" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:rule_5_title}" />
+            <Label class="op-copy" text="{s:rule_5_body}" />
+            <Label class="op-link" text="{s:rule_5_link}" />
+          </Panel>
+        </Panel>
+        <Panel id="op-custom" class="op-view only-custom">
+          <Label class="op-title" text="{s:custom_title}" />
+          <Label class="op-copy" text="{s:custom_subtitle}" />
+          <Panel id="op-custom_block-0" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:custom_block_0_title}" />
+            <Label class="op-copy" text="{s:custom_block_0_body}" />
+            <Label class="op-link" text="{s:custom_block_0_link}" />
+          </Panel>
+          <Panel id="op-custom_block-1" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:custom_block_1_title}" />
+            <Label class="op-copy" text="{s:custom_block_1_body}" />
+            <Label class="op-link" text="{s:custom_block_1_link}" />
+          </Panel>
+          <Panel id="op-custom_block-2" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:custom_block_2_title}" />
+            <Label class="op-copy" text="{s:custom_block_2_body}" />
+            <Label class="op-link" text="{s:custom_block_2_link}" />
+          </Panel>
+          <Panel id="op-custom_block-3" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:custom_block_3_title}" />
+            <Label class="op-copy" text="{s:custom_block_3_body}" />
+            <Label class="op-link" text="{s:custom_block_3_link}" />
+          </Panel>
+          <Panel id="op-custom_block-4" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:custom_block_4_title}" />
+            <Label class="op-copy" text="{s:custom_block_4_body}" />
+            <Label class="op-link" text="{s:custom_block_4_link}" />
+          </Panel>
+          <Panel id="op-custom_block-5" class="op-content-card op-hidden">
+            <Label class="op-card-title" text="{s:custom_block_5_title}" />
+            <Label class="op-copy" text="{s:custom_block_5_body}" />
+            <Label class="op-link" text="{s:custom_block_5_link}" />
+          </Panel>
+        </Panel>
+        <Panel id="op-commands" class="op-view only-commands">
+          <Label class="op-title" text="{s:commands_title}" />
+          <Label class="op-copy" text="{s:commands_subtitle}" />
+          <Button id="op-command-0" class="op-command-row op-hidden">
+            <Label class="op-label" text="{s:command_0_name}" />
+            <Label class="op-copy" text="{s:command_0_description}" />
+            <Label class="op-command-example" text="{s:command_0_example}" />
+          </Button>
+          <Button id="op-command-1" class="op-command-row op-hidden">
+            <Label class="op-label" text="{s:command_1_name}" />
+            <Label class="op-copy" text="{s:command_1_description}" />
+            <Label class="op-command-example" text="{s:command_1_example}" />
+          </Button>
+          <Button id="op-command-2" class="op-command-row op-hidden">
+            <Label class="op-label" text="{s:command_2_name}" />
+            <Label class="op-copy" text="{s:command_2_description}" />
+            <Label class="op-command-example" text="{s:command_2_example}" />
+          </Button>
+          <Button id="op-command-3" class="op-command-row op-hidden">
+            <Label class="op-label" text="{s:command_3_name}" />
+            <Label class="op-copy" text="{s:command_3_description}" />
+            <Label class="op-command-example" text="{s:command_3_example}" />
+          </Button>
+          <Button id="op-command-4" class="op-command-row op-hidden">
+            <Label class="op-label" text="{s:command_4_name}" />
+            <Label class="op-copy" text="{s:command_4_description}" />
+            <Label class="op-command-example" text="{s:command_4_example}" />
+          </Button>
+          <Button id="op-command-5" class="op-command-row op-hidden">
+            <Label class="op-label" text="{s:command_5_name}" />
+            <Label class="op-copy" text="{s:command_5_description}" />
+            <Label class="op-command-example" text="{s:command_5_example}" />
+          </Button>
+          <Button id="op-command-6" class="op-command-row op-hidden">
+            <Label class="op-label" text="{s:command_6_name}" />
+            <Label class="op-copy" text="{s:command_6_description}" />
+            <Label class="op-command-example" text="{s:command_6_example}" />
+          </Button>
+          <Button id="op-command-7" class="op-command-row op-hidden">
+            <Label class="op-label" text="{s:command_7_name}" />
+            <Label class="op-copy" text="{s:command_7_description}" />
+            <Label class="op-command-example" text="{s:command_7_example}" />
+          </Button>
+        </Panel>
+        <Panel id="op-settings" class="op-view only-settings">
+          <Label class="op-title" text="{s:settings_title}" />
+          <Label class="op-copy" text="{s:settings_subtitle}" />
+          <Panel class="op-setting-row">
+            <Panel class="op-setting-text">
+              <Label class="op-card-title" text="{s:setting_hint_title}" />
+              <Label class="op-copy" text="{s:setting_hint_description}" />
+            </Panel>
+            <Button id="op-setting-hint" class="op-toggle">
+              <Label class="op-label" text="{s:setting_hint_value}" />
+            </Button>
+          </Panel>
+          <Panel class="op-setting-row">
+            <Panel class="op-setting-text">
+              <Label class="op-card-title" text="{s:setting_hold_title}" />
+              <Label class="op-copy" text="{s:setting_hold_description}" />
+            </Panel>
+            <Button id="op-setting-hold" class="op-toggle">
+              <Label class="op-label" text="{s:setting_hold_value}" />
+            </Button>
+          </Panel>
+          <Panel class="op-setting-row">
+            <Panel class="op-setting-text">
+              <Label class="op-card-title" text="{s:setting_join_title}" />
+              <Label class="op-copy" text="{s:setting_join_description}" />
+            </Panel>
+            <Button id="op-setting-join" class="op-toggle">
+              <Label class="op-label" text="{s:setting_join_value}" />
+            </Button>
+          </Panel>
+          <Panel class="op-setting-row">
+            <Panel class="op-setting-text">
+              <Label class="op-card-title" text="{s:setting_delay_title}" />
+              <Label class="op-copy" text="{s:setting_delay_description}" />
+            </Panel>
+            <Panel class="op-stepper">
+              <Button id="op-delay-minus" class="op-button">
+                <Label class="op-label" text="{s:minus}" />
+              </Button>
+              <Label class="op-step-value" text="{s:setting_delay_value}" />
+              <Button id="op-delay-plus" class="op-button">
+                <Label class="op-label" text="{s:plus}" />
+              </Button>
+            </Panel>
+          </Panel>
+          <Label class="op-muted" text="{s:settings_saved}" />
+        </Panel>
+      </Panel>
+      <Panel class="op-footer">
+        <Label class="op-muted" text="{s:footer_hint}" />
+        <Panel id="op-pager" class="op-pager op-hidden">
+          <Button id="op-prev" class="op-button">
+            <Label class="op-label" text="{s:prev}" />
+          </Button>
+          <Label class="op-muted" text="{s:page_label}" />
+          <Button id="op-next" class="op-button">
+            <Label class="op-label" text="{s:next}" />
+          </Button>
+        </Panel>
+        <Label class="op-footer-brand" text="{s:footer_brand}" />
+      </Panel>
+    </Panel>
+  </Panel>
+</root>

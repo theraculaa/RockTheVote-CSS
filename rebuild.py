@@ -1,4 +1,4 @@
-"""Reproduce the 0.2.0 native package from the complete corresponding source tree."""
+"""Reproduce the 0.3.0 native package from the complete corresponding source tree."""
 from pathlib import Path
 import hashlib,json,os,shutil,subprocess,zipfile
 ROOT=Path(__file__).resolve().parent
@@ -25,11 +25,11 @@ def main():
   p=NATIVE/'OsnetSkinMenuApi/bin/Release/net10.0'/('OsnetSkinMenuApi'+suffix)
   if p.exists():shutil.copyfile(p,shared/p.name)
  gd=stage/'addons/counterstrikesharp/gamedata';gd.mkdir();shutil.copyfile(NATIVE/'OsnetSkins/gamedata/weaponskins.json',gd/'osnet-skins.json')
- archive(stage,ROOT/'OsnetSkins-v0.2.0.zip')
+ archive(stage,ROOT/'OsnetSkins-v0.3.0.zip')
  source=ROOT/'source-stage';shutil.rmtree(source,ignore_errors=True);source.mkdir()
  shutil.copytree(NATIVE,source/'native',ignore=shutil.ignore_patterns('bin','obj','__pycache__','*.log'))
  shutil.copyfile(ROOT/'rebuild.py',source/'rebuild.py')
- archive(source,ROOT/'OsnetSkins-v0.2.0-source.zip')
- (ROOT/'SHA256SUMS').write_text(''.join(hashlib.sha256((ROOT/name).read_bytes()).hexdigest()+'  '+name+'\n'for name in('OsnetSkins-v0.2.0.zip','OsnetSkins-v0.2.0-source.zip')))
+ archive(source,ROOT/'OsnetSkins-v0.3.0-source.zip')
+ (ROOT/'SHA256SUMS').write_text(''.join(hashlib.sha256((ROOT/name).read_bytes()).hexdigest()+'  '+name+'\n'for name in('OsnetSkins-v0.3.0.zip','OsnetSkins-v0.3.0-source.zip')))
  print((ROOT/'SHA256SUMS').read_text())
 if __name__=='__main__':main()

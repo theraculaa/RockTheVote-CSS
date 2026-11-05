@@ -15,7 +15,7 @@ public partial class Plugin {
   ["quick_rules"]="Sunucu kuralları",
   ["announcements_title"]="Sunucudan duyurular",
   ["skins_title"]="Envanterini kişiselleştir.",
-  ["skins_subtitle"]="Kategori seçerek mevcut skin menüsüne geçebilirsin.",
+  ["skins_subtitle"]="Silahını seç, skinini uygula. Bütün envanterin bu pencerenin içinde.",
   ["ranking_title"]="Sunucunun en iyileri.",
   ["ranking_subtitle"]="K4 Stats · Top 15 puan sıralaması",
   ["vip_title"]="VIP üyelik avantajları",

@@ -2,8 +2,8 @@
 from pathlib import Path
 import hashlib,io,shutil,subprocess,sys,urllib.request,zipfile
 ROOT=Path(__file__).resolve().parent
-URL='https://github.com/theraculaa/RockTheVote-CSS/releases/download/osnet-skins-v0.1.0-r1/OsnetSkins-v0.1.0-source.zip'
-SHA='dc96166bff24731da7c863cfa379e3e56f75370d0a8f58d8fd2f7294c3badf31'
+URL='https://github.com/theraculaa/RockTheVote-CSS/releases/download/osnet-skins-v0.2.0-r2/OsnetSkins-v0.2.0-source.zip'
+SHA='101ea824b355d775e37840583f417a8f498897fa6a1291db4975914297f5fdd6'
 def main():
  req=urllib.request.Request(URL,headers={'User-Agent':'OsnetPortal-build'})
  with urllib.request.urlopen(req,timeout=120)as f:b=f.read(64*1024*1024)
@@ -14,7 +14,8 @@ def main():
    path=Path(item.filename)
    if item.is_dir():continue
    if path.is_absolute()or'..'in path.parts:raise RuntimeError('Unsafe archive')
-   target=root/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(z.read(item))
+   if not path.parts or path.parts[0]!='native':continue
+   target=root/Path(*path.parts[1:]);target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(z.read(item))
  for p in(ROOT/'overlay').rglob('*'):
   if p.is_file():target=root/p.relative_to(ROOT/'overlay');target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,target)
  subprocess.run([sys.executable,str(ROOT/'rebuild.py')],check=True)

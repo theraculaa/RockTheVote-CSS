@@ -1,0 +1,1197 @@
+/* ============================================================
+   OsnetSkins locker
+   Window: 70% x 78% of the screen. Cards: five per row, fluid width.
+   Item pictures come from ws_art.css and ws_stickers.css (generated).
+   ============================================================ */
+
+.ws-screen
+{
+	width: 100%;
+	height: 100%;
+	z-index: 2000000000;
+}
+
+.ws-root
+{
+	width: 70%;
+	height: 78%;
+	horizontal-align: center;
+	vertical-align: middle;
+	flow-children: down;
+	padding: 18px 22px 10px 22px;
+	background-color: #f5f7fb;
+	border: 1px solid #3a4658;
+	border-radius: 14px;
+	box-shadow: #000000b0 0px 18px 48px 0px;
+	overflow: clip clip;
+}
+
+.ws-root.ws-hidden
+{
+	visibility: collapse;
+}
+
+.ws-off
+{
+	visibility: collapse;
+}
+
+/* ---------- views ---------- */
+
+.only-grid,
+.only-board,
+.only-stickers
+{
+	visibility: collapse;
+}
+
+.ws-root.view-grid .only-grid,
+.ws-root.view-board .only-board,
+.ws-root.show-stickers .only-stickers
+{
+	visibility: visible;
+}
+
+/* ---------- header ---------- */
+
+.ws-top
+{
+	width: 100%;
+	height: 84px;
+	flow-children: right;
+	overflow: clip noclip;
+	border-bottom: 1px solid #2a3443;
+}
+
+.ws-heading
+{
+	width: fill-parent-flow(1.0);
+	flow-children: down;
+	vertical-align: top;
+}
+
+.ws-brand
+{
+	color: #f0b93f;
+	font-size: 15px;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+}
+
+.ws-title
+{
+	color: #344159;
+	font-size: 32px;
+	letter-spacing: 1px;
+	margin-top: 2px;
+	text-transform: uppercase;
+	width: 100%;
+	text-overflow: shrink;
+}
+
+.ws-crumb
+{
+	color: #344159;
+	font-size: 16px;
+	width: 100%;
+	text-overflow: shrink;
+}
+
+.ws-tools
+{
+	flow-children: right;
+	horizontal-align: right;
+	vertical-align: top;
+	margin-top: 4px;
+}
+
+.ws-back
+{
+	height: 42px;
+	padding: 0px 20px;
+	margin-right: 10px;
+	background-color: #f2f5f9;
+	border: 2px solid #344155;
+	border-radius: 21px;
+	transition-property: brightness, transform;
+	transition-duration: 0.12s;
+	transition-timing-function: ease-out;
+}
+
+.ws-back:hover
+{
+	border: 2px solid #f0b93f;
+	brightness: 1.25;
+}
+
+.ws-back Label
+{
+	color: #344159;
+	font-size: 17px;
+	letter-spacing: 1px;
+	vertical-align: middle;
+}
+
+.ws-x
+{
+	width: 42px;
+	height: 42px;
+	background-color: #c93642;
+	border-radius: 21px;
+	transition-property: brightness, transform;
+	transition-duration: 0.12s;
+	transition-timing-function: ease-out;
+}
+
+.ws-x:hover
+{
+	background-color: #f2495a;
+	transform: scale3d(1.08, 1.08, 1);
+}
+
+.ws-x Label
+{
+	color: #344159;
+	font-size: 24px;
+	horizontal-align: center;
+	vertical-align: middle;
+}
+
+/* ---------- body ---------- */
+
+.ws-body
+{
+	width: 100%;
+	height: fill-parent-flow(1.0);
+	flow-children: right;
+	margin-top: 14px;
+}
+
+/* ---------- left column ---------- */
+
+.ws-rail
+{
+	width: 22%;
+	height: 100%;
+	flow-children: down;
+	margin-right: 18px;
+	overflow: clip noclip;
+}
+
+.ws-side
+{
+	width: 100%;
+	height: 100%;
+	flow-children: down;
+	overflow: noclip noclip;
+}
+
+.ws-cat
+{
+	width: 100%;
+	height: 68px;
+	margin-bottom: 8px;
+	flow-children: right;
+	padding: 9px 10px;
+	background-color: #f5f7fb;
+	border: 2px solid #253142;
+	border-radius: 10px;
+	transition-property: brightness, transform;
+	transition-duration: 0.12s;
+	transition-timing-function: ease-out;
+}
+
+.ws-cat:hover
+{
+	border: 2px solid #c9a15a;
+	brightness: 1.2;
+}
+
+.ws-root.cat-weapons #ws-cat-weapons,
+.ws-root.cat-knife #ws-cat-knife,
+.ws-root.cat-gloves #ws-cat-gloves,
+.ws-root.cat-agents #ws-cat-agents,
+.ws-root.cat-music #ws-cat-music,
+.ws-root.cat-pins #ws-cat-pins,
+.ws-root.cat-stickers #ws-cat-stickers
+{
+	border: 2px solid #f0b93f;
+	background-color: #f5f7fb;
+	box-shadow: #f0b93f40 0px 0px 12px 0px;
+}
+
+.ws-swatch
+{
+	width: 50px;
+	height: 50px;
+	border-radius: 8px;
+	margin-right: 12px;
+	vertical-align: middle;
+	background-size: 92% 69%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.ws-swatch-weapons { background-color: #f2f5f9; background-image: url("s2r://panorama/images/econ/weapons/base_weapons/weapon_ak47_png.vtex"); }
+.ws-swatch-knife { background-color: #f2f5f9; background-image: url("s2r://panorama/images/econ/weapons/base_weapons/weapon_knife_push_png.vtex"); }
+.ws-swatch-gloves { background-color: #f2f5f9; background-image: url("s2r://panorama/images/econ/wearables/gloves/ct_defaultgloves_png.vtex"); }
+.ws-swatch-agents { background-color: #f2f5f9; background-image: url("s2r://panorama/images/econ/characters/customplayer_tm_professional_varg_png.vtex"); }
+.ws-swatch-music { background-color: #f2f5f9; background-image: url("s2r://panorama/images/econ/music_kits/valve_cs2_01_png.vtex"); }
+.ws-swatch-pins { background-color: #f2f5f9; background-image: url("s2r://panorama/images/econ/status_icons/5yearcoin_png.vtex"); }
+.ws-swatch-stickers { background-color: #f2f5f9; background-image: url("s2r://panorama/images/econ/stickers/dreamhack/dh_gologo1_png.vtex"); }
+
+.ws-cat-text
+{
+	width: fill-parent-flow(1.0);
+	flow-children: down;
+	vertical-align: middle;
+}
+
+.ws-cat-name
+{
+	color: #344159;
+	font-size: 18px;
+	letter-spacing: 1px;
+	width: 100%;
+	text-overflow: shrink;
+}
+
+.ws-root.cat-weapons #ws-cat-weapons .ws-cat-name,
+.ws-root.cat-knife #ws-cat-knife .ws-cat-name,
+.ws-root.cat-gloves #ws-cat-gloves .ws-cat-name,
+.ws-root.cat-agents #ws-cat-agents .ws-cat-name,
+.ws-root.cat-music #ws-cat-music .ws-cat-name,
+.ws-root.cat-pins #ws-cat-pins .ws-cat-name,
+.ws-root.cat-stickers #ws-cat-stickers .ws-cat-name
+{
+	color: #f0b93f;
+}
+
+.ws-cat-sub
+{
+	color: #344159;
+	font-size: 14px;
+	margin-top: 2px;
+	width: 100%;
+	height: 20px;
+	text-overflow: shrink;
+}
+
+/* ---------- main column ---------- */
+
+.ws-main
+{
+	width: fill-parent-flow(1.0);
+	height: 100%;
+	flow-children: down;
+	overflow: clip noclip;
+}
+
+.ws-grid
+{
+	width: 100%;
+	height: fill-parent-flow(1.0);
+	flow-children: down;
+	overflow: clip scroll;
+	padding-top: 4px;
+}
+
+.ws-cards
+{
+	width: 100%;
+	flow-children: right;
+	overflow: noclip noclip;
+}
+
+/* a page turn sends the scroll bar of the grid back to the top: the plugin switches the grid off for a moment (StartFlip) */
+.ws-root.ws-flip .ws-grid
+{
+	overflow: clip clip;
+}
+
+.ws-root.ws-flip .ws-cards
+{
+	visibility: collapse;
+}
+
+/* ---------- item cards ---------- */
+
+.ws-card
+{
+	width: fill-parent-flow(1.0);
+	height: 206px;
+	margin: 0px 8px 10px 0px;
+	flow-children: down;
+	background-color: #f5f7fb;
+	border: 2px solid #2b3446;
+	border-radius: 10px;
+	transition-property: transform, brightness, box-shadow;
+	transition-duration: 0.12s;
+	transition-timing-function: ease-out;
+}
+
+.ws-card:last-child
+{
+	margin-right: 0px;
+}
+
+.ws-card:hover
+{
+	brightness: 1.18;
+}
+
+.ws-card.ws-dis
+{
+	opacity: 0.55;
+}
+
+/* empty cell of the last row: keeps the five column widths. After .ws-dis, so a cell that used to hold a disabled card stays invisible */
+.ws-card.ws-ghost
+{
+	opacity: 0;
+}
+
+.ws-art
+{
+	width: 128px;
+	height: 96px;
+	horizontal-align: center;
+	margin-top: 28px;
+	margin-bottom: 2px;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.ws-art-in
+{
+	width: 100%;
+	height: 100%;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.ws-card.ws-noart .ws-art
+{
+	opacity: 0;
+}
+
+.ws-bar
+{
+	width: 84%;
+	height: 3px;
+	horizontal-align: center;
+	margin-top: 6px;
+	background-color: #6c7686;
+	border-radius: 2px;
+}
+
+.ws-name
+{
+	color: #344159;
+	font-size: 15px;
+	horizontal-align: center;
+	margin-top: 6px;
+	text-align: center;
+	width: 92%;
+	height: 38px;
+	white-space: normal;
+	text-overflow: shrink;
+}
+
+.ws-sub
+{
+	color: #344159;
+	font-size: 13px;
+	letter-spacing: 1px;
+	horizontal-align: center;
+	margin-top: 2px;
+	text-align: center;
+	width: 92%;
+	height: 19px;
+	text-overflow: shrink;
+	text-transform: uppercase;
+}
+
+/* rarity: frame, bottom tint, bar and the rarity line */
+.ws-card.rar-1 { border: 2px solid #b0c3d9a0; background-color: #f5f7fb; }
+.ws-card.rar-2 { border: 2px solid #5e98d9a0; background-color: #f5f7fb; }
+.ws-card.rar-3 { border: 2px solid #4b69ffa0; background-color: #f5f7fb; }
+.ws-card.rar-4 { border: 2px solid #8847ffa0; background-color: #f5f7fb; }
+.ws-card.rar-5 { border: 2px solid #d32ce6a0; background-color: #f5f7fb; }
+.ws-card.rar-6 { border: 2px solid #eb4b4ba0; background-color: #f5f7fb; }
+.ws-card.rar-7 { border: 2px solid #e4ae39a0; background-color: #f5f7fb; }
+
+.ws-card.rar-1 .ws-bar { background-color: #b0c3d9; }
+.ws-card.rar-2 .ws-bar { background-color: #5e98d9; }
+.ws-card.rar-3 .ws-bar { background-color: #4b69ff; }
+.ws-card.rar-4 .ws-bar { background-color: #8847ff; }
+.ws-card.rar-5 .ws-bar { background-color: #d32ce6; }
+.ws-card.rar-6 .ws-bar { background-color: #eb4b4b; }
+.ws-card.rar-7 .ws-bar { background-color: #e4ae39; }
+
+.ws-card.rar-1 .ws-sub { color: #344159; }
+.ws-card.rar-2 .ws-sub { color: #344159; }
+.ws-card.rar-3 .ws-sub { color: #8197ff; }
+.ws-card.rar-4 .ws-sub { color: #344159; }
+.ws-card.rar-5 .ws-sub { color: #e47bef; }
+.ws-card.rar-6 .ws-sub { color: #344159; }
+.ws-card.rar-7 .ws-sub { color: #efc874; }
+
+.ws-card.rar-1:hover { border: 2px solid #b0c3d9; }
+.ws-card.rar-2:hover { border: 2px solid #5e98d9; }
+.ws-card.rar-3:hover { border: 2px solid #4b69ff; }
+.ws-card.rar-4:hover { border: 2px solid #8847ff; }
+.ws-card.rar-5:hover { border: 2px solid #d32ce6; }
+.ws-card.rar-6:hover { border: 2px solid #eb4b4b; }
+.ws-card.rar-7:hover { border: 2px solid #e4ae39; }
+
+.ws-card.is-stock:hover
+{
+	border: 2px solid #8a94a4;
+}
+
+/* equipped for the team the player stands in: the frame takes the team colour */
+.ws-root.team-t .ws-card.is-eq
+{
+	border: 2px solid #f0b93f;
+	background-color: #f5f7fb;
+	box-shadow: #f0b93f50 0px 0px 14px 0px;
+}
+
+.ws-root.team-ct .ws-card.is-eq
+{
+	border: 2px solid #4f9cff;
+	background-color: #f5f7fb;
+	box-shadow: #4f9cff50 0px 0px 14px 0px;
+}
+
+.ws-root.team-t .ws-card.is-eq .ws-bar { background-color: #f0b93f; }
+.ws-root.team-ct .ws-card.is-eq .ws-bar { background-color: #4f9cff; }
+.ws-root.team-t .ws-card.is-eq .ws-name { color: #f0b93f; }
+.ws-root.team-ct .ws-card.is-eq .ws-name { color: #344159; }
+
+/* T / CT dots, top left: filled = this item is equipped for that team */
+.ws-dots
+{
+	ignore-parent-flow: true;
+	horizontal-align: left;
+	vertical-align: top;
+	margin: 7px;
+	flow-children: right;
+}
+
+.ws-dot
+{
+	width: 24px;
+	height: 24px;
+	margin-right: 4px;
+	border-radius: 12px;
+	border: 2px solid #4a5568;
+	background-color: #f2f5f9;
+}
+
+.ws-dot Label
+{
+	color: #6c7686;
+	font-size: 10px;
+	horizontal-align: center;
+	vertical-align: center;
+}
+
+.ws-card.on-t .ws-dot-t
+{
+	border: 2px solid #f0b93f;
+	background-color: #f0b93f;
+	box-shadow: #f0b93f80 0px 0px 6px 0px;
+}
+
+.ws-card.on-t .ws-dot-t Label
+{
+	color: #1a1408;
+}
+
+.ws-card.on-ct .ws-dot-ct
+{
+	border: 2px solid #4f9cff;
+	background-color: #4f9cff;
+	box-shadow: #4f9cff80 0px 0px 6px 0px;
+}
+
+.ws-card.on-ct .ws-dot-ct Label
+{
+	color: #344159;
+}
+
+/* EQUIPPED badge, top right, in the team colour */
+.ws-badge
+{
+	visibility: collapse;
+	ignore-parent-flow: true;
+	horizontal-align: right;
+	vertical-align: top;
+	margin: 8px;
+	padding: 3px 8px;
+	background-color: #f0b93f;
+	border-radius: 4px;
+}
+
+.ws-root.team-ct .ws-badge
+{
+	background-color: #4f9cff;
+}
+
+.ws-badge Label
+{
+	color: #1a1408;
+	font-size: 11px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+.ws-root.team-ct .ws-badge Label
+{
+	color: #344159;
+}
+
+.ws-card.is-eq .ws-badge
+{
+	visibility: visible;
+}
+
+/* cards that only lead somewhere (weapon categories) show no equipped marks */
+.ws-card.ws-plain .ws-dots,
+.ws-card.ws-plain .ws-badge
+{
+	visibility: collapse;
+}
+
+/* ---------- board: preview on the left, option rows on the right ---------- */
+
+.ws-board
+{
+	width: 100%;
+	height: fill-parent-flow(1.0);
+	flow-children: right;
+	padding-top: 4px;
+}
+
+.ws-pv
+{
+	width: 40%;
+	height: 100%;
+	flow-children: down;
+	margin-right: 16px;
+	padding: 16px 14px;
+	background-color: #f5f7fb;
+	border: 2px solid #2c3848;
+	border-radius: 12px;
+}
+
+.ws-pv-art
+{
+	width: 267px;
+	height: 200px;
+	horizontal-align: center;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.ws-pv-bar
+{
+	width: 84%;
+	height: 3px;
+	horizontal-align: center;
+	margin-top: 8px;
+	background-color: #6c7686;
+	border-radius: 2px;
+}
+
+.ws-pv-title
+{
+	color: #344159;
+	font-size: 24px;
+	margin-top: 10px;
+	width: 100%;
+	text-align: center;
+	text-overflow: shrink;
+}
+
+.ws-pv-sub
+{
+	color: #344159;
+	font-size: 15px;
+	letter-spacing: 1px;
+	margin-top: 2px;
+	width: 100%;
+	text-align: center;
+	text-overflow: shrink;
+	text-transform: uppercase;
+}
+
+.ws-pv-lines
+{
+	width: 100%;
+	flow-children: down;
+	margin-top: 12px;
+}
+
+.ws-pv-line
+{
+	color: #344159;
+	font-size: 16px;
+	width: 100%;
+	height: 22px;
+	text-align: center;
+	text-overflow: shrink;
+}
+
+/* four equal squares, two by two, with the "All" button under them */
+.ws-pv-stickers
+{
+	width: 188px;
+	height: 108px;
+	horizontal-align: center;
+	margin-top: 10px;
+	flow-children: down;
+}
+
+.ws-pv-strow
+{
+	width: 184px;
+	height: 54px;
+	horizontal-align: center;
+	flow-children: right;
+}
+
+/* the sticker class goes on the button, the same way as on the rail swatches */
+.ws-pv-st
+{
+	width: 84px;
+	height: 48px;
+	margin: 3px 4px;
+	background-color: #f2f5f9;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	border: 2px solid #2c3848;
+	border-radius: 6px;
+}
+
+.ws-pv-st.has-art
+{
+	border: 2px solid #f0b93f;
+}
+
+/* clickable only where a click can open the sticker menu (see Plugin.OpenStickerSlot) */
+.ws-root.st-live .ws-pv-st:hover
+{
+	border: 2px solid #ffffff;
+	brightness: 1.3;
+}
+
+/* "All" fills slots 1 to 4 at once. Only the sticker slots board has it (the plugin sets st-all) */
+.ws-pv-all
+{
+	visibility: collapse;
+	width: 176px;
+	height: 44px;
+	horizontal-align: center;
+	margin-top: 2px;
+	background-color: #f5f7fb;
+	border: 2px solid #2b3446;
+	border-radius: 10px;
+	transition-property: brightness;
+	transition-duration: 0.12s;
+}
+
+.ws-root.show-stickers.st-all .ws-pv-all
+{
+	visibility: visible;
+}
+
+.ws-pv-all:hover
+{
+	border: 2px solid #c9a15a;
+	brightness: 1.2;
+}
+
+.ws-pv-alltext
+{
+	width: 100%;
+	color: #344159;
+	font-size: 19px;
+	text-align: center;
+	vertical-align: middle;
+	text-overflow: shrink;
+}
+
+.ws-pv-stn
+{
+	ignore-parent-flow: true;
+	color: #344159;
+	font-size: 11px;
+	horizontal-align: left;
+	vertical-align: top;
+	margin: 1px 4px;
+}
+
+/* the preview takes the rarity colour of the item */
+.ws-pv.rar-1 { border: 2px solid #b0c3d9a0; }
+.ws-pv.rar-2 { border: 2px solid #5e98d9a0; }
+.ws-pv.rar-3 { border: 2px solid #4b69ffa0; }
+.ws-pv.rar-4 { border: 2px solid #8847ffa0; }
+.ws-pv.rar-5 { border: 2px solid #d32ce6a0; }
+.ws-pv.rar-6 { border: 2px solid #eb4b4ba0; }
+.ws-pv.rar-7 { border: 2px solid #e4ae39a0; }
+
+.ws-pv.rar-1 .ws-pv-bar { background-color: #b0c3d9; }
+.ws-pv.rar-2 .ws-pv-bar { background-color: #5e98d9; }
+.ws-pv.rar-3 .ws-pv-bar { background-color: #4b69ff; }
+.ws-pv.rar-4 .ws-pv-bar { background-color: #8847ff; }
+.ws-pv.rar-5 .ws-pv-bar { background-color: #d32ce6; }
+.ws-pv.rar-6 .ws-pv-bar { background-color: #eb4b4b; }
+.ws-pv.rar-7 .ws-pv-bar { background-color: #e4ae39; }
+
+.ws-rows
+{
+	width: fill-parent-flow(1.0);
+	height: 100%;
+	flow-children: down;
+	overflow: clip scroll;
+}
+
+.ws-row
+{
+	width: 100%;
+	height: 58px;
+	margin-bottom: 8px;
+	padding: 0px 14px 0px 10px;
+	flow-children: right;
+	background-color: #f5f7fb;
+	border: 2px solid #2b3446;
+	border-radius: 10px;
+	transition-property: brightness, transform;
+	transition-duration: 0.12s;
+	transition-timing-function: ease-out;
+}
+
+.ws-row:hover
+{
+	border: 2px solid #c9a15a;
+	brightness: 1.2;
+}
+
+.ws-row.is-eq
+{
+	border: 2px solid #f0b93f;
+	background-color: #f5f7fb;
+}
+
+.ws-row.ws-dis
+{
+	opacity: 0.5;
+}
+
+.ws-rart
+{
+	visibility: collapse;
+	width: 64px;
+	height: 48px;
+	vertical-align: middle;
+	margin-right: 12px;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.ws-row.has-art .ws-rart
+{
+	visibility: visible;
+}
+
+/* name above, value below: a column that fills the row, like the text of the rail buttons */
+.ws-rtext
+{
+	width: fill-parent-flow(1.0);
+	flow-children: down;
+	vertical-align: middle;
+}
+
+.ws-rname
+{
+	width: 100%;
+	color: #344159;
+	font-size: 19px;
+	text-overflow: shrink;
+}
+
+/* rows that are only a name (search, remove) */
+.ws-row.is-center .ws-rname
+{
+	text-align: center;
+}
+
+.ws-row.is-center .ws-rarrow
+{
+	visibility: collapse;
+}
+
+.ws-rval
+{
+	visibility: collapse;
+	width: 100%;
+	height: 20px;
+	margin-top: 1px;
+	color: #344159;
+	font-size: 15px;
+	text-overflow: shrink;
+}
+
+.ws-row.has-val .ws-rval
+{
+	visibility: visible;
+}
+
+.ws-row.is-on .ws-rval
+{
+	color: #6fe08a;
+}
+
+.ws-row.is-off .ws-rval
+{
+	color: #344159;
+}
+
+.ws-rarrow
+{
+	vertical-align: middle;
+	margin-left: 12px;
+	color: #6c7686;
+	font-size: 26px;
+}
+
+/* ---------- prompt: the player types the answer in the chat ---------- */
+
+.ws-prompt
+{
+	visibility: collapse;
+	ignore-parent-flow: true;
+	width: 100%;
+	height: 100%;
+	background-color: #f2f5f9;
+	border-radius: 12px;
+}
+
+.ws-root.prompting .ws-prompt
+{
+	visibility: visible;
+}
+
+.ws-prompt-box
+{
+	width: 78%;
+	horizontal-align: center;
+	vertical-align: middle;
+	flow-children: down;
+	padding: 26px 30px;
+	background-color: #f5f7fb;
+	border: 2px solid #f0b93f;
+	border-radius: 14px;
+	box-shadow: #f0b93f30 0px 0px 24px 0px;
+}
+
+.ws-prompt-title
+{
+	color: #f0b93f;
+	font-size: 20px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	horizontal-align: center;
+}
+
+.ws-prompt-text
+{
+	color: #344159;
+	font-size: 26px;
+	margin-top: 12px;
+	width: 100%;
+	text-align: center;
+	white-space: normal;
+	text-overflow: shrink;
+}
+
+.ws-prompt-hint
+{
+	color: #344159;
+	font-size: 17px;
+	margin-top: 14px;
+	width: 100%;
+	text-align: center;
+	white-space: normal;
+	text-overflow: shrink;
+}
+
+/* ---------- footer ---------- */
+
+.ws-foot
+{
+	width: 100%;
+	height: 44px;
+	margin-top: 6px;
+	flow-children: right;
+	border-top: 1px solid #2a3443;
+	padding-top: 4px;
+}
+
+/* the hint stays at the left, the pager sits in the middle of the card area: the spacer is as wide as the rail and the gap */
+.ws-hint
+{
+	ignore-parent-flow: true;
+	width: 36%;
+	horizontal-align: left;
+	color: #344159;
+	font-size: 16px;
+	vertical-align: middle;
+	text-overflow: shrink;
+}
+
+.ws-foot-pad
+{
+	width: 22%;
+	height: 100%;
+	margin-right: 18px;
+}
+
+.ws-foot-main
+{
+	width: fill-parent-flow(1.0);
+	height: 100%;
+}
+
+.ws-pager
+{
+	visibility: collapse;
+	flow-children: right;
+	horizontal-align: center;
+	vertical-align: middle;
+	margin-right: 6px;
+}
+
+.ws-root.multi-page .ws-pager
+{
+	visibility: visible;
+}
+
+.ws-page,
+.ws-num
+{
+	width: 36px;
+	height: 36px;
+	margin-left: 6px;
+	background-color: #f2f5f9;
+	border: 2px solid #2b3446;
+	border-radius: 8px;
+	transition-property: brightness;
+	transition-duration: 0.12s;
+}
+
+.ws-page:hover,
+.ws-num:hover
+{
+	border: 2px solid #c9a15a;
+	brightness: 1.25;
+}
+
+.ws-page.ws-dim
+{
+	opacity: 0.35;
+}
+
+.ws-num.is-cur
+{
+	background-color: #f0b93f;
+	border: 2px solid #f0b93f;
+}
+
+.ws-num.is-cur Label
+{
+	color: #1a1408;
+}
+
+.ws-page Label,
+.ws-num Label
+{
+	color: #344159;
+	font-size: 17px;
+	horizontal-align: center;
+	vertical-align: middle;
+}
+
+/* ---------- default items: game pictures, and our own for "no music" and "no pin" ---------- */
+
+.gl-def-t { background-image: url("s2r://panorama/images/econ/wearables/gloves/t_defaultgloves_png.vtex"); }
+.gl-def-ct { background-image: url("s2r://panorama/images/econ/wearables/gloves/ct_defaultgloves_png.vtex"); }
+.ag-def-t { background-image: url("s2r://panorama/images/econ/characters/customplayer_t_map_based_png.vtex"); }
+.ag-def-ct { background-image: url("s2r://panorama/images/econ/characters/customplayer_ct_map_based_png.vtex"); }
+.bw-knife { background-image: url("s2r://panorama/images/econ/weapons/base_weapons/weapon_knife_png.vtex"); }
+.mk-none { background-image: url("s2r://panorama/images/custom_game/ws_music_none_png.vtex"); }
+.pn-none { background-image: url("s2r://panorama/images/custom_game/ws_pin_none_png.vtex"); }
+.ws-folder { background-image: url("s2r://panorama/images/custom_game/ws_folder_png.vtex"); }
+
+/* OyunServerim.NET portal layout draft 1.0. Requires Source 2 compilation.
+   Root views are controlled server-side; no client scripts or console inputs. */
+.op-screen { width:100%; height:100%; }
+.op-window { width:91%; height:87%; horizontal-align:center; vertical-align:middle; background-color:#ffffffff; border:1px solid #e5e9f0; border-radius:8px; flow-children:down; box-shadow:#000000a0 0px 12px 45px 0px; }
+.op-hidden { visibility:collapse; }
+.op-header { width:100%; height:82px; padding:16px 24px; flow-children:right; border-bottom:1px solid #e5e9f0; }
+.op-brand { flow-children:right; vertical-align:middle; }
+.op-brand Label { font-family:Arial; font-size:25px; font-weight:bold; color:#202b3b; }
+.op-brand .op-orange { color:#ff762e; }
+.op-server { color:#7c8798; font-family:Arial; font-size:17px; margin-left:28px; vertical-align:middle; width:fill-parent-flow(1); text-overflow:ellipsis; }
+.op-profile { flow-children:down; vertical-align:middle; margin-right:24px; }
+.op-label { color:#202b3b; font-family:Arial; font-size:18px; vertical-align:middle; }
+.op-muted { color:#788497; font-family:Arial; font-size:15px; }
+.op-close { width:40px; height:40px; border:1px solid #454851; border-radius:5px; vertical-align:middle; }
+.op-close Label { horizontal-align:center; vertical-align:middle; font-size:24px; color:#6d798c; }
+.op-close:hover { background-color:#e5e9f0; }
+.op-nav { width:100%; height:65px; flow-children:right; padding:0px 24px; border-bottom:1px solid #e5e9f0; }
+.op-tab { width:fill-parent-flow(1); height:100%; border-bottom:3px solid #00000000; }
+.op-tab Label { horizontal-align:center; vertical-align:middle; color:#6d798c; font-size:19px; font-family:Arial; }
+.op-tab.is-active { background-color:#ff762e10; border-bottom-color:#ff762e; }
+.op-tab.is-active Label { color:#283447; }
+.op-tab:hover Label { color:#283447; }
+.op-tab-arrow { width:32px; height:100%; }
+.op-tab-arrow Label { horizontal-align:center; vertical-align:middle; font-size:22px; color:#ff762e; }
+.op-body { width:100%; height:fill-parent-flow(1); padding:27px 32px; overflow:squish scroll; }
+.op-view { width:100%; flow-children:down; visibility:collapse; }
+.view-intro .only-intro,.view-skins .only-skins,.view-ranking .only-ranking,.view-vip .only-vip,.view-rules .only-rules,.view-commands .only-commands,.view-settings .only-settings,.view-custom .only-custom { visibility:visible; }
+.op-title { font-family:Arial; font-size:30px; font-weight:bold; color:#202b3b; margin-bottom:8px; }
+.op-kicker { font-family:Arial; font-size:15px; letter-spacing:2px; color:#ea6a25; margin-top:4px; margin-bottom:15px; }
+.op-hero-title { font-family:Arial; font-size:46px; font-weight:bold; color:#202b3b; margin-bottom:16px; }
+.op-hero-body { font-family:Arial; font-size:21px; line-height:29px; color:#6d798c; width:85%; white-space:normal; }
+.op-quick { width:100%; flow-children:right; margin-top:24px; margin-bottom:24px; }
+.op-quick-button { width:fill-parent-flow(1); height:72px; background-color:#ffffff; margin-right:14px; border:1px solid #e4e9f1; border-radius:6px; padding:18px; }
+.op-quick-button:hover { border-color:#ff762e; }
+.op-section-title { font-family:Arial; font-size:19px; font-weight:bold; color:#202b3b; margin-top:12px; margin-bottom:10px; }
+.op-content-card { width:100%; flow-children:down; background-color:#ffffff; border:1px solid #e4e9f1; border-radius:5px; padding:16px 20px; margin-top:12px; }
+.op-card-title { font-family:Arial; font-size:21px; color:#202b3b; font-weight:bold; margin-bottom:7px; }
+.op-copy { color:#617086; font-family:Arial; font-size:18px; line-height:25px; width:100%; white-space:normal; }
+.op-link { color:#e76621; font-family:Arial; font-size:16px; margin-top:7px; }
+.op-skin-grid { width:100%; flow-children:right-wrap; margin-top:24px; }
+.op-skin-card { width:30%; height:120px; margin-right:2%; margin-bottom:18px; padding:22px; background-color:#ffffff; border:1px solid #e4e9f1; border-radius:7px; flow-children:down; }
+.op-skin-card:hover { border-color:#ff762e; background-color:#fff3eb; }
+.op-skin-card .op-label { font-weight:bold; font-size:23px; }
+.op-skin-card .op-muted { margin-top:10px; width:100%; white-space:normal; }
+.op-self { width:100%; flow-children:right; background-color:#ff762e0d; border:1px solid #ff762e50; padding:16px; margin-top:18px; margin-bottom:18px; }
+.op-stat { width:fill-parent-flow(1); color:#e76621; font-size:20px; font-family:Arial; }
+.op-ranking-head,.op-ranking-row { width:100%; flow-children:right; padding:9px 14px; border-bottom:1px solid #e5e9f0; }
+.op-ranking-head Label { color:#939ba8; font-size:15px; font-family:Arial; }
+.op-ranking-row Label { color:#344159; font-size:18px; font-family:Arial; }
+.op-ranking-row.is-self { background-color:#ff762e15; }
+.op-col-place { width:7%; }
+.op-col-name { width:43%; text-overflow:ellipsis; }
+.op-col-points { width:17%; }
+.op-col-kills,.op-col-deaths,.op-col-kd { width:11%; }
+.op-empty { font-family:Arial; font-size:18px; color:#788497; margin-top:20px; margin-bottom:16px; width:100%; white-space:normal; }
+.op-vip-grid { width:100%; flow-children:right; margin-top:28px; }
+.op-vip-card { width:fill-parent-flow(1); margin-right:18px; padding:25px; flow-children:down; background-color:#ffffff; border:1px solid #e4e9f1; border-top:3px solid #6a9bff; border-radius:6px; }
+.op-vip-name { color:#86b0ff; font-family:Arial; font-size:30px; font-weight:bold; margin-bottom:18px; }
+.op-silver { border-top-color:#c3cbd7; }
+.op-silver .op-vip-name { color:#dce2eb; }
+.op-golden { border-top-color:#e6b64e; }
+.op-golden .op-vip-name { color:#efc66a; }
+.op-benefit { width:100%; white-space:normal; color:#526078; font-family:Arial; font-size:18px; margin-top:20px; }
+.op-vip-card .op-muted { margin-top:24px; width:100%; white-space:normal; }
+.op-command-row { width:100%; padding:12px 16px; margin-top:10px; background-color:#ffffff; border:1px solid #edf0f5; border-radius:5px; flow-children:down; }
+.op-command-row .op-label { color:#e76621; font-weight:bold; }
+.op-command-example { color:#969faa; font-family:Arial; font-size:15px; margin-top:6px; }
+.op-command-row:hover { border-color:#ff762e; }
+.op-setting-row { width:100%; flow-children:right; padding:24px 0px; border-bottom:1px solid #e5e9f0; }
+.op-setting-text { width:fill-parent-flow(1); flow-children:down; padding-right:24px; }
+.op-toggle { vertical-align:middle; width:106px; height:37px; background-color:#edf0f5; border:1px solid #dbe2ec; border-radius:5px; }
+.op-toggle.is-on { background-color:#ff762e; border-color:#ff762e; }
+.op-toggle Label { horizontal-align:center; vertical-align:middle; }
+.op-stepper { vertical-align:middle; flow-children:right; }
+.op-step-value { width:80px; color:#202b3b; font-family:Arial; font-size:20px; text-align:center; vertical-align:middle; }
+.op-button { padding:7px 14px; border:1px solid #dde4ee; border-radius:4px; }
+.op-button:hover { background-color:#fff3eb; }
+.op-footer { width:100%; height:50px; flow-children:right; padding:10px 25px; border-top:1px solid #e5e9f0; }
+.op-footer .op-muted { vertical-align:middle; }
+.op-pager { flow-children:right; horizontal-align:center; }
+.op-pager .op-muted { margin-left:15px; margin-right:15px; }
+.op-footer-brand { font-family:Arial; font-size:15px; color:#808895; text-align:right; width:fill-parent-flow(1); vertical-align:middle; }
+.op-hint { horizontal-align:right; vertical-align:middle; margin-right:22px; background-color:#ffffffee; border:1px solid #ff762e70; border-radius:6px; padding:12px 18px; flow-children:right; }
+.op-key { font-family:Arial; font-weight:bold; font-size:24px; color:#283447; padding:5px 10px; border:1px solid #ff762e; border-radius:4px; margin-right:12px; }
+.op-stack { flow-children:down; vertical-align:middle; }
+
+/* Portal v3: permanent light shell, orange accents, embedded native inventory. */
+.op-window { width:92%; height:89%; background-color:#f7f9fc; border:1px solid #ffffff; border-radius:12px; box-shadow:#00000055 0px 16px 55px 0px; }
+.op-header { background-color:#ffffff; height:78px; }
+.op-brand Label { font-size:26px; color:#263247; }
+.op-brand .op-orange { color:#ff762e; }
+.op-nav { background-color:#ffffff; height:60px; padding:0px 24px; }
+.op-tab { margin:6px 4px; height:48px; border-radius:7px; border-bottom:0px; }
+.op-tab.is-active { background-color:#ff762e; }
+.op-tab.is-active Label { color:#ffffff; font-weight:bold; }
+.op-tab:hover { background-color:#fff0e5; }
+.op-tab.is-active:hover { background-color:#ed6823; }
+.op-tab:hover Label { color:#e76621; }
+.op-tab.is-active:hover Label { color:#ffffff; }
+.op-body { padding:24px 28px; }
+.op-hero-title { font-size:44px; color:#223047; }
+.op-hero-body { color:#62718a; font-size:20px; }
+.op-quick-button { background-color:#ffffff; border:1px solid #e2e8f1; border-left:4px solid #ff762e; border-radius:9px; height:80px; }
+.op-quick-button:hover { background-color:#fff3eb; }
+.op-content-card { border-radius:8px; }
+.op-vip-card { border-radius:10px; }
+.op-silver .op-vip-name { color:#65758c; }
+.op-golden .op-vip-name { color:#b7831c; }
+.op-toggle.is-on Label { color:#ffffff; }
+.op-close Label { color:#738199; }
+.op-close:hover { background-color:#fff0e5; }
+.op-footer { background-color:#ffffff; }
+.op-hint { horizontal-align:right; vertical-align:middle; margin-right:12px; width:46px; height:46px; padding:0px; border:0px; background-color:#ffffffdd; border-radius:23px; flow-children:none; box-shadow:#00000030 0px 3px 10px 0px; }
+.op-key { padding:0px; margin:0px; width:28px; height:28px; horizontal-align:center; vertical-align:middle; color:#e96e28; background-color:#ffffff; border:1px solid #ff762e60; border-radius:7px; text-align:center; font-family:Arial; font-size:20px; font-weight:bold; }
+.op-hold-segment { width:3px; height:6px; background-color:#ff762e20; visibility:collapse; border-radius:1px; }
+.op-hint.is-holding .op-hold-segment { visibility:visible; }
+.op-hold-segment.is-filled { background-color:#ff762e; }
+.op-view.only-skins { height:100%; }
+.op-segment-0 { position:21.50px 1.00px 0px; transform:rotateZ(0.0deg); }
+.op-segment-1 { position:28.77px 2.45px 0px; transform:rotateZ(22.5deg); }
+.op-segment-2 { position:34.94px 6.56px 0px; transform:rotateZ(45.0deg); }
+.op-segment-3 { position:39.05px 12.73px 0px; transform:rotateZ(67.5deg); }
+.op-segment-4 { position:40.50px 20.00px 0px; transform:rotateZ(90.0deg); }
+.op-segment-5 { position:39.05px 27.27px 0px; transform:rotateZ(112.5deg); }
+.op-segment-6 { position:34.94px 33.44px 0px; transform:rotateZ(135.0deg); }
+.op-segment-7 { position:28.77px 37.55px 0px; transform:rotateZ(157.5deg); }
+.op-segment-8 { position:21.50px 39.00px 0px; transform:rotateZ(180.0deg); }
+.op-segment-9 { position:14.23px 37.55px 0px; transform:rotateZ(202.5deg); }
+.op-segment-10 { position:8.06px 33.44px 0px; transform:rotateZ(225.0deg); }
+.op-segment-11 { position:3.95px 27.27px 0px; transform:rotateZ(247.5deg); }
+.op-segment-12 { position:2.50px 20.00px 0px; transform:rotateZ(270.0deg); }
+.op-segment-13 { position:3.95px 12.73px 0px; transform:rotateZ(292.5deg); }
+.op-segment-14 { position:8.06px 6.56px 0px; transform:rotateZ(315.0deg); }
+.op-segment-15 { position:14.23px 2.45px 0px; transform:rotateZ(337.5deg); }
+
+#op-root .ws-root { width:100%; height:100%; padding:0px; margin:0px; horizontal-align:left; vertical-align:top; background-color:#f7f9fc; border:0px; border-radius:0px; box-shadow:none; }
+#op-root .ws-top { height:66px; border-bottom:1px solid #e2e8f1; }
+#op-root .ws-brand { visibility:collapse; }
+#op-root .ws-title { color:#25324a; font-size:25px; }
+#op-root .ws-crumb { color:#7b889c; font-size:14px; }
+#op-root .ws-body { margin-top:14px; }
+#op-root .ws-cat { background-color:#ffffff; border:1px solid #e4e9f1; border-radius:8px; }
+#op-root .ws-cat:hover { background-color:#fff2e8; border-color:#ff762e; }
+#op-root .ws-cat-name { color:#344159; }
+#op-root .ws-cat-sub { color:#8591a3; }
+#op-root .ws-card { background-color:#ffffff; border-radius:9px; box-shadow:#1b2b4510 0px 3px 10px 0px; }
+#op-root .ws-card:hover { background-color:#fff5ef; }
+#op-root .ws-name { color:#2e3d55; }
+#op-root .ws-card.is-eq { background-color:#fff0e6; border:2px solid #ff762e; }
+#op-root .ws-card.is-eq .ws-name { color:#db601e; }
+#op-root .ws-row { background-color:#ffffff; border-color:#e2e8f1; border-radius:7px; }
+#op-root .ws-row:hover { background-color:#fff2e8; border-color:#ff762e; }
+#op-root .ws-rname { color:#344159; }
+#op-root .ws-num.is-current { background-color:#ff762e; }

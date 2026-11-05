@@ -20,6 +20,8 @@ public partial class Plugin
   public required int Slot;
   public PortalPrefs Prefs=new();
   public bool Loaded,AutoDone,Open,Held,Dirty;
+  public readonly PortalHoldGesture Hold=new();
+  public int Progress;
   public long Due,Pressed,NextClick;
   public int Revision,Page,TabStart,Request;
   public string Tab="intro";
@@ -66,7 +68,7 @@ public partial class Plugin
    if(p!=null&&p.IsValid&&_portalClients.TryGetValue(p.Slot,out var c)&&c.Open)ClosePortal(p,c);
    return HookResult.Continue;
   },HookMode.Pre);
-  AddCommand("osnet_portal_status","Server-only portal readiness",(p,i)=>{if(p==null)i.ReplyToCommand("OSNET_PORTAL_STATUS:"+JsonSerializer.Serialize(new{version="0.2.0",ready=_portalReady,workshop="3833701930",schema=1}));});
+  AddCommand("osnet_portal_status","Server-only portal readiness",(p,i)=>{if(p==null)i.ReplyToCommand("OSNET_PORTAL_STATUS:"+JsonSerializer.Serialize(new{version="0.3.0",ready=_portalReady,workshop="3833701930",schema=3}));});
   RegisterListener<OnCustomHudClicked>(PortalClick);
   RegisterListener<OnClientConnected>(slot=>_portalClients.Remove(slot));
   RegisterListener<OnClientDisconnect>(slot=>_portalClients.Remove(slot));
@@ -118,7 +120,7 @@ public partial class Plugin
  private bool EnsurePortal(){
   if(_portalLayout is {IsValid:true})return true;
   var layout=Utilities.CreateEntityByName<CCSCustomHudLayout>("custom_hud_layout");if(layout==null||layout.Handle==IntPtr.Zero)return false;
-  layout.StrLayout="panorama/layout/custom_game/osnet_portal.xml";layout.DispatchSpawn();if(!layout.IsValid)return false;
+  layout.StrLayout="panorama/layout/custom_game/osnet_portal_v3.xml";layout.DispatchSpawn();if(!layout.IsValid)return false;
   _portalLayout=layout;foreach(var c in _portalClients.Values){c.Sent.Clear();c.Classes.Clear();}return true;
  }
  private void PV(CCSPlayerController p,PortalClient c,string key,string value){
@@ -130,7 +132,7 @@ public partial class Plugin
   _portalLayout.SetHasClassForPlayer(p,id,name,value);c.Classes[key]=value;
  }
  private void OpenPortal(CCSPlayerController p){
-  if(!PortalAccess(p)||!EnsurePortal())return;
+  if(!PortalAccess(p)||PortalDefusing(p)||!EnsurePortal())return;
   var c=PortalClientFor(p);c.AutoDone=true;
   try{_menus.Get()?.CloseMenu(p);}catch{ }
   Hide(p);MenuManager.CloseActiveMenu(p);c.Open=true;c.Page=0;c.TabStart=0;c.Tab="intro";DrawPortal(p,c);
@@ -139,24 +141,33 @@ public partial class Plugin
  }
  private void ClosePortal(CCSPlayerController p,PortalClient c){
   c.Open=false;c.NextClick=PortalNow+200;
+  c.Hold.SuppressUntilRelease();c.Progress=0;
+  if(TryGetSlot(p,out var skinSlot)&&skinSlot.Open){_bridge.Close(p);Hide(p);}
   if(_portalLayout is {IsValid:true}){PC(p,c,"op-root","op-hidden",true);_portalLayout.SetInputCaptureEnabled(p,false);PortalHint(p,c);}
  }
+ private static bool PortalDefusing(CCSPlayerController p) => p.PlayerPawn.Value is {IsValid:true, IsDefusing:true};
  private void PortalHint(CCSPlayerController p,PortalClient c){
   if(!EnsurePortal())return;
-  bool show=c.Loaded&&c.Prefs.show_hint&&!c.Open&&PortalAccess(p)&&!_slots[p.Slot].Shown;
-  PC(p,c,"op-hint","op-hidden",!show);PV(p,c,"hint_title","Sunucu menüsü");PV(p,c,"hint_subtitle",c.Prefs.hold_e?c.Prefs.hold_seconds.ToString("0.0",CultureInfo.GetCultureInfo("tr-TR"))+" sn basılı tut":"!menu ile aç");
+  bool show=c.Loaded&&(c.Prefs.show_hint||c.Progress>0)&&!c.Open&&PortalAccess(p)&&!PortalDefusing(p)&&!_slots[p.Slot].Shown;
+  PC(p,c,"op-hint","op-hidden",!show);
+  PC(p,c,"op-hint","is-holding",c.Progress>0);
+  for(int i=0;i<16;i++)PC(p,c,"op-hold-"+i,"is-filled",i<c.Progress);
  }
  private void PortalTick(){
   if(Server.TickCount%4!=0||_portalDisposed)return;
   foreach(var c in _portalClients.Values.ToArray()){
    var p=Utilities.GetPlayerFromSlot(c.Slot);if(p==null||!PortalSame(p,c))continue;
    bool down=(p.Buttons&PlayerButtons.Use)!=0;
-   if(!down){c.Held=false;c.Pressed=0;continue;}
-   if(c.Held)continue;
-   if(c.Pressed==0)c.Pressed=PortalNow;
-   if(c.Open||!c.Loaded||!c.Prefs.hold_e||PortalNow-c.Pressed<c.Prefs.hold_seconds*1000)continue;
-   c.Held=true;OpenPortal(p);
+   var state=c.Hold.Update(down,PortalDefusing(p),!c.Open&&c.Loaded&&c.Prefs.hold_e&&PortalAccess(p),PortalNow,c.Prefs.hold_seconds);
+   if(c.Progress!=state.Segments){c.Progress=state.Segments;PortalHint(p,c);}
+   if(state.Open){c.Progress=0;OpenPortal(p);}
   }
+ }
+ private void SelectPortalTab(CCSPlayerController p,PortalClient c,string tab){
+  if(c.Tab=="skins"&&tab!="skins"){_bridge.Close(p);Hide(p);}
+  c.Tab=tab;c.Page=0;DrawPortal(p,c);
+  if(tab=="skins"&& !(_slots[p.Slot].Open))OpenSection(p,"weapons");
+  if(c.Open)_portalLayout?.SetInputCaptureEnabled(p,true);
  }
  private void PortalPoll(){
   if(_portalDisposed)return;InitPortalDb();ReloadPortal();
@@ -165,9 +176,9 @@ public partial class Plugin
    if(c.Loaded&&!c.AutoDone&&PortalNow>=c.Due){
     bool busy=false;try{busy=MenuManager.GetActiveMenu(p)!=null||(_menus.Get()?.HasOpenedMenu(p)??false);}catch{busy=true;}
     // Wait for team selection and existing menus; do not reopen on spawn/round/map.
-    if(p.TeamNum>=2&&!busy){c.AutoDone=true;if(c.Prefs.show_on_join)OpenPortal(p);}
+    if(p.TeamNum>=2&&!busy&&!PortalDefusing(p)){c.AutoDone=true;if(c.Prefs.show_on_join)OpenPortal(p);}
    }
-   if(c.Open&&(!PortalAccess(p)||MenuManager.GetActiveMenu(p)!=null))ClosePortal(p,c);else if(c.Open&&c.Dirty){c.Dirty=false;DrawPortal(p,c);}
+   if(c.Open&&(!PortalAccess(p)||(c.Tab!="skins"&&MenuManager.GetActiveMenu(p)!=null)))ClosePortal(p,c);else if(c.Open&&c.Dirty){c.Dirty=false;DrawPortal(p,c);}
    PortalHint(p,c);
   }
  }
@@ -202,14 +213,14 @@ public partial class Plugin
   if(id=="op-close"){ClosePortal(p,c);return;}
   var tabs=AllPortalTabs();
   if(id is "op-tabs-prev" or "op-tabs-next"){c.TabStart=Math.Clamp(c.TabStart+(id.EndsWith("next")?7:-7),0,Math.Max(0,((tabs.Count-1)/7)*7));DrawPortal(p,c);return;}
-  if(id.StartsWith("op-tab-")&&int.TryParse(id[7..],out int tab)&&tab is >=0 and <7&&tab+c.TabStart<tabs.Count){c.Tab=tabs[tab+c.TabStart].Id;c.Page=0;DrawPortal(p,c);return;}
-  if(id is "op-open-skins" or "op-open-ranking" or "op-open-rules"){c.Tab=id[8..];c.TabStart=0;c.Page=0;DrawPortal(p,c);return;}
+  if(id.StartsWith("op-tab-")&&int.TryParse(id[7..],out int tab)&&tab is >=0 and <7&&tab+c.TabStart<tabs.Count){SelectPortalTab(p,c,tabs[tab+c.TabStart].Id);return;}
+  if(id is "op-open-skins" or "op-open-ranking" or "op-open-rules"){c.TabStart=0;SelectPortalTab(p,c,id[8..]);return;}
   if(id is "op-next" or "op-prev"){c.Page=Math.Max(0,c.Page+(id=="op-next"?1:-1));DrawPortal(p,c);return;}
   if(id.StartsWith("op-skin-")){
    string key=id[8..];if(!new[]{"weapons","knife","gloves","agents","music","pins","stickers"}.Contains(key))return;
    string command=_bridge.Command(key=="weapons"?"skins":key);
    if(!PortalPermission(p,"css_"+command)){p.PrintToChat("[OyunServerim.NET] Bu özellik için yetkiniz yok.");return;}
-   ClosePortal(p,c);try{_bridge.OpenPortalSection(p,key);}catch{p.PrintToChat("[OyunServerim.NET] Skin seçicisi şu anda açılamadı.");}return;
+   try{OpenSection(p,key);}catch{p.PrintToChat("[OyunServerim.NET] Skin seçicisi şu anda açılamadı.");}return;
   }
   if(id.StartsWith("op-command-")&&int.TryParse(id[11..],out int ix)&&ix is >=0 and <8){
    var commands=PublicPortalCommands(p);int position=c.Page*8+ix;if(position>=commands.Count)return;
@@ -220,11 +231,11 @@ public partial class Plugin
   if(changed){SavePortalPrefs(p,c);DrawPortal(p,c);}
  }
  private void PortalMapStart(){
-  _portalLayout=null;foreach(var c in _portalClients.Values){c.Open=false;c.Held=true;c.Pressed=0;c.Sent.Clear();c.Classes.Clear();}
+  _portalLayout=null;foreach(var c in _portalClients.Values){c.Open=false;c.Held=true;c.Pressed=0;c.Progress=0;c.Hold.SuppressUntilRelease();c.Sent.Clear();c.Classes.Clear();}
  }
  private void StopPortal(){
   _portalDisposed=true;
   foreach(var c in _portalClients.Values){var p=Utilities.GetPlayerFromSlot(c.Slot);if(p is {IsValid:true}&&p.SteamID==c.Steam&&_portalLayout is {IsValid:true})_portalLayout.SetInputCaptureEnabled(p,false);}
-  if(_portalLayout is {IsValid:true})_portalLayout.Remove();_portalLayout=null;_portalClients.Clear();
+  if(_portalLayout is {IsValid:true})_portalLayout.Remove();_portalLayout=null;_layout=null;_portalClients.Clear();
  }
 }

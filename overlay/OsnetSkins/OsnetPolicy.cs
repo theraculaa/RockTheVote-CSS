@@ -39,7 +39,7 @@ public sealed partial class OsnetSkins {
  private void RegisterOsnetStatus() {
   AddCommand("osnet_skins_status","Hosting readiness probe",(caller,info)=>{
    if(caller is not null)return;
-   info.ReplyToCommand("OSNET_SKINS_STATUS:"+JsonSerializer.Serialize(new{version="0.2.0",ready=Initialized&&!Stopping&&Config.Osnet.Enabled,catalog=Catalog.Loaded,native=EconAttributes.Available,menu_ready=NativeMenuProvider.Find(3,Logger) is not null,enabled=Config.Osnet.Enabled}));
+   info.ReplyToCommand("OSNET_SKINS_STATUS:"+JsonSerializer.Serialize(new{version="0.3.0",ready=Initialized&&!Stopping&&Config.Osnet.Enabled,catalog=Catalog.Loaded,native=EconAttributes.Available,menu_ready=NativeMenuProvider.Find(3,Logger) is not null,enabled=Config.Osnet.Enabled}));
   });
  }
 }
