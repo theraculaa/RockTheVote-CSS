@@ -22,6 +22,7 @@ public partial class Plugin
   public bool Loaded,AutoDone,Open,Held,Dirty;
   public readonly PortalHoldGesture Hold=new();
   public int Progress;
+  public int OpenAttempts; public string OpenResult="not_requested";
   public long Due,Pressed,NextClick;
   public int Revision,Page,TabStart,Request;
   public string Tab="intro";
@@ -43,8 +44,20 @@ public partial class Plugin
  private static readonly string[] PortalTabNames=["Tanıtım","Skinler","Sıralama","VIP","Kurallar","Komutlar","Ayarlar"];
  private static readonly string[] PortalRanks=["Oyuncu","VIP","Silver","Golden","Admin","Süper Admin","Server Sahibi"];
  private static long PortalNow=>Environment.TickCount64;
- private bool PortalPermission(CCSPlayerController p,string alias) =>
-  !AdminManager.CommandIsOverriden(alias)||AdminManager.GetPlayerCommandOverrideState(p,alias);
+ private static bool CommandAllowed(CCSPlayerController p,string alias) {
+  // A per-player override is a different store from global command flag requirements.
+  if(AdminManager.PlayerHasCommandOverride(p,alias))return AdminManager.GetPlayerCommandOverrideState(p,alias);
+  if(!AdminManager.CommandIsOverriden(alias))return true;
+  var data=AdminManager.GetCommandOverrideData(alias);
+  if(data==null||data.Flags.Count==0)return true;
+  BaseRequiresPermissions required=data.CheckType=="all"
+   ?new RequiresPermissions(data.Flags.ToArray())
+   :new RequiresPermissionsOr(data.Flags.ToArray());
+  required.Command=alias;
+  return required.CanExecuteCommand(p);
+ }
+
+ private bool PortalPermission(CCSPlayerController p,string alias)=>CommandAllowed(p,alias);
  private bool PortalAccess(CCSPlayerController p)=>p.IsValid&&!p.IsBot&&p.SteamID>0&&p.Slot is >=0 and <64&&PortalPermission(p,"css_ws")&&PortalPermission(p,"css_menu");
  private static int PortalRank(CCSPlayerController p){
   bool Has(string f)=>AdminManager.PlayerHasPermissions(p,f);
@@ -68,7 +81,8 @@ public partial class Plugin
    if(p!=null&&p.IsValid&&_portalClients.TryGetValue(p.Slot,out var c)&&c.Open)ClosePortal(p,c);
    return HookResult.Continue;
   },HookMode.Pre);
-  AddCommand("osnet_portal_status","Server-only portal readiness",(p,i)=>{if(p==null)i.ReplyToCommand("OSNET_PORTAL_STATUS:"+JsonSerializer.Serialize(new{version="0.3.0",ready=_portalReady,workshop="3833701930",schema=3}));});
+  AddCommand("osnet_portal_status","Server-only portal readiness and per-slot diagnostics",(p,i)=>{if(p==null)i.ReplyToCommand("OSNET_PORTAL_STATUS:"+JsonSerializer.Serialize(PortalDiagnostics()));});
+  AddCommand("osnet_portal_test","Server-only test for exactly one human player",PortalTest);
   RegisterListener<OnCustomHudClicked>(PortalClick);
   RegisterListener<OnClientConnected>(slot=>_portalClients.Remove(slot));
   RegisterListener<OnClientDisconnect>(slot=>_portalClients.Remove(slot));
@@ -132,12 +146,22 @@ public partial class Plugin
   _portalLayout.SetHasClassForPlayer(p,id,name,value);c.Classes[key]=value;
  }
  private void OpenPortal(CCSPlayerController p){
-  if(!PortalAccess(p)||PortalDefusing(p)||!EnsurePortal())return;
-  var c=PortalClientFor(p);c.AutoDone=true;
+  if(!p.IsValid||p.IsBot||p.Slot is <0 or >=64)return;
+  var c=PortalClientFor(p);c.OpenAttempts++;
+  try {
+  if(!PortalAccess(p)){c.OpenResult="permission_denied";return;}
+  if(PortalDefusing(p)){c.OpenResult="defusing";return;}
+  if(!EnsurePortal()){c.OpenResult="layout_entity_failed";return;}
+  c.OpenResult="drawing";c.AutoDone=true;
   try{_menus.Get()?.CloseMenu(p);}catch{ }
   Hide(p);MenuManager.CloseActiveMenu(p);c.Open=true;c.Page=0;c.TabStart=0;c.Tab="intro";DrawPortal(p,c);
-  PC(p,c,"op-root","op-hidden",false);PC(p,c,"op-hint","op-hidden",true);
+  PC(p,c,"op-root","op-hidden",false);PC(p,c,"op-hint","op-hidden",true);c.OpenResult="ui_state_sent";
   Later(.2f,()=>{if(PortalSame(p,c)&&c.Open&&_portalLayout is {IsValid:true})_portalLayout.SetInputCaptureEnabled(p,true);});
+  } catch(Exception error) {
+   c.Open=false;c.OpenResult="draw_failed:"+error.GetType().Name;
+   Logger.LogError(error,"Portal draw failed for slot {Slot}",p.Slot);
+   try {if(_portalLayout is {IsValid:true})_portalLayout.SetInputCaptureEnabled(p,false);}catch{}
+  }
  }
  private void ClosePortal(CCSPlayerController p,PortalClient c){
   c.Open=false;c.NextClick=PortalNow+200;

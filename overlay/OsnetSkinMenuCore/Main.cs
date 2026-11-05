@@ -74,7 +74,7 @@ public class OsnetSkinMenuCore : BasePlugin, IPluginConfig<PluginConfig>
     private MenuCompatApi? _compat;
     private CCSGameRulesProxy? _gameRulesProxy;
     public override string ModuleName => "OyunServerim Skin Menu Core";
-    public override string ModuleVersion => "0.3.0";
+    public override string ModuleVersion => "0.3.1";
     public override string ModuleAuthor => "Rimmer (base by Nick Fox)";
     public override string ModuleDescription => "";
     public required PluginConfig Config { get; set; }

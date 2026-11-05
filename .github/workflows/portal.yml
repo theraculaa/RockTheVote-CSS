@@ -1,4 +1,4 @@
-name: Build OyunServerim Portal 0.3.0
+name: Build OyunServerim Portal 0.3.1
 on:
   push:
     branches: [osnet-portal]
@@ -18,13 +18,13 @@ jobs:
       - run: python3 build_release.py
       - uses: actions/upload-artifact@v4
         with:
-          name: OsnetSkins-v0.3.0
+          name: OsnetSkins-v0.3.1
           path: |
-            OsnetSkins-v0.3.0.zip
-            OsnetSkins-v0.3.0-source.zip
+            OsnetSkins-v0.3.1.zip
+            OsnetSkins-v0.3.1-source.zip
             SHA256SUMS
       - name: Publish immutable source-pinned release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create osnet-skins-v0.3.0-r2 --target "$GITHUB_SHA" --title 'OyunServerim Portal 0.3.0 — unified inventory' --prerelease --notes 'Orange and white unified menu with embedded inventory and defuse-safe hold indicator; requires updated Workshop 3833701930 v3 resources. Includes complete corresponding GPL sources and reproducible rebuild.py. The target deployment remains gated by host preparation, token activation and mode preferences. Native compilation does not replace live CS2 validation.' OsnetSkins-v0.3.0.zip OsnetSkins-v0.3.0-source.zip SHA256SUMS
+          gh release create osnet-skins-v0.3.1-r1 --target "$GITHUB_SHA" --title 'OyunServerim Portal 0.3.1 — unified inventory' --prerelease --notes 'Orange and white unified menu with embedded inventory and defuse-safe hold indicator; requires updated Workshop 3833701930 v3 resources. Includes complete corresponding GPL sources and reproducible rebuild.py. The target deployment remains gated by host preparation, token activation and mode preferences. Native compilation does not replace live CS2 validation.' OsnetSkins-v0.3.1.zip OsnetSkins-v0.3.1-source.zip SHA256SUMS

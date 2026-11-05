@@ -209,12 +209,25 @@ public sealed class Commands
 		plugin.Links.RequestCode(caller);
 	}
 
+ private static bool CommandAllowed(CCSPlayerController p,string alias) {
+  // A per-player override is a different store from global command flag requirements.
+  if(AdminManager.PlayerHasCommandOverride(p,alias))return AdminManager.GetPlayerCommandOverrideState(p,alias);
+  if(!AdminManager.CommandIsOverriden(alias))return true;
+  var data=AdminManager.GetCommandOverrideData(alias);
+  if(data==null||data.Flags.Count==0)return true;
+  BaseRequiresPermissions required=data.CheckType=="all"
+   ?new RequiresPermissions(data.Flags.ToArray())
+   :new RequiresPermissionsOr(data.Flags.ToArray());
+  required.Command=alias;
+  return required.CanExecuteCommand(p);
+ }
+
  public void OpenSkinsFromPortal(CCSPlayerController caller) {
   var aliases=plugin.Config.Commands.Skins;
   if(aliases.Count==0)return;
   if(aliases.Any(a=>vipCommands.Contains(NormalizeCommand(a)))&&!CanUseCommand(caller))return;
   string alias="css_"+NormalizeCommand(aliases[0]);
-  if(AdminManager.CommandIsOverriden(alias)&&!AdminManager.GetPlayerCommandOverrideState(caller,alias))return;
+  if(!CommandAllowed(caller,alias))return;
   if(Ready(caller)is {} player)plugin.Menus.OpenSkins(player);
  }
 

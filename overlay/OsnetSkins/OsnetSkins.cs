@@ -16,7 +16,7 @@ public sealed partial class OsnetSkins : BasePlugin, IPluginConfig<SkinsConfig>
     public static OsnetSkins? Instance { get; private set; }
 	public override string ModuleName => "OsnetSkins";
 	public override string ModuleAuthor => "✪ Stαr";
-	public override string ModuleVersion => "0.3.0";
+	public override string ModuleVersion => "0.3.1";
 	public override string ModuleDescription => "Gives players full control over how their loadout looks";
 
 	public SkinsConfig Config { get; set; } = new();
