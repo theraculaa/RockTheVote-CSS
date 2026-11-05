@@ -2,8 +2,8 @@
 <root>
   <styles>
     <include src="s2r://panorama/styles/csgostyles.vcss_c" />
-    <include src="s2r://panorama/styles/custom_game/ws_art.vcss_c" />
-    <include src="s2r://panorama/styles/custom_game/ws_stickers.vcss_c" />
+    <include src="s2r://panorama/styles/custom_game/osnet_portal_art_v3.vcss_c" />
+    <include src="s2r://panorama/styles/custom_game/osnet_portal_stickers_v3.vcss_c" />
     <include src="s2r://panorama/styles/custom_game/osnet_portal_v3.vcss_c" />
   </styles>
   <Panel class="op-screen" hittest="false">

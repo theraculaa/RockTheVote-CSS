@@ -430,8 +430,8 @@ public partial class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPmmMenuP
 			if (player.IsValid && slot.PaintSeq == seq)
 			{
                 Hide(player);
-                if (_portalClients.TryGetValue(player.Slot, out var c) && c.Open && c.Tab == "skins") {
-                    c.Tab = "intro"; DrawPortal(player, c);
+                if (_portalClients.TryGetValue(player.Slot, out var c) && c.Open) {
+                    if (c.Tab == "skins") { c.Tab = "intro"; DrawPortal(player, c); }
                     _portalLayout?.SetInputCaptureEnabled(player, true);
                 }
 			}

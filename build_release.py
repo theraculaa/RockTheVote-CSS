@@ -18,5 +18,7 @@ def main():
    target=root/Path(*path.parts[1:]);target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(z.read(item))
  for p in(ROOT/'overlay').rglob('*'):
   if p.is_file():target=root/p.relative_to(ROOT/'overlay');target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,target)
+ art=root/'OsnetSkinMenu/panorama/styles/custom_game'
+ for source,target in [('ws_art.css','osnet_portal_art_v3.css'),('ws_stickers.css','osnet_portal_stickers_v3.css')]:shutil.copyfile(art/source,art/target)
  subprocess.run([sys.executable,str(ROOT/'rebuild.py')],check=True)
 if __name__=='__main__':main()
